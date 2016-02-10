@@ -476,7 +476,7 @@ public class MainActivity extends ActionBarActivity {
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		mDrawerToggle.syncState();
-
+                web.loadUrl("https://www.google.com");
 	}
 
 	@Override
