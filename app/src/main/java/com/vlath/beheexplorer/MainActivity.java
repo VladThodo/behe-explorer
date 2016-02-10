@@ -1,5 +1,4 @@
 package com.vlath.beheexplorer;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,7 +6,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import  com.vlath.beheexplorer.Bookmark;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -50,7 +48,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Handler;
-
 @SuppressWarnings("deprecation")
 public class MainActivity extends ActionBarActivity {
 	com.vlath.beheexplorer.MainActivity activity = this;
@@ -61,7 +58,6 @@ public class MainActivity extends ActionBarActivity {
 	ArrayList<String> names = new ArrayList<String>();
 	TabAdapter adapter;
 	HashMap<String,String> recent = new HashMap<String,String>();
-
 	boolean delete;
 	boolean java;
 	MenuItem desktop;
@@ -77,20 +73,10 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		Intent intent = getIntent();
-
-		final TextView contentView = new TextView(this);
-
-
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean ic = settings.getBoolean("icon", true);
-		ico = ic;
-
-		final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
-		progressBar.setLayoutParams(new android.app.ActionBar.LayoutParams(android.app.ActionBar.LayoutParams.MATCH_PARENT, 24));
-
-		final FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
+		web = (WebView) findViewById(R.id.web1);
+	        final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+	        progressBar.setLayoutParams(new android.app.ActionBar.LayoutParams(android.app.ActionBar.LayoutParams.MATCH_PARENT, 24));
+	        final FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
 		decorView.addView(progressBar);
 		ViewTreeObserver observer = progressBar.getViewTreeObserver();
 		observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -98,15 +84,12 @@ public class MainActivity extends ActionBarActivity {
 			public void onGlobalLayout() {
 				View contentView = decorView.findViewById(android.R.id.content);
 				progressBar.setY(contentView.getY() + 14);
-
 				ViewTreeObserver observer = progressBar.getViewTreeObserver();
 				observer.removeGlobalOnLayoutListener(this);
 			}
 		});
 		WebIconDatabase.getInstance().open(getDir("icons", MODE_PRIVATE).getPath());
-		mPlanetTitles = new String[]{"tree", "two"};
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
 		mDrawerList = (ListView) findViewById(R.id.drawer_list);
 		mDrawerToggle = new ActionBarDrawerToggle(this,
 				mDrawerLayout, R.drawable.menu,
@@ -114,38 +97,10 @@ public class MainActivity extends ActionBarActivity {
 				R.string.drawer_close){
 			@Override
 			public void onDrawerSlide(View drawerView, float slideOffset){
-
 			}
 		};
-
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		ActionBar actionBar = getSupportActionBar();
-
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
-
-
-		try {
-			bookmark = getIntent().getExtras().getString("webb");
-		} catch (Exception e) {
-		}
-
-
-		if (delete == true) {
-			Toast.makeText(getApplicationContext(), R.string.historytast, Toast.LENGTH_LONG).show();
-		}
-		web = (WebView) findViewById(R.id.web1);
-
-		try {
-			if (intent.getData() != null) {
-				web.loadUrl(intent.getData().toString());
-			}
-		} catch (Exception er) {
-		}
-		swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-		swipeLayout.setOnRefreshListener(new OnRefreshListener() {
+			swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+	          	swipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
 
 			@Override
@@ -165,12 +120,44 @@ public class MainActivity extends ActionBarActivity {
 					);
 				}
 			}
+			
 		});
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		ActionBar actionBar = getSupportActionBar();
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
+		if (intent.getData() != null) {
+		web.loadUrl(intent.getData().toString());		
+		}
+		if (delete == true) {
+		Toast.makeText(getApplicationContext(), R.string.historytast, Toast.LENGTH_LONG).show();
+		}
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+	        String color = settings.getString("color", "#FFFFFF");
+		String size = settings.getString("size", "18");
+		java = settings.getBoolean("java", true);
+		boolean plugins = settings.getBoolean("plugins", true);
+		boolean cache = settings.getBoolean("cache", false);
+		int sz = Integer.parseInt(size);
+		web.getSettings().setJavaScriptEnabled(java);
+		if (plugins == true) {
+			web.getSettings().setPluginState(PluginState.ON);
+		}
+		web.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		web.getSettings().setAppCacheEnabled(cache);
+		web.getSettings().setDefaultFontSize(sz);
+		web.getSettings().setDefaultFixedFontSize(sz);
+		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
+		web.addJavascriptInterface(new BeHeInterface(contentView), "INTERFACE");
+		list = new ArrayList<String>();
+		boolean ic = settings.getBoolean("icon", true);
+		ico = ic;
 		web.setDownloadListener(new DownloadListener() {
 			@Override
 			public void onDownloadStart(final String url, final String userAgent,
-										final String contentDisposition, final String mimetype,
-										final long contentLength) {
+					            final String contentDisposition, final String mimetype,
+						    final long contentLength) {
 				final String fileName = URLUtil.guessFileName(url, contentDisposition, mimetype);
 				String downloadSize = null;
 				if (contentLength > 0) {
@@ -199,29 +186,12 @@ public class MainActivity extends ActionBarActivity {
 						.setNegativeButton("Anulati", new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-
 							}
 						});
 				builder.create();
 				builder.show();
 			}
-
-
 		});
-		try {
-			File toWrite = new File(getApplicationContext().getFilesDir(),"recents.oi");
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toWrite));
-			Object result = ois.readObject();
-			ois.close();
-			HashMap<String,String> map = (HashMap) result;
-			names.addAll(map.keySet());
-			adapter.notifyDataSetChanged();
-
-		}
-		catch(Exception e){
-			Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-		}
-
 		names.add("Recente");
 		adapter = new TabAdapter(activity, names, images,mDrawerList);
 		mDrawerList.setAdapter(adapter);
@@ -229,22 +199,15 @@ public class MainActivity extends ActionBarActivity {
 		web.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
-
 			}
-
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				MainActivity.this.setTitle(view.getTitle());
-				view.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);");
-                READ = contentView.getText().toString();
-			Toast.makeText(getApplicationContext(),READ,Toast.LENGTH_LONG).show();
-			}
+               	        }
 		});
 		web.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public void onReceivedIcon(WebView view, Bitmap icon) {
-
 				mDrawerList.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
 				if (ico) {
@@ -257,103 +220,68 @@ public class MainActivity extends ActionBarActivity {
 
 
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				if (url.startsWith("vnd.youtube:")) {
-
+				if (url.contains("vnd.youtube:")) {
 					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
-							(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length())))));
-
+					(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length())))));
 					return true;
 				}
-
 				return false;
-
 			}
 
 			@Override
 			public void onProgressChanged(WebView view, int progress) {
 				if (progress < 100 && progressBar.getVisibility() == ProgressBar.GONE) {
 					progressBar.setVisibility(ProgressBar.VISIBLE);
-
 				}
 				progressBar.setProgress(progress);
 				if (progress == 100) {
 					progressBar.setVisibility(ProgressBar.GONE);
-
 				}
 			}
 		});
-
-		String color = settings.getString("color", "#FFFFFF");
-		String size = settings.getString("size", "18");
-		java = settings.getBoolean("java", true);
-		boolean plugins = settings.getBoolean("plugins", true);
-		boolean cache = settings.getBoolean("cache", false);
-		int sz = Integer.parseInt(size);
-		web.getSettings().setJavaScriptEnabled(java);
-		if (plugins == true) {
-			web.getSettings().setPluginState(PluginState.ON);
-		}
-		web.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		web.getSettings().setAppCacheEnabled(cache);
-		web.getSettings().setDefaultFontSize(sz);
-		web.getSettings().setDefaultFixedFontSize(sz);
-		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
-		web.addJavascriptInterface(new BeHeInterface(contentView), "INTERFACE");
-		list = new ArrayList<String>();
-
-
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		setTitle("");
-		getMenuInflater().inflate(R.menu.main, menu);
-		MenuItem item = menu.findItem(R.id.action_tab);
-
-		MenuItem desktop = menu.findItem(R.id.action_tabs);
-		desktop.setTitle("Versiune desktop");
-		desktop.setCheckable(true);
-		return true;
+	setTitle("");
+	getMenuInflater().inflate(R.menu.main, menu);
+	MenuItem desktop = menu.findItem(R.id.action_tabs);
+	desktop.setTitle("Versiune desktop");
+	desktop.setCheckable(true);
+	return true;
 	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-
 		switch (item.getItemId()) {
-			case R.id.action_read:
-
-				break;
 			case R.id.action_search:
-				Intent intet = new Intent(this, Search.class);
-				startActivity(intet);
-				break;
-
+				Intent mSearch = new Intent(this, Search.class);
+				startActivity(mSearch);
+			break;
 
 			case R.id.action_about:
-				Intent intent = new Intent(getApplicationContext(), Second.class);
-				startActivity(intent);
-				overridePendingTransition(R.layout.pull_in_left, R.layout.push_out_right);
-				break;
+				Intent mAbout = new Intent(getApplicationContext(), Second.class);
+				startActivity(mAbout);
+			break;
 
 			case R.id.action_tabs:
 				if (item.isChecked() == true){
-					item.setChecked(false);
+				    item.setChecked(false);
 				    web.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
 				}
 				if(!item.isChecked()){
-					item.setChecked(true);
+				    item.setChecked(true);
 				    web.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
 				}
 				break;
 			case R.id.action_pref:
-				Intent ent = new Intent(this, Settings.class);
-				startActivity(ent);
-
-				break;
+				Intent mSettings = new Intent(this, Settings.class);
+				startActivity(mSettings);
+			break;
+		
 			case R.id.action_book:
 				final Context context = this;
 				LayoutInflater li = LayoutInflater.from(context);
@@ -361,7 +289,6 @@ public class MainActivity extends ActionBarActivity {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 						context);
 				alertDialogBuilder.setView(promptsView);
-
 				final EditText userInput = (EditText) promptsView
 						.findViewById(R.id.editTextDialogUserInput);
 				try {
@@ -375,75 +302,43 @@ public class MainActivity extends ActionBarActivity {
 						.setPositiveButton("OK",
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int id) {
-										try {
-											result = userInput.getText().toString();
-											Bookmark mark = new Bookmark(web.getTitle(), web.getFavicon());
-											HashMap<String, HashMap<Bitmap, String>> map = new HashMap<String, HashMap<Bitmap, String>>();
-											File file = new File(Environment.getExternalStorageDirectory() + "/BeHe ExploreR");
-											if (!file.exists()) {
-												file.mkdirs();
-											}
-											File toWrite = new File(file + "/bookmarks.oi");
-											if (toWrite.exists()) {
-												ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toWrite));
-												Object obj = ois.readObject();
-												ois.close();
-												file.delete();
-												HashMap<String, HashMap<Bitmap, String>> mm = new HashMap<String, HashMap<Bitmap, String>>();
-												mm = (HashMap) obj;
-												map.putAll(mm);
-												HashMap<Bitmap, String> mi = new HashMap<Bitmap, String>();
-												mi.put(web.getFavicon(), web.getUrl());
-												map.put(result, mi);
-											} else {
-												HashMap<Bitmap, String> mi = new HashMap<Bitmap, String>();
-												mi.put(web.getFavicon(), web.getUrl());
-												map.put(result, mi);
-											}
-											ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(toWrite));
-											outputStream.writeObject(map);
-											outputStream.flush();
-											outputStream.close();
-											Toast.makeText(getApplicationContext(), "Bookmark saved", Toast.LENGTH_SHORT).show();
-										} catch (Exception ie) {
-											Toast.makeText(getApplicationContext(), ie.toString(), Toast.LENGTH_LONG).show();
-										}
-									}
+							
 								});
 				alertDialogBuilder.setNegativeButton("Cancel",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+						}
 						});
 				AlertDialog alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
-				break;
+			break;
+			
 			case R.id.action_refresh:
-				web.reload();
-				break;
+		                 web.reload();
+			break;
+			
 			case R.id.action_stop:
-				web.stopLoading();
-				break;
+			         web.stopLoading();
+			break;
+			
 			case R.id.action_show:
-				Intent inten = new Intent(getApplicationContext(), Bookmarks.class);
-				inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(inten);
-				overridePendingTransition(R.layout.pull_in_left, R.layout.push_out_right);
-				break;
+			        Intent mBookmarks = new Intent(getApplicationContext(), Bookmarks.class);
+				startActivity(mBookmarks);
+			break;
+			
 			case R.id.action_hist:
 				web.clearHistory();
 				Toast.makeText(getApplicationContext(), R.string.historytast, Toast.LENGTH_LONG).show();
-				break;
+			break;
+		
 			case R.id.action_notes:
-				Intent rc = new Intent(getApplicationContext(), Notes.class);
-				startActivity(rc);
-				overridePendingTransition(R.layout.pull_in_left, R.layout.push_out_right);
-				break;
+				Intent mNotes = new Intent(getApplicationContext(), Notes.class);
+				startActivity(mNotes);
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -463,7 +358,6 @@ public class MainActivity extends ActionBarActivity {
 		web.getSettings().setAppCacheEnabled(cache);
 		web.getSettings().setDefaultFontSize(sz);
 		web.getSettings().setDefaultFixedFontSize(sz);
-
 		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
 	}
 
@@ -471,7 +365,7 @@ public class MainActivity extends ActionBarActivity {
 	public void onPause() {
 		super.onPause();
 	}
-
+	
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -486,30 +380,6 @@ public class MainActivity extends ActionBarActivity {
 	}
 }
 
-class BeHeInterface
-{
-	private TextView contentView;
-
-	public BeHeInterface(TextView text)
-	{
-		contentView = text;
-	}
-
-	@SuppressWarnings("unused")
-	@android.webkit.JavascriptInterface
-	public void processContent(String aContent)
-	{
-		final String content = aContent;
-		contentView.post(new Runnable()
-		{
-			public void run()
-			{
-				contentView.setText(content);
-			}
-		});
-
-	}
-}
 
 
 
