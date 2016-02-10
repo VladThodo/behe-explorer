@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vlath.beheexplorer" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true"
+        >
+        <activity
+            android:name="com.vlath.beheexplorer.MainActivity"
+            android:label="@string/app_name"
+
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.APP_BROWSER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.WEB_SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+            </intent-filter>
+        </activity>
+    <activity android:name="com.vlath.beheexplorer.Second" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
+        <activity android:name="com.vlath.beheexplorer.Search" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
+        <activity android:name="com.vlath.beheexplorer.Notes" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
+        <activity android:name="com.vlath.beheexplorer.Bookmarks" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
+        <activity android:name="com.vlath.beheexplorer.Settings" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
+        <activity android:name="com.vlath.beheexplorer.TabActivity" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
+    </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+</manifest>

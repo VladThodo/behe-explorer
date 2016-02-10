@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BeHe ExploreR</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Preferințe</string>
+    <string name="about">Despre</string>
+    <string name="foward">Înainte</string>
+    <string name="back">Înapoi</string>
+    <string name="notes">Versiune 1.0.0</string>
+    <string name="bugs">Bug-uri cunoscute</string>
+    <string name="home">Acasă</string>
+    <string name="boomarks">Semne de carte</string>
+    <string name="contact">E-mail de contact:vlath74@gmail.com</string>
+    <string name="startpage">Pagină de start</string>
+    <string name="startpagesummary">Alegeți pagina de start care va fi afișată la pornire</string>
+    <string name="startpagedialog">Introduceți adresa URL a paginii dorite</string>    
+    <string name="desktop">Versiune pentru desktop</string>
+    <string name="desktopsummary">Va fi afișată versiunea pentru desktop a paginilor web</string>
+    <string name="history">Curățare istoric la pornire</string>
+   <string name="historysummary">Istoricul va fi curățat de fiecare dată când browser-ul  pornește</string>
+   <string name="privacy">Securitate</string>
+   <string name="bookmark_dialog">Introduceți numele semnului de carte</string>
+    <string name="version">Versiune</string>
+   <string name="historyclear">Curățare istoric</string>
+   <string name="historytast">Istoric șters</string>
+   <string name="bookmarksshow">Semne de carte</string>
+   <string name="stop">Oprire</string>
+   <string name="refresh">Reîmprospătare</string>
+     <string name="go">Căutați</string>  
+    <string name="java">Activați JavaScript</string>
+    <string name="javasummary">Va activa JavaScript in browser</string>
+
+    <string-array name="color">
+        <item name = "1">Alb</item>
+        <item name ="2">Gri</item>
+        <item name ="3">Rosu</item>
+        <item name="4">Albastru</item>
+        <item name="5">Verde</item>
+    </string-array>
+    <string-array name="color_values">
+        <item name="1">#FFFFFF</item>
+        <item name="2">#A9A9A9</item>
+        <item name="3">#FF0000</item>
+        <item name="4">#0000FF</item>
+        <item name="5">#008000</item>
+    </string-array>
+    <string-array name="text">
+        <item name = "1">Mic</item>
+        <item name ="2">Normal</item>
+        <item name ="3">Mare</item>
+        <item name="4">Foarte mare</item>
+
+    </string-array>
+    <string-array name="text_size">
+        <item name="1">14</item>
+        <item name="2">18</item>
+        <item name="3">22</item>
+        <item name="4">24</item>
+
+    </string-array>
+    
+
+</resources>
+
+
+   

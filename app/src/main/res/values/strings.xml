@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BeHe ExploreR</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Preferences</string>
+  
+   
+    <string name="about">About</string>
+    <string name="foward">Foward</string>
+    <string name="back">Back</string>
+    <string name="notes">Version 1.0.0</string>
+    <string name="bugs">Known bugs</string>
+    <string name="home">Home</string>
+    <string name="boomarks">Bookmarks</string>
+    <string name="contact">Contact e-mail: vlath74@gmail.com</string>
+    <string name="startpage">Start page</string>
+    <string name="startpagesummary">Choose the webpage you want to see when the browser starts</string>
+    <string name="startpagedialog">Enter the URL of your desired start</string>
+    <string name="desktop">Desktop version</string>
+    <string name="desktopsummary">The browser will show the desktop version of the pages</string>
+   <string name="history">Clear history at startup</string>
+   <string name="historysummary">History will be cleared every time the browser starts</string>
+   <string name="privacy">Privacy</string>
+   <string name="bookmark_dialog">Type in the name of your bookmarks</string>
+   <string name="version">Version</string>
+   <string name="historyclear">Clear history</string>
+   <string name="historytast">Hstory cleared</string>
+   <string name="bookmarksshow">Show bookmarks</string>
+   <string name="stop">Stop</string>
+   <string name="refresh">Refresh</string>
+     <string name="go">Go</string>  
+    <string name="java">Enable JavaScript</string>
+    <string name="javasummary">Will enable JavaScript in your browser</string>
+
+
+    <string-array name="color">
+        <item name = "1">White</item>
+        <item name ="2">Grey</item>
+        <item name ="3">Red</item>
+        <item name="4">Blue</item>
+        <item name="5">Green</item>
+    </string-array>
+    <string-array name="color_values">
+        <item name="1">#FFFFFF</item>
+        <item name="2">#A9A9A9</item>
+        <item name="3">#FF0000</item>
+        <item name="4">#0000FF</item>
+        <item name="5">#008000</item>
+    </string-array>
+    <string-array name="text">
+        <item name = "1">Small</item>
+        <item name ="2">Normal</item>
+        <item name ="3">Large</item>
+        <item name="4">Extra large</item>
+
+    </string-array>
+    <string-array name="text_size">
+    <item name="1">14</item>
+    <item name="2">18</item>
+    <item name="3">22</item>
+    <item name="4">24</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    
+
+</resources>
+
+
+   

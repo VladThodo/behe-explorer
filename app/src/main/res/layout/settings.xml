@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:title="@string/action_settings" >
+    <PreferenceScreen
+        android:key="button_voicemail_category_key"
+        android:title="Aspect"
+        android:persistent="false">
+
+         <ListPreference android:key="color"
+            android:title="Tema"
+            android:entries="@array/color"
+            android:entryValues="@array/color_values"
+            android:defaultValue="#FFFFFF">
+        </ListPreference>
+        <ListPreference android:key="size"
+            android:title="Marime text in browser"
+            android:entries="@array/text"
+            android:entryValues="@array/text_size"
+            android:defaultValue="18">
+        </ListPreference>
+        <CheckBoxPreference
+            android:key="fe"
+            android:title="Aratati file recente in stanga"
+            android:summary="Filele recente vor fi aratate in meniul din stanga"
+            android:defaultValue="true"
+            />
+        <CheckBoxPreference
+            android:key="icon"
+            android:title="Aratati icoana paginii in locul butonului de meniu"
+            android:summary=""
+            android:defaultValue="true"
+            />
+
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="second"
+        android:title="Browser"
+        android:persistent="false">
+    <CheckBoxPreference
+       android:key="java"
+       android:title="@string/java"
+       android:summary="@string/javasummary"
+       android:defaultValue="true"
+       />
+        <CheckBoxPreference
+        android:key="plugins"
+        android:title="Activati plug-inurile in browser"
+        android:summary=""
+        android:defaultValue="true"
+        />
+       />
+      <CheckBoxPreference
+       android:key="cache"
+       android:title="Activati stocarea in cache"
+       android:summary=""
+       android:defaultValue="false"
+       />
+
+    </PreferenceScreen>
+
+
+  <PreferenceCategory
+     android:title="@string/action_settings">
+   
+
+    <EditTextPreference
+        android:key="home_page"
+        android:title="@string/startpage"
+        android:summary="@string/startpagesummary"
+        android:defaultValue="http://www.google.com"
+        android:dialogTitle="@string/startpagedialog"
+    />
+   
+     
+  
+  <CheckBoxPreference
+       android:key="desktop"
+       android:title="@string/desktop"
+       android:summary="@string/desktopsummary"
+       android:defaultValue="false"
+       />
+
+  
+  
+  </PreferenceCategory>
+
+  
+</PreferenceScreen>
