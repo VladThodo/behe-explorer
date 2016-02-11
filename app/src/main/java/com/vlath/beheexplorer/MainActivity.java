@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -24,7 +23,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.format.Formatter;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,11 +30,8 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.webkit.*;
 import android.webkit.WebSettings.PluginState;
@@ -74,9 +69,9 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		web = (WebView) findViewById(R.id.web1);
-	        final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
-	        progressBar.setLayoutParams(new android.app.ActionBar.LayoutParams(android.app.ActionBar.LayoutParams.MATCH_PARENT, 24));
-	        final FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
+		final ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+		progressBar.setLayoutParams(new android.app.ActionBar.LayoutParams(android.app.ActionBar.LayoutParams.MATCH_PARENT, 24));
+		final FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
 		decorView.addView(progressBar);
 		ViewTreeObserver observer = progressBar.getViewTreeObserver();
 		observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -99,8 +94,8 @@ public class MainActivity extends ActionBarActivity {
 			public void onDrawerSlide(View drawerView, float slideOffset){
 			}
 		};
-			swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-	          	swipeLayout.setOnRefreshListener(new OnRefreshListener() {
+		swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+		swipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
 
 			@Override
@@ -120,21 +115,20 @@ public class MainActivity extends ActionBarActivity {
 					);
 				}
 			}
-			
+
 		});
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		ActionBar actionBar = getSupportActionBar();
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
-		if (intent.getData() != null) {
-		web.loadUrl(intent.getData().toString());		
+		if (getIntent().getData() != null) {
+			web.loadUrl(getIntent().getData().toString());
 		}
 		if (delete == true) {
-		Toast.makeText(getApplicationContext(), R.string.historytast, Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), R.string.historytast, Toast.LENGTH_LONG).show();
 		}
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-	        String color = settings.getString("color", "#FFFFFF");
+		String color = settings.getString("color", "#FFFFFF");
 		String size = settings.getString("size", "18");
 		java = settings.getBoolean("java", true);
 		boolean plugins = settings.getBoolean("plugins", true);
@@ -149,15 +143,14 @@ public class MainActivity extends ActionBarActivity {
 		web.getSettings().setDefaultFontSize(sz);
 		web.getSettings().setDefaultFixedFontSize(sz);
 		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
-		web.addJavascriptInterface(new BeHeInterface(contentView), "INTERFACE");
 		list = new ArrayList<String>();
 		boolean ic = settings.getBoolean("icon", true);
 		ico = ic;
 		web.setDownloadListener(new DownloadListener() {
 			@Override
 			public void onDownloadStart(final String url, final String userAgent,
-					            final String contentDisposition, final String mimetype,
-						    final long contentLength) {
+										final String contentDisposition, final String mimetype,
+										final long contentLength) {
 				final String fileName = URLUtil.guessFileName(url, contentDisposition, mimetype);
 				String downloadSize = null;
 				if (contentLength > 0) {
@@ -203,7 +196,7 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				MainActivity.this.setTitle(view.getTitle());
-               	        }
+			}
 		});
 		web.setWebChromeClient(new WebChromeClient() {
 			@Override
@@ -222,7 +215,7 @@ public class MainActivity extends ActionBarActivity {
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				if (url.contains("vnd.youtube:")) {
 					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
-					(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length())))));
+							(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length())))));
 					return true;
 				}
 				return false;
@@ -243,12 +236,13 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	setTitle("");
-	getMenuInflater().inflate(R.menu.main, menu);
-	MenuItem desktop = menu.findItem(R.id.action_tabs);
-	desktop.setTitle("Versiune desktop");
-	desktop.setCheckable(true);
-	return true;
+		setTitle("");
+		getMenuInflater().inflate(R.menu.main, menu);
+		MenuItem desktop = menu.findItem(R.id.action_tabs);
+		desktop.setTitle("Versiune desktop");
+
+		desktop.setCheckable(true);
+		return true;
 	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -260,28 +254,28 @@ public class MainActivity extends ActionBarActivity {
 			case R.id.action_search:
 				Intent mSearch = new Intent(this, Search.class);
 				startActivity(mSearch);
-			break;
+				break;
 
 			case R.id.action_about:
 				Intent mAbout = new Intent(getApplicationContext(), Second.class);
 				startActivity(mAbout);
-			break;
+				break;
 
 			case R.id.action_tabs:
-				if (item.isChecked() == true){
-				    item.setChecked(false);
-				    web.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
+				if (item.isChecked() == true) {
+					item.setChecked(false);
+					web.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
 				}
-				if(!item.isChecked()){
-				    item.setChecked(true);
-				    web.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+				if (!item.isChecked()) {
+					item.setChecked(true);
+					web.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
 				}
 				break;
 			case R.id.action_pref:
 				Intent mSettings = new Intent(this, Settings.class);
 				startActivity(mSettings);
-			break;
-		
+				break;
+
 			case R.id.action_book:
 				final Context context = this;
 				LayoutInflater li = LayoutInflater.from(context);
@@ -302,86 +296,79 @@ public class MainActivity extends ActionBarActivity {
 						.setPositiveButton("OK",
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int id) {
-							
+
+									}
 								});
 				alertDialogBuilder.setNegativeButton("Cancel",
 						new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
 						});
 				AlertDialog alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
-			break;
-			
+				break;
+
 			case R.id.action_refresh:
-		                 web.reload();
-			break;
-			
+				web.reload();
+				break;
+
 			case R.id.action_stop:
-			         web.stopLoading();
-			break;
-			
+				web.stopLoading();
+				break;
+
 			case R.id.action_show:
-			        Intent mBookmarks = new Intent(getApplicationContext(), Bookmarks.class);
-				startActivity(mBookmarks);
-			break;
-			
+				break;
+
 			case R.id.action_hist:
 				web.clearHistory();
 				Toast.makeText(getApplicationContext(), R.string.historytast, Toast.LENGTH_LONG).show();
-			break;
-		
+				break;
+
 			case R.id.action_notes:
 				Intent mNotes = new Intent(getApplicationContext(), Notes.class);
 				startActivity(mNotes);
-			break;
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	@Override
-	public void onResume() {
-		super.onResume();
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		String color = settings.getString("color", "#FFFFFF");
-		String size = settings.getString("size", "18");
-		java = settings.getBoolean("java", true);
-		boolean plugins = settings.getBoolean("plugins", true);
-		boolean cache = settings.getBoolean("cache", false);
-		boolean ic = settings.getBoolean("icon", true);
-		ico = ic;
-		int sz = Integer.parseInt(size);
-		web.getSettings().setJavaScriptEnabled(java);
-		if (plugins == true) {
-			web.getSettings().setPluginState(PluginState.ON);
+		@Override
+		public void onResume() {
+			super.onResume();
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+			String color = settings.getString("color", "#FFFFFF");
+			String size = settings.getString("size", "18");
+			java = settings.getBoolean("java", true);
+			boolean plugins = settings.getBoolean("plugins", true);
+			boolean cache = settings.getBoolean("cache", false);
+			boolean ic = settings.getBoolean("icon", true);
+			ico = ic;
+			int sz = Integer.parseInt(size);
+			web.getSettings().setJavaScriptEnabled(java);
+			if (plugins == true) {
+				web.getSettings().setPluginState(PluginState.ON);
+			}
+			web.getSettings().setAppCacheEnabled(cache);
+			web.getSettings().setDefaultFontSize(sz);
+			web.getSettings().setDefaultFixedFontSize(sz);
+			getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
 		}
-		web.getSettings().setAppCacheEnabled(cache);
-		web.getSettings().setDefaultFontSize(sz);
-		web.getSettings().setDefaultFixedFontSize(sz);
-		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
-	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		mDrawerToggle.syncState();
-                web.loadUrl("https://www.google.com");
-	}
+		@Override
+		public void onPause() {
+			super.onPause();
+		}
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
+		@Override
+		protected void onPostCreate(Bundle savedInstanceState) {
+			super.onPostCreate(savedInstanceState);
+			mDrawerToggle.syncState();
+			web.loadUrl("https://www.google.com");
+		}
+
+		@Override
+		public void onConfigurationChanged(Configuration newConfig) {
+			super.onConfigurationChanged(newConfig);
+			mDrawerToggle.onConfigurationChanged(newConfig);
+		}
 }
-
-
-
-
-
-	
