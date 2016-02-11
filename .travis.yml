@@ -5,16 +5,14 @@ android:
     # use the latest revision of Android SDK Tools
     # - platform-tools
     # - tools
-    - build-tools-31.1.1
-    - android-19
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-    - addon-google_apis-google-19
+    - build-tools-22.0.1
+    - android-22
+    - extra-android-support
+   
+   
+  
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-19
-    - sys-img-x86-android-17
 before_install:
  - chmod +x gradlew
