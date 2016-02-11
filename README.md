@@ -14,16 +14,16 @@ As soon as the major bugs are fixed,I will release it's first version.
   <p>Please submit your pull requests to the DEVELOPMENT branch,not to the master branch,because the master is supposed to be      stable for builds</p>
   <p>Feel free to report issues,do code cleanup and add translations</p>
 <p><b>Current features</b></p>
-  1.Lightweight - it only has 2,57 MB
-  2.Fast 
-  3.Bookmarks - located in the navigation drawer and easy to use
-  4.Customizable - it has  5 color themes with more to be added
+  <li><p>Lightweight - it only has 2,57 MB</p></li>
+  <li><p>Fast </p></li>
+  <li><p>Bookmarks - located in the navigation drawer and easy to use</p><li>
+  <li><p>Customizable - it has  5 color themes with more to be added</p></li>
 <p><b>What I'm working on </b></p>
-  1.Improve speed
-  2.Improve security
-  3.Improve UI
-  4.Adding tabs - a 'must have' for a browser
-  5.Incognito mode
+  <li><p>Improve speed</p></li>
+  <li><p>Improve security</p></li>
+  <li><p>Improve UI</p></li>
+  <li><p>Adding tabs - a 'must have' for a browser</p></li>
+  <li><p>Incognito mode</p></li>
 <p><b>License</b><p>
 Copyright 2015 Vlad Todosin.
 Licensed under the Apache License, Version 2.0 (the "License");
