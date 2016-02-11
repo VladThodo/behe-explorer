@@ -10,7 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
+@SuppressWarnings("deprecation")
 public class Notes extends ActionBarActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +79,7 @@ public class Notes extends ActionBarActivity{
 		
 		
 		case R.id.action_show:
-			Intent r = new Intent(getApplicationContext(),Bookmarks.class);
-			startActivity(r);
+
 			break;
 		case R.id.action_hist:
 			
