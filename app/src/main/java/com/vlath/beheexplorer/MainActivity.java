@@ -146,6 +146,17 @@ public class MainActivity extends ActionBarActivity {
 		list = new ArrayList<String>();
 		boolean ic = settings.getBoolean("icon", true);
 		ico = ic;
+		web.setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN && web.canGoBack()) {
+					web.goBack();
+					return true;
+				}
+				return true;
+
+			}
+		});
 		web.setDownloadListener(new DownloadListener() {
 			@Override
 			public void onDownloadStart(final String url, final String userAgent,
