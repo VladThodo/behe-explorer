@@ -4,6 +4,7 @@ android:
      -android-23
      -build-tools-23.0.0
     - extra-android-support
-    
+before_install:
+ - chmod +x gradlew    
 
  
