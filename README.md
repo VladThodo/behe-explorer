@@ -15,8 +15,8 @@ As soon as the major bugs are fixed,I will release it's first version.
   <p>Feel free to report issues,do code cleanup and add translations</p>
 <p><b>Current features</b></p>
   <li><p>Lightweight - it only has 2,57 MB</p></li>
-  <li><p>Fast </p></li>
-  <li><p>Bookmarks - located in the navigation drawer and easy to use</p><li>
+  <li><p>Fast</p></li>
+  <li><p>Bookmarks - located in the navigation drawer and easy to use</p></li>
   <li><p>Customizable - it has  5 color themes with more to be added</p></li>
 <p><b>What I'm working on </b></p>
   <li><p>Improve speed</p></li>
