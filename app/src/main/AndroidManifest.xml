@@ -43,7 +43,6 @@
     <activity android:name="com.vlath.beheexplorer.Second" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
         <activity android:name="com.vlath.beheexplorer.Search" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
         <activity android:name="com.vlath.beheexplorer.Notes" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
-        <activity android:name="com.vlath.beheexplorer.Bookmarks" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
         <activity android:name="com.vlath.beheexplorer.Settings" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
         <activity android:name="com.vlath.beheexplorer.TabActivity" android:parentActivityName="com.vlath.beheexplorer.MainActivity"/>
     </application>
