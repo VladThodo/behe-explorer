@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-@SuppressWarnings("deprecation")
+
 public class Second extends ActionBarActivity {
 	
 	@Override
@@ -81,7 +81,7 @@ public class Second extends ActionBarActivity {
 		
 		
 		case R.id.action_show:
-
+		
 			break;
 		case R.id.action_hist:
 			

@@ -10,6 +10,7 @@ import java.io.Serializable;
 public  class Bookmark {
  private Bitmap PAGE_ICON;
  private String PAGE_NAME;
+ private String TAG_NAME; 
     public Bookmark(String name, Bitmap icon){
         PAGE_ICON = icon;
         PAGE_NAME = name;
