@@ -1,10 +1,21 @@
 language: android
 android:
   components:
-     - android-23
-     - build-tools-23.0.0
-     - extra-android-support
+  
+     - platform-tools
+     - tools
+
+   
+    - build-tools-23.0.0
+
+   
+    - android-23
+
+   
+    
+    - extra-android-support
+  
 before_install:
- - chmod +x gradlew    
+    - chmod +x gradlew
 
  
