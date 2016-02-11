@@ -1,6 +1,18 @@
 language: android
 android:
   components:
-    - build-tools-18.1.1
-    - android-18
-    - extra
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    # - platform-tools
+    - tools
+    - build-tools-23.0.1
+    - android-23
+    - extra-android-support
+   
+   
+  
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+before_install:
+ - chmod +x gradlew

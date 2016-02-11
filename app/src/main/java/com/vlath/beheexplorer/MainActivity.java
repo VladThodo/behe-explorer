@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.inputmethodservice.Keyboard;
 import android.os.Build;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -24,7 +23,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.format.Formatter;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,13 +58,12 @@ public class MainActivity extends ActionBarActivity {
 	MenuItem desktop;
 	String bookmark;
 	SwipeRefreshLayout swipeLayout;
-	boolean ico;
-	String READ = "";
-	android.support.v4.app.ActionBarDrawerToggle mDrawerToggle;
 	private String[] mPlanetTitles;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
-
+	boolean ico;
+	String READ = "";
+	android.support.v4.app.ActionBarDrawerToggle mDrawerToggle;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -127,10 +124,6 @@ public class MainActivity extends ActionBarActivity {
 		if (getIntent().getData() != null) {
 			web.loadUrl(getIntent().getData().toString());
 		}
-		else{
-			web.loadUrl(PreferenceManager.getDefaultSharedPreferences(this).getString("home_page","https://www.google.com"));
-
-		}
 		if (delete == true) {
 			Toast.makeText(getApplicationContext(), R.string.historytast, Toast.LENGTH_LONG).show();
 		}
@@ -153,18 +146,7 @@ public class MainActivity extends ActionBarActivity {
 		list = new ArrayList<String>();
 		boolean ic = settings.getBoolean("icon", true);
 		ico = ic;
-		web.setOnKeyListener(new View.OnKeyListener() {
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN && web.canGoBack()) {
-					web.goBack();
-					return true;
-				}
-				return true;
-
-			}
-		});
-		 web.setDownloadListener(new DownloadListener() {
+		web.setDownloadListener(new DownloadListener() {
 			@Override
 			public void onDownloadStart(final String url, final String userAgent,
 										final String contentDisposition, final String mimetype,
@@ -381,7 +363,7 @@ public class MainActivity extends ActionBarActivity {
 		protected void onPostCreate(Bundle savedInstanceState) {
 			super.onPostCreate(savedInstanceState);
 			mDrawerToggle.syncState();
-
+			web.loadUrl("https://www.google.com");
 		}
 
 		@Override

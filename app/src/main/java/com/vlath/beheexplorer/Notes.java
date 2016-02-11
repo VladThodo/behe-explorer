@@ -10,7 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-@SuppressWarnings("deprecation")
+
 public class Notes extends ActionBarActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +20,16 @@ public class Notes extends ActionBarActivity{
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		String color = settings.getString("color", "#FFFFFF");
 		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
+
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		setTitle("");
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+
+
+
 		MenuItem stop = menu.findItem(R.id.action_stop);
 	    stop.setVisible(true);
 	    MenuItem f = menu.findItem(R.id.action_refresh);
@@ -34,6 +38,8 @@ public class Notes extends ActionBarActivity{
 	    t.setVisible(false);
 	    MenuItem m = menu.findItem(R.id.action_book);
 	    m.setVisible(false);
+	
+			
 	    return true;
 	}
 	@Override
@@ -42,21 +48,39 @@ public class Notes extends ActionBarActivity{
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
+
 		switch(item.getItemId()){
+		
+				
+		
+				
+		 
 		
 		case R.id.action_about:
 			Intent intent=new Intent(getApplicationContext(),Second.class);
 			startActivity(intent);
-	    break;
-			case R.id.action_pref:
+         
+			
+	
+		case R.id.action_pref:
 			Intent ent = new Intent(getApplicationContext(),Settings.class);
 			startActivity(ent);
+			
+			
+			
 		break;
+		
+		
+		
+		
+		
 
+			
 		
 		
 		case R.id.action_show:
-
+			Intent r = new Intent(getApplicationContext(),Bookmarks.class);
+			startActivity(r);
 			break;
 		case R.id.action_hist:
 			
