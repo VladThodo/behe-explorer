@@ -4,16 +4,9 @@ android:
   
      - platform-tools
      - tools
-
-   
-    - build-tools-23.0.0
-
-   
-    - android-23
-
-   
-    
-    - extra-android-support
+     - build-tools-23.0.0
+     - android-23
+     - extra-android-support
   
 before_install:
     - chmod +x gradlew
