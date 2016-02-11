@@ -4,9 +4,9 @@ android:
     # Uncomment the lines below if you want to
     # use the latest revision of Android SDK Tools
     # - platform-tools
-    # - tools
-    - build-tools-22.0.1
-    - android-22
+    - tools
+    - build-tools-23.0.1
+    - android-23
     - extra-android-support
    
    
