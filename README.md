@@ -8,4 +8,4 @@ As soon as the major bugs are fixed,I will release it's first version.
 <li><p>Master:</li></p>
 <p><img src="https://travis-ci.org/VladThodo/behe-explorer.svg?branch=master"/></p>
 <li><p>Development:</p></li>
-<img src="ttps://travis-ci.org/VladThodo/behe-explorer.svg?branch=development"/>
+<img src="https://travis-ci.org/VladThodo/behe-explorer.svg?branch=development"/>
