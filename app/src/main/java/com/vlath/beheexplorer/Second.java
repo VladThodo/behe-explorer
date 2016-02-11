@@ -81,9 +81,7 @@ public class Second extends ActionBarActivity {
 		
 		
 		case R.id.action_show:
-			Intent inten = new Intent(getApplicationContext(), Bookmarks.class);
-			inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(inten);
+		
 			break;
 		case R.id.action_hist:
 			
