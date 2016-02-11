@@ -25,7 +25,7 @@ As soon as the major bugs are fixed,I will release it's first version.
   <li><p>Adding tabs - a 'must have' for a browser</p></li>
   <li><p>Incognito mode</p></li>
 <p><b>License</b><p>
-Copyright 2015 Vlad Todosin.
+<p>Copyright 2015 Vlad Todosin.</p>
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
