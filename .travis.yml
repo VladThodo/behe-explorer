@@ -1,19 +1,13 @@
 language: android
-sudo: false
 android:
   components:
-    - tools
-    - build-tools-22.0.1
-    - android-22
-    - extra-android-support
+     - platform-tools
+     - tools
+    - build-tools-19.1.0
+    - android-19
+    - extra-google-google_play_services
+    - extra-google-m2repository
     - extra-android-m2repository
-  licenses:
-    - 'android-sdk-license-.+'
-    - '.*intel.+'
-before_install:
-  - chmod +x gradlew
-  - git submodule update --init --recursive
-install:
-  - ./gradlew
-script:
-  - ./gradlew assembleDebug --stacktrace
+    - addon-google_apis-google-19
+
+ 
