@@ -20,7 +20,6 @@ public class TabAdapter extends BaseAdapter{
     ArrayList<Bitmap> images;
     private static LayoutInflater inflater=null;
     public TabAdapter(Activity mainActivity, ArrayList<String> name, ArrayList<Bitmap> prgmImages,ListView list) {
-        // TODO Auto-generated constructor stub
         names= name;
         context=mainActivity;
         images=prgmImages;
