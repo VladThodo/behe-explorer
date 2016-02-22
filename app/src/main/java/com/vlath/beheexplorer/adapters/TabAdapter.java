@@ -1,4 +1,4 @@
-package com.vlath.beheexplorer;
+package com.vlath.beheexplorer.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.vlath.beheexplorer.R;
+
 import java.util.ArrayList;
 
 public class TabAdapter extends BaseAdapter{

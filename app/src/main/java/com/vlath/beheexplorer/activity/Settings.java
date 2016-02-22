@@ -1,4 +1,4 @@
-package com.vlath.beheexplorer;
+package com.vlath.beheexplorer.activity;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.vlath.beheexplorer.R;
+
 @SuppressWarnings("deprecation")
 public class Settings extends PreferenceActivity  implements OnSharedPreferenceChangeListener {
 
@@ -21,9 +23,6 @@ public class Settings extends PreferenceActivity  implements OnSharedPreferenceC
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     
-
-
         addPreferencesFromResource(R.layout.settings);
        
      

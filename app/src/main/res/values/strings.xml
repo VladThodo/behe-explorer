@@ -4,10 +4,8 @@
     <string name="app_name">BeHe ExploreR</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Preferences</string>
-  
-   
     <string name="about">About</string>
-    <string name="foward">Foward</string>
+    <string name="foward">Forward</string>
     <string name="back">Back</string>
     <string name="notes">Version 1.0.0</string>
     <string name="bugs">Known bugs</string>
@@ -16,44 +14,65 @@
     <string name="contact">Contact e-mail: vlath74@gmail.com</string>
     <string name="startpage">Start page</string>
     <string name="startpagesummary">Choose the webpage you want to see when the browser starts</string>
-    <string name="startpagedialog">Enter the URL of your desired start</string>
+    <string name="startpagedialog">Enter the URL of your desired startpage</string>
     <string name="desktop">Desktop version</string>
     <string name="desktopsummary">The browser will show the desktop version of the pages</string>
-   <string name="history">Clear history at startup</string>
-   <string name="historysummary">History will be cleared every time the browser starts</string>
-   <string name="privacy">Privacy</string>
-   <string name="bookmark_dialog">Type in the name of your bookmarks</string>
-   <string name="version">Version</string>
-   <string name="historyclear">Clear history</string>
-   <string name="historytast">Hstory cleared</string>
-   <string name="bookmarksshow">Show bookmarks</string>
-   <string name="stop">Stop</string>
-   <string name="refresh">Refresh</string>
-     <string name="go">Go</string>  
+    <string name="history">Clear history at startup</string>
+    <string name="historysummary">History will be cleared every time the browser starts</string>
+    <string name="privacy">Privacy</string>
+    <string name="bookmark_dialog">Type in the name of your bookmark</string>
+    <string name="version">Version</string>
+    <string name="historyclear">Clear history</string>
+    <string name="historytast">History cleared</string>
+    <string name="bookmarksshow">Show bookmarks</string>
+    <string name="stop">Stop</string>
+    <string name="refresh">Refresh</string>
+    <string name="go">Go</string>
     <string name="java">Enable JavaScript</string>
     <string name="javasummary">Will enable JavaScript in your browser</string>
-
-
+    <string name="download">Do you want to download: </string>
+    <string name="cache">Enable cache storage</string>
+    <string name="plugins">Enable browser plug-ins</string>
+    <string name="theme">Theme</string>
+    <string name="themesummary">Choose your browser color theme</string>
+    <string name="look">Look</string>
+    <string name="looksummary">Customize your browser\'s appearance</string>
+    <string name="text">Browser text size</string>
+    <string name="textsummary">Choose the text size that the browser should use</string>
+    <string name="icon">Show page icon</string>
+    <string name="iconsummary">Show page icon instead of the normal menu icon</string>
+    <string name="browser">Browser</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="license_about">Licensed under the Apache License Version 2.0</string>
+    <string name="delete_dialog">Do you want to delete this bookmark?</string>
+    <string name="credits">Credits</string>
+    <string name="license">License</string>
+    <string name="github">View on GitHub</string>
+    <string name="about_welcome">Welcome to the about version of BeHe ExploreR!</string>
+    <string name="delete">Delete</string>
+    <string name="suggestions">Show suggestions</string>
+    <string name="suggestionssummary">Will show search suggestions (powered by Google)</string>
+    <string name="search_engine">Select your search engine</string>
     <string-array name="color">
-        <item name = "1">White</item>
-        <item name ="2">Grey</item>
-        <item name ="3">Red</item>
-        <item name="4">Blue</item>
-        <item name="5">Green</item>
+    <item name = "1">White</item>
+    <item name ="2">Grey</item>
+    <item name ="3">Red</item>
+    <item name="4">Blue</item>
+    <item name="5">Green</item>
     </string-array>
     <string-array name="color_values">
-        <item name="1">#FFFFFF</item>
-        <item name="2">#A9A9A9</item>
-        <item name="3">#FF0000</item>
-        <item name="4">#0000FF</item>
-        <item name="5">#008000</item>
+    <item name="1">#FFFFFF</item>
+    <item name="2">#A9A9A9</item>
+    <item name="3">#FF0000</item>
+    <item name="4">#0000FF</item>
+    <item name="5">#008000</item>
     </string-array>
     <string-array name="text">
-        <item name = "1">Small</item>
-        <item name ="2">Normal</item>
-        <item name ="3">Large</item>
-        <item name="4">Extra large</item>
-
+    <item name = "1">Small</item>
+    <item name ="2">Normal</item>
+    <item name ="3">Large</item>
+    <item name="4">Extra large</item>
     </string-array>
     <string-array name="text_size">
     <item name="1">14</item>
@@ -61,10 +80,24 @@
     <item name="3">22</item>
     <item name="4">24</item>
     </string-array>
+    <string-array name="search">
+        <item name = "1">Google</item>
+        <item name ="2">Bing</item>
+        <item name ="3">Yahoo</item>
+        <item name="4">Duckduckgo</item>
+        <item name="5">Ask</item>
+        <item name="6">Wow</item>
+    </string-array>
+    <string-array name="search_values">
+        <item name = "1">1</item>
+        <item name ="2">2</item>
+        <item name ="3">3</item>
+        <item name="4">4</item>
+        <item name="5">5</item>
+        <item name="6">6</item>
+    </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    
-
 </resources>
 
 

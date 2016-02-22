@@ -1,23 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.vlath.beheexplorer.MainActivity"
+    tools:context="com.vlath.beheexplorer.activity.MainActivity"
    
     >
-  
-    
-   
-   
-   
 
-
-    
-      <item android:id="@+id/action_notes"
-        android:title="@string/version"
-        android:showAsAction="ifRoom" />
-    <item android:id="@+id/action_read"
-        android:title="Citire"
-        android:showAsAction="ifRoom" />
      <item android:id="@+id/action_hist"
         android:title="@string/historyclear"
         android:showAsAction="ifRoom" />
@@ -33,23 +20,11 @@
    <item android:id="@+id/action_pref"
         android:title="@string/action_settings"
         android:showAsAction="ifRoom" />
-       
-      <item android:id="@+id/action_tab"
-        android:title="New tab"
-        android:showAsAction="ifRoom|"/> 
-        
-    <item android:id="@+id/action_about"
-        android:title="@string/about"
-        android:showAsAction="ifRoom"
-        android:icon="@drawable/search"
-        />
     <item android:id="@+id/action_tabs"
         app:actionViewClass="android.support.v7.widget.Button"
         android:title=""
         android:checkable="true"
         />
-
-
       <item
            android:id="@+id/action_book"         
           android:title=""
@@ -57,14 +32,17 @@
           app:actionViewClass="android.support.v7.widget.Button"
           android:icon="@drawable/bookmark"
          />
-    
-    
         <item 
-           android:id="@+id/action_search"
+            android:id="@+id/action_search"
             android:title=""
-android:icon="@drawable/search"
+            android:icon="@drawable/search"
             app:showAsAction="always"
             app:actionViewClass="android.support.v7.widget.Button"/>
+    <item
+        android:id="@+id/action_incognito"
+        android:title="Incognito"
+        android:checkable="true"
+       />
 
         
        
