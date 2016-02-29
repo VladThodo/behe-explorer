@@ -2,7 +2,7 @@
 
 ---
 
-###Agreements
+### Agreements
 >Please check the below checkboxes to make sure that you are not spamming
 
 ---
@@ -12,7 +12,7 @@
 
 ---
 
-###Short description
+### Short description
 >Please add a short dscription of the issue.The description should contain:
 
 ---
@@ -22,12 +22,12 @@
 
 ---
 
-###Reproduction
+### Reproduction
 >Please tell us how to reproduce this issue.
 
 ---
 
-###Screenshots
+### Screenshots
 >If you have any screenshots that can help please add them here 
 
 ---
