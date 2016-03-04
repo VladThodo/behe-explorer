@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BeHe ExploreR</string>
-    <string name="hello_world">Hello world!</string>
     <string name="about">حول</string>
     <string name="about_welcome">مرحبا بكم في BeHe ExploreR!</string>
     <string name="action_settings">إعدادات</string>
