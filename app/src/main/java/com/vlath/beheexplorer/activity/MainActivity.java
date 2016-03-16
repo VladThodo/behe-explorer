@@ -1,15 +1,23 @@
+/*
+ Copyright 2016 Vlad Todosin
+*/
 package com.vlath.beheexplorer.activity;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.speech.RecognizerIntent;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,6 +52,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Handler;
+
+import com.vlath.beheexplorer.utils.HystoryTask;
+import com.vlath.beheexplorer.utils.PreferenceUtils;
 import com.vlath.beheexplorer.view.BeHeView;
 import com.vlath.beheexplorer.R;
 
@@ -51,6 +62,7 @@ import com.vlath.beheexplorer.R;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends BeHeActivity {
+
 
 
 	@Override
@@ -66,95 +78,41 @@ public class MainActivity extends BeHeActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
+
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
 		switch (item.getItemId()) {
 			case R.id.action_incognito:
-			if(!item.isChecked()){
+			if(!item.isChecked()) {
 				item.setChecked(true);
-				CookieManager.getInstance().setAcceptCookie(false);
-			/*	web.getSettings().setCacheMode(web.getSettings().LOAD_NO_CACHE);
-				web.getSettings().setAppCacheEnabled(false);
-				web.clearHistory();
-				web.clearCache(true);
-				web.clearFormData();
-				web.getSettings().setSavePassword(false);
-				web.getSettings().setSaveFormData(false);
-			getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2F4F4F")));
+				web.setPrivate(true);
 			}
             else{
 				item.setChecked(false);
-				CookieManager.getInstance().setAcceptCookie(true);
-				web.getSettings().setCacheMode(web.getSettings().LOAD_NO_CACHE);
-				web.getSettings().setAppCacheEnabled(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("cache", false));
-				web.clearCache(true);
-				web.getSettings().setSavePassword(true);
-				web.getSettings().setSaveFormData(true);
-				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-				String color = settings.getString("color", "#A9A9A9");
-				getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
-*/
+				web.setPrivate(false);
 			}
 				break;
 
-			case R.id.action_search:
-				String toSearch;
-                toSearch= txt.getText().toString();
-
-
-
-
-					if(Patterns.WEB_URL.matcher(toSearch).matches()){
-						if(toSearch.contains("https://")){
-							//web.loadUrl("https://" + txt.getText().toString());
-						}
-						else{
-							//web.loadUrl(txt.getText().toString());
-						}
-
-						View view = activity.getCurrentFocus();
-						if (view != null) {
-							InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-							imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-						}
-						web.requestFocus();
-					}
-				else{
-                    web.search(txt.getText().toString());
-					View view = this.getCurrentFocus();
-					if (view != null) {
-						InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-						imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-					}
-					web.requestFocus();
-				}
-				try {
-					list.add(txt.getText().toString());
-					PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putStringSet("recent", list);
-				}
-				catch(Exception e) {
-				}
-
-					break;
 			case R.id.action_tabs:
 				if (!item.isChecked()) {
 					item.setChecked(true);
-					//web.setUserAgentString("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-				   //web.reload(XWalkView.RELOAD_NORMAL);
+					web.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+				    web.reload();
 				}
 				else{
 					item.setChecked(false);
-					//web.setUserAgentString("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
-				   // web.reload(XWalkView.RELOAD_NORMAL);
+					web.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
+				    web.reload();
 				}
 				break;
+
 			case R.id.action_pref:
 				Intent mSettings = new Intent(this, Settings.class);
 				startActivity(mSettings);
 				break;
 			case R.id.action_show:
-				//mDrawerLayout.openDrawer(Gravity.LEFT);
+				super.mDrawerLayout.openDrawer(Gravity.LEFT);
 			break;
 
 			case R.id.action_book:
@@ -213,20 +171,25 @@ public class MainActivity extends BeHeActivity {
 				AlertDialog alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
 				break;
-
-			case R.id.action_refresh:
-				web.startReaderMode();
+			case R.id.action_home:
+				super.web.loadUrl(new PreferenceUtils(this).getHomePage());
 				break;
-
 			case R.id.action_stop:
 				web.stopLoading();
 				break;
-
-
-
-			case R.id.action_hist:
-
-				Toast.makeText(getApplicationContext(), R.string.historytast, Toast.LENGTH_LONG).show();
+			case R.id.action_pic:
+				Intent photoPickerIntent = new Intent(Intent.ACTION_PICK,
+						android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				photoPickerIntent.setType("image/*");
+				photoPickerIntent.putExtra("crop", "true");
+				photoPickerIntent.putExtra("return-data", true);
+				photoPickerIntent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+				startActivityForResult(photoPickerIntent, 2);
+				break;
+			case R.id.action_show_history:
+				HystoryTask task = new HystoryTask(MainActivity.this,web);
+				Void[] v = null;
+				task.execute(v);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -234,30 +197,7 @@ public class MainActivity extends BeHeActivity {
 		@Override
 		public void onResume() {
 			super.onResume();
-			//getSupportActionBar().setHomeButtonEnabled(true);
-			//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			//getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
-			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-			String color = settings.getString("color", "#A9A9A9");
-			String size = settings.getString("size", "18");
-			String search = settings.getString("search", "1");
-			web.setSearchEngine(Integer.parseInt(search));
-			java = settings.getBoolean("java", true);
-			boolean plugins = settings.getBoolean("plugins", true);
-			boolean cache = settings.getBoolean("cache", false);
-			int sz = Integer.parseInt(size);
-		  /*web.getSettings().setJavaScriptEnabled(java);
-			if (plugins == true) {
-				web.getSettings().setPluginState(PluginState.ON);
-			}
-			web.getSettings().setAppCacheEnabled(cache);
-			web.getSettings().setDefaultFontSize(sz);
-			web.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-			getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
-
-			boolean ic = settings.getBoolean("icon", true);
-			ico = ic;
-			web.setIcon(ico);*/
+			web.initializeSettings();
 
 		}
 
@@ -270,7 +210,7 @@ public class MainActivity extends BeHeActivity {
 		protected void onPostCreate(Bundle savedInstanceState) {
 			super.onPostCreate(savedInstanceState);
 			mDrawerToggle.syncState();
-		    web.initializeSettings();
+
 		}
 
 		@Override
@@ -278,12 +218,49 @@ public class MainActivity extends BeHeActivity {
 			super.onConfigurationChanged(newConfig);
 			mDrawerToggle.onConfigurationChanged(newConfig);
 		}
+	public void voice (View v){
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+				RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		startActivityForResult(intent, 1);
+
+	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == 1) {
+		if(requestCode == 1){
+			if(resultCode == RESULT_OK){
+				if(data != null){
+					List<String> results = data.getStringArrayListExtra(
+							RecognizerIntent.EXTRA_RESULTS);
+					String spokenText = results.get(0);
+					super.txt.setText(spokenText);
+
+				}
+			}
+		}
+		if (requestCode == 2) {
 			if (resultCode == RESULT_OK) {
-           String mUrl = data.getStringExtra("search");
-			//web.load("https://www.google.com/?gws_rd=cr,ssl&ei=u0W-VoX-FYTt6QT7t5bICQ#q=" + mUrl,null);
+				if (data!=null) {
+					Bundle extras = data.getExtras();
+					final Bitmap selectedBitmap = extras.getParcelable("data");
+					super.view.setImageBitmap(selectedBitmap);
+				    new Thread(new Runnable() {
+						@Override
+						public void run() {
+							FileOutputStream writer = null;
+							File image = new File(getFilesDir(),"drawer_image.png");
+							try{
+								writer = new FileOutputStream(image,false);
+								selectedBitmap.compress(Bitmap.CompressFormat.PNG, 100, writer);
+							    writer.flush();
+								writer.close();
+							}
+						    catch(Exception e){
+
+							}
+						}
+					}).start();
+				}
 			}
 		}
 	}

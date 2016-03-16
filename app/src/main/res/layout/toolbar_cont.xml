@@ -8,17 +8,38 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     >
-    <AutoCompleteTextView android:id="@+id/myautocomplete"
-     android:layout_width="fill_parent"
-     android:layout_height="40dp"
-     android:background="@drawable/text"
-     android:paddingBottom="1dp"
-     android:paddingLeft="8dp"
-     android:gravity="left|center_vertical"
-     android:paddingRight="5dp"
-     android:paddingTop="1dp"
-     android:selectAllOnFocus="true"
-     android:singleLine="true"
-    />
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:background="@drawable/round"
+        android:gravity="center"
+        android:padding="5dip">
+    <EditText
+        android:id="@+id/edit"
+        android:inputType="textNoSuggestions|textUri"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:gravity="left|center_vertical"
+        android:imeOptions="actionDone"
+        android:paddingBottom="1dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="5dp"
+        android:paddingTop="1dp"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:textCursorDrawable="@null"/>
+    <Button
+        android:layout_gravity="right|center_vertical"
+        android:text=""
+        android:onClick="voice"
+        android:background="@drawable/mic"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+   />
+ </LinearLayout>
 </android.support.v7.widget.Toolbar>
 

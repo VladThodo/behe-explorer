@@ -1,3 +1,6 @@
+/*
+ Copyright 2016 Vlad Todosin
+*/
 package com.vlath.beheexplorer.view;
 
 import android.graphics.Bitmap;
@@ -23,21 +26,15 @@ public class BeHeChromeClient extends WebChromeClient {
     }
     @Override
     public void onProgressChanged(WebView view,int newProgress){
-       if(newProgress == 100){
-           PBar.setProgress(0);
+       if(newProgress < 100){
+           PBar.setProgress(view.getProgress());
        }
       else {
-           PBar.setProgress(newProgress);
+           PBar.setProgress(0);
        }
     }
     @Override
     public void onReceivedIcon(WebView view,Bitmap icon){
-        ICON = new PreferenceUtils(ACTIVITY).getDisplayPageIcon();
-        if(ICON){
-            ACTIVITY.getSupportActionBar().setHomeAsUpIndicator(new BitmapDrawable(Bitmap.createScaledBitmap(icon,22,22,false)));
-        }
-        else{
-            ACTIVITY.getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
-        }
+
     }
 }

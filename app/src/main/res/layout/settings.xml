@@ -68,6 +68,8 @@
             android:defaultValue="https://www.google.com"
             android:dialogTitle="@string/startpagedialog"
             />
+        <Preference android:title="@string/historyclear" android:key="clear">
+        </Preference>
     </PreferenceScreen>
 <PreferenceCategory
     android:title="@string/about">
