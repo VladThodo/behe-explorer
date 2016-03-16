@@ -1,3 +1,7 @@
+/*
+ Copyright 2016 Vlad Todosin
+*/
+
 package com.vlath.beheexplorer.view;
 
 import android.app.DownloadManager;
@@ -14,6 +18,7 @@ import android.webkit.WebView;
 
 import com.vlath.beheexplorer.R;
 import com.vlath.beheexplorer.activity.BeHeActivity;
+import com.vlath.beheexplorer.controllers.TabManager;
 
 import java.text.MessageFormat;
 
@@ -61,5 +66,6 @@ public class CiobanDownloadListener implements DownloadListener {
                       });
                 builder.create();
                 builder.show();
+
     }
 }

@@ -1,3 +1,6 @@
+/*
+ Copyright 2016 Vlad Todosin
+*/
 package com.vlath.beheexplorer.activity;
 
 import android.os.Bundle;

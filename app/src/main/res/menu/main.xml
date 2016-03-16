@@ -1,53 +1,41 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.vlath.beheexplorer.activity.MainActivity"
-   
-    >
-
-     <item android:id="@+id/action_hist"
-        android:title="@string/historyclear"
-        android:showAsAction="ifRoom" />
-   <item android:id="@+id/action_show"
+    tools:context="com.vlath.beheexplorer.activity.MainActivity">
+    <item android:id="@+id/action_home"
+        android:title=""
+        android:icon="@drawable/home"
+        android:orderInCategory="1"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_show"
         android:title="@string/bookmarksshow"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="never" />
      <item android:id="@+id/action_stop"
         android:title="@string/stop"
-        android:showAsAction="ifRoom" />
-    <item android:id="@+id/action_refresh"
-        android:title="@string/refresh"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="never" />
    <item android:id="@+id/action_pref"
         android:title="@string/action_settings"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_pic"
+        android:title="Change drawer picture"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_show_history"
+        android:title="History"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_book"
+        android:title="Add bookmark"
+        app:showAsAction="never"
+        />
     <item android:id="@+id/action_tabs"
         app:actionViewClass="android.support.v7.widget.Button"
         android:title=""
         android:checkable="true"
         />
-      <item
-           android:id="@+id/action_book"         
-          android:title=""
-          app:showAsAction="always" 
-          app:actionViewClass="android.support.v7.widget.Button"
-          android:icon="@drawable/bookmark"
-         />
-        <item 
-            android:id="@+id/action_search"
-            android:title=""
-            android:icon="@drawable/search"
-            app:showAsAction="always"
-            app:actionViewClass="android.support.v7.widget.Button"/>
     <item
         android:id="@+id/action_incognito"
         android:title="Incognito"
-        android:checkable="true"
-       />
-
-        
-       
-    
-    
-    
-
+        android:checkable="true" />
 </menu>

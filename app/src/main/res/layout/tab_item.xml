@@ -1,34 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_marginTop="10dp"
-    android:layout_width="240dp"
-    android:layout_height="30dp"
-    android:orientation="horizontal" >
-
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize">
     <ImageView
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:id="@+id/imageView1"
         android:layout_gravity="center"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:src="@drawable/gear" />
-
+        android:layout_width="22dp"
+        android:layout_height="22dp" />
     <TextView
-
-        android:layout_marginLeft="27dp"
+        android:layout_marginLeft="40dp"
         android:id="@+id/textView1"
+        android:singleLine="true"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="22dp"
         android:text="TextView" />
-    <ImageView
-        android:id="@+id/imageView2"
-
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="6dp"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:src="@drawable/gear" />
 </RelativeLayout>

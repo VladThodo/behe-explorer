@@ -1,3 +1,6 @@
+/*
+ Copyright 2016 Vlad Todosin
+*/
 package com.vlath.beheexplorer.utils;
 
 import android.graphics.Color;

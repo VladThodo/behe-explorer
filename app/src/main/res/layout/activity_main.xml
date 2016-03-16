@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    <include layout="@layout/toolbar_cont"
-        android:id="@+id/toolbar" />
 <android.support.v4.widget.DrawerLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_below="@+id/toolbar">
-
+    xmlns:tools="http://schemas.android.com/tools">
+   <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+     <include layout="@layout/toolbar_cont"
+           android:id="@+id/toolbar" />
     <android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"   
+    android:layout_below="@+id/toolbar"
     tools:context="com.vlath.beheexplorer.activity.MainActivity">
     </android.support.v4.widget.SwipeRefreshLayout>
+       <com.vlath.beheexplorer.view.AnimatedProgressBar
+           android:layout_height="2dp"
+           android:layout_width="match_parent"
+           android:id="@+id/progressBar"
+           android:layout_below="@+id/toolbar"
+           />
+   </RelativeLayout>
+
+
+
     <ListView android:id="@+id/drawer_list"
-        android:layout_width="240dp"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:divider="#A9A9A9"
-        android:dividerHeight="0.5dp"
-        android:background="#DCDCDC"/>
-</android.support.v4.widget.DrawerLayout>
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:layout_alignParentTop="true"
+        android:background="#FFFFFF"/>
 
-    <ProgressBar
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="7dp"
-        android:id="@+id/progressBar"
-        android:layout_marginTop="?attr/actionBarSize"
-        />
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>

@@ -1,37 +1,56 @@
+/*
+ Copyright 2016 Vlad Todosin
+*/
+
 package com.vlath.beheexplorer.activity;
 
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebIconDatabase;
 import android.webkit.WebSettings;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.vlath.beheexplorer.adapters.TabAdapter;
+import com.vlath.beheexplorer.controllers.UI;
 import com.vlath.beheexplorer.utils.PreferenceUtils;
-import com.vlath.beheexplorer.utils.ThemeUtils;
+import com.vlath.beheexplorer.view.AnimatedProgressBar;
 import com.vlath.beheexplorer.view.BeHeView;
 import com.vlath.beheexplorer.R;
 
@@ -45,41 +64,48 @@ import java.util.HashMap;
 import java.util.Set;
 
 @SuppressWarnings("deprecation")
-public class BeHeActivity extends ActionBarActivity {
+public class BeHeActivity extends ActionBarActivity implements UI {
+    Context context = this;
+    private boolean _doubleBackToExitPressedOnce    = false;
     BeHeActivity activity = this;
     String result;
     Set<String> list;
     ArrayList<String> mList = new ArrayList<String>();
     ArrayList<String> names = new ArrayList<String>();
-    ArrayAdapter<String> book;
+    TabAdapter book;
     HashMap<String,String> recent = new HashMap<String,String>();
+    ImageView view;
     boolean delete;
     boolean java;
     MenuItem desktop;
     String bookmark;
-    AutoCompleteTextView txt;
+    EditText txt;
     private String[] mPlanetTitles;
-    private DrawerLayout mDrawerLayout;
+    public DrawerLayout mDrawerLayout;
     ArrayAdapter<String> adapter;
     boolean ico;
     ListView mDrawerList;
     String READ = "";
-    android.support.v4.app.ActionBarDrawerToggle mDrawerToggle;
+    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
     SwipeRefreshLayout swipeLayout;
     BeHeView web;
+    Toolbar bar;
     @Override
     public void onCreate(Bundle savedInstanceState){
      super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
-        txt = (AutoCompleteTextView) findViewById(R.id.myautocomplete);
+        bar = (Toolbar) findViewById(R.id.toolbar);
+        txt = (EditText) findViewById(R.id.edit);
         setSupportActionBar(bar);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        final AnimatedProgressBar progressBar = (AnimatedProgressBar)findViewById(R.id.progressBar);
+        progressBar.setMaxWithAnim(100);
+        progressBar.setMax(100);
         File toRead = new File(getApplicationContext().getFilesDir(),"bookmarks.oi");
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,mList);
-        book = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,names);
-        txt.setAdapter(adapter);
+        book = new TabAdapter(this,names,mDrawerList);
+        view = new ImageView(this);
+        view.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,120));
         try{
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toRead));
             Object obj = ois.readObject();
@@ -96,7 +122,7 @@ public class BeHeActivity extends ActionBarActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
         mDrawerToggle = new ActionBarDrawerToggle(this,
-                mDrawerLayout, R.drawable.menu,
+                mDrawerLayout,bar,
                 R.string.drawer_open,
                 R.string.drawer_close){
             @Override
@@ -104,6 +130,37 @@ public class BeHeActivity extends ActionBarActivity {
 
             }
         };
+        txt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    txt.setText(web.getUrl());
+                    String str = txt.getText().toString();
+                    if (str.contains("https://") == true) {
+                        str = ((EditText) v).getText().toString().replace("https://", "<font color='#228B22'>https://</font>");
+                        Bitmap original = BitmapFactory.decodeResource(context.getResources(), R.drawable.safe);
+                        Bitmap b = Bitmap.createScaledBitmap(original, 24, 24, false);
+                        Drawable d = new BitmapDrawable(context.getResources(), b);
+                        txt.setText(Html.fromHtml(str), TextView.BufferType.SPANNABLE);
+                        txt.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+                    } else {
+                        txt.setText(web.getUrl());
+                    }
+                }
+            }
+        });
+        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
+        File image = new File(getFilesDir(),"drawer_image.png");
+        if(!image.exists()){
+            view.setImageDrawable(wallpaperDrawable);
+        }
+        else{
+           Bitmap bit = BitmapFactory.decodeFile(image.getPath());
+           view.setImageBitmap(bit);
+        }
+        mDrawerList.addHeaderView(view);
         mDrawerList.setAdapter(book);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -118,11 +175,11 @@ public class BeHeActivity extends ActionBarActivity {
                     web.loadUrl(map.get(mDrawerList.getItemAtPosition(position).toString()));
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
                 } catch (Exception e) {
-
+                    Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
                 }
-
             }
         });
+
         mDrawerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -143,10 +200,10 @@ public class BeHeActivity extends ActionBarActivity {
                                         HashMap<String, String> mHash = (HashMap<String, String>) obj;
                                         map = mHash;
                                         map.remove(mDrawerList.getItemAtPosition(position));
-                                        toWrite.delete();
                                         names.clear();
                                         names.addAll(map.keySet());
                                         book.notifyDataSetChanged();
+                                        toWrite.delete();
                                     } else {
 
                                     }
@@ -171,6 +228,7 @@ public class BeHeActivity extends ActionBarActivity {
                 return true;
             }
         });
+        mDrawerLayout.setDrawerElevation(20);
         web.setLayoutParams(new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
         swipeLayout.addView(web);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -208,8 +266,6 @@ public class BeHeActivity extends ActionBarActivity {
                 if (txt.isFocused()) {
                     try {
                         mList.addAll(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("recent", null));
-                        txt.setThreshold(3);
-                        txt.showDropDown();
                         adapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
@@ -220,14 +276,12 @@ public class BeHeActivity extends ActionBarActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
-
             }
         });
-        txt.setOnKeyListener(new View.OnKeyListener() {
+        txt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String toSearch;
                     toSearch = txt.getText().toString();
 
@@ -244,27 +298,26 @@ public class BeHeActivity extends ActionBarActivity {
                             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         }
                         web.requestFocus();
+                        return true;
+                    } else {
+                        web.searchWeb(txt.getText().toString());
+                        View view = activity.getCurrentFocus();
+                        if (view != null) {
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                        web.requestFocus();
+                        return true;
                     }
-                    return true;
-                } else {
-                    web.search(txt.getText().toString());
-                    View view = activity.getCurrentFocus();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    }
-                    web.requestFocus();
-                    return true;
                 }
-
+                return false;
             }
         });
+
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
         PreferenceUtils utils = new PreferenceUtils(getApplicationContext());
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(utils.getTheme())));
         web.setSearchEngine(PreferenceUtils.getSearchEngine());
         web.initializeSettings();
 		boolean ic = PreferenceUtils.getDisplayPageIcon();
@@ -277,7 +330,74 @@ public class BeHeActivity extends ActionBarActivity {
             web.loadUrl(new PreferenceUtils(this).getHomePage());
         }
     }
-    public void initializeBrowserActivity(){
+
+       public void onSubmit(){
+           String toSearch;
+           toSearch = txt.getText().toString();
+
+           if (Patterns.WEB_URL.matcher(toSearch).matches()) {
+               if (!toSearch.contains("https://")) {
+                   web.loadUrl("https://" + txt.getText().toString());
+               } else {
+                   web.loadUrl(txt.getText().toString(), null);
+               }
+
+               View view = activity.getCurrentFocus();
+               if (view != null) {
+                   InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                   imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+               }
+               web.requestFocus();
+
+           } else {
+               web.search(txt.getText().toString());
+               View view = activity.getCurrentFocus();
+               if (view != null) {
+                   InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                   imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+               }
+               web.requestFocus();
+           }
+       }
+        public BeHeView getBeHeView(){
+            return web;
+        }
+        @Override
+        public void onBackPressed() {
+            if (web.canGoBack() == false){
+                if (_doubleBackToExitPressedOnce) {
+                    super.onBackPressed();
+                    return;
+                }
+            this._doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Press again to quit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    _doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }
+     }
+
+    @Override
+    public void initializeTheme() {
 
     }
+
+    @Override
+    public void setMainTab(int position) {
+
+    }
+
+    @Override
+    public void setIconColorScheme() {
+
+    }
+   @Override
+   public void onDestroy(){
+       super.onDestroy();
+       web.destroy();
+   }
 }
