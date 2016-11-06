@@ -10,7 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.vlath.beheexplorer.R;
 
 /**
- * Created by Administrator on 23.02.2016.
+ * Copyright (c) 2016 Vlad Todosin
  */
 public class SettingsActivity extends ActionBarActivity {
     @Override
