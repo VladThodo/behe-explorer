@@ -104,8 +104,7 @@ public class BeHeActivity extends ActionBarActivity implements UI {
         File toRead = new File(getApplicationContext().getFilesDir(),"bookmarks.oi");
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,mList);
         book = new TabAdapter(this,names,mDrawerList);
-        view = new ImageView(this);
-        view.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,120));
+
         try{
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toRead));
             Object obj = ois.readObject();
@@ -120,7 +119,7 @@ public class BeHeActivity extends ActionBarActivity implements UI {
         web = new BeHeView(this,activity,progressBar,false,txt);
         WebIconDatabase.getInstance().open(getDir("icons", MODE_PRIVATE).getPath());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.drawer_list);
+       // mDrawerList = (ListView) findViewById(R.id.drawer_list);
         mDrawerToggle = new ActionBarDrawerToggle(this,
                 mDrawerLayout,bar,
                 R.string.drawer_open,
@@ -149,38 +148,26 @@ public class BeHeActivity extends ActionBarActivity implements UI {
                 }
             }
         });
-        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        File image = new File(getFilesDir(),"drawer_image.png");
-        if(!image.exists()){
-            view.setImageDrawable(wallpaperDrawable);
-        }
-        else{
-           Bitmap bit = BitmapFactory.decodeFile(image.getPath());
-           view.setImageBitmap(bit);
-        }
-        mDrawerList.addHeaderView(view);
-        mDrawerList.setAdapter(book);
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String, String> map;
-                File toRead = new File(getApplicationContext().getFilesDir(), "bookmarks.oi");
-                try {
-                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toRead));
-                    Object obj = ois.readObject();
-                    ois.close();
-                    map = (HashMap<String, String>) obj;
-                    web.loadUrl(map.get(mDrawerList.getItemAtPosition(position).toString()));
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                } catch (Exception e) {
-                    Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
-        mDrawerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+      //  mDrawerList.addHeaderView(view);
+      //  mDrawerList.setAdapter(book);
+      //  mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       //     @Override
+        //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+       //         HashMap<String, String> map;
+       //         File toRead = new File(getApplicationContext().getFilesDir(), "bookmarks.oi");
+       //         try {
+       //             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toRead));
+       //             Object obj = ois.readObject();
+        //            ois.close();
+       //             map = (HashMap<String, String>) obj;
+        //            web.loadUrl(map.get(mDrawerList.getItemAtPosition(position).toString()));
+        //            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        //        } catch (Exception e) {}
+        //    }
+      //  });
+
+       /* mDrawerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(activity)
@@ -227,7 +214,7 @@ public class BeHeActivity extends ActionBarActivity implements UI {
                 alert.show();
                 return true;
             }
-        });
+        });*/
         mDrawerLayout.setDrawerElevation(20);
         web.setLayoutParams(new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
         swipeLayout.addView(web);

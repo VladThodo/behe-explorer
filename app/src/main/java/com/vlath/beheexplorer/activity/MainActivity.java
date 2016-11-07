@@ -112,7 +112,7 @@ public class MainActivity extends BeHeActivity {
 				startActivity(mSettings);
 				break;
 			case R.id.action_show:
-				super.mDrawerLayout.openDrawer(Gravity.LEFT);
+				startActivity(new Intent(this,BookmarkView.class));
 			break;
 
 			case R.id.action_book:
