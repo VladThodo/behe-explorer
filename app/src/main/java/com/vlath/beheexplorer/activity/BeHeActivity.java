@@ -1,5 +1,5 @@
 /*
- Copyright 2016 Vlad Todosin
+ Copyright (c) 2016 Vlad Todosin
 */
 
 package com.vlath.beheexplorer.activity;
