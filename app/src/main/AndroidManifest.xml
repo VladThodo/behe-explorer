@@ -46,6 +46,7 @@
         <activity android:name=".activity.Settings" android:parentActivityName=".activity.MainActivity"/>
         <activity android:name=".activity.ReadingActivity" android:parentActivityName=".activity.MainActivity"/>
         <activity android:name=".activity.BookmarkView" android:parentActivityName=".activity.MainActivity"/>
+        <activity android:name=".activity.TabActivity" android:parentActivityName=".activity.MainActivity"/>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>

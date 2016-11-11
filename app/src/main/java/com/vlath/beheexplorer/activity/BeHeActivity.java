@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -90,6 +91,7 @@ public class BeHeActivity extends ActionBarActivity implements UI {
     SwipeRefreshLayout swipeLayout;
     BeHeView web;
     Toolbar bar;
+    NavigationView navView;
     @Override
     public void onCreate(Bundle savedInstanceState){
      super.onCreate(savedInstanceState);
@@ -104,7 +106,7 @@ public class BeHeActivity extends ActionBarActivity implements UI {
         File toRead = new File(getApplicationContext().getFilesDir(),"bookmarks.oi");
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,mList);
         book = new TabAdapter(this,names,mDrawerList);
-
+        navView =(NavigationView)findViewById(R.id.navigation);
         try{
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toRead));
             Object obj = ois.readObject();
@@ -119,7 +121,6 @@ public class BeHeActivity extends ActionBarActivity implements UI {
         web = new BeHeView(this,activity,progressBar,false,txt);
         WebIconDatabase.getInstance().open(getDir("icons", MODE_PRIVATE).getPath());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-       // mDrawerList = (ListView) findViewById(R.id.drawer_list);
         mDrawerToggle = new ActionBarDrawerToggle(this,
                 mDrawerLayout,bar,
                 R.string.drawer_open,
@@ -137,11 +138,7 @@ public class BeHeActivity extends ActionBarActivity implements UI {
                     String str = txt.getText().toString();
                     if (str.contains("https://") == true) {
                         str = ((EditText) v).getText().toString().replace("https://", "<font color='#228B22'>https://</font>");
-                        Bitmap original = BitmapFactory.decodeResource(context.getResources(), R.drawable.safe);
-                        Bitmap b = Bitmap.createScaledBitmap(original, 24, 24, false);
-                        Drawable d = new BitmapDrawable(context.getResources(), b);
-                        txt.setText(Html.fromHtml(str), TextView.BufferType.SPANNABLE);
-                        txt.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+
                     } else {
                         txt.setText(web.getUrl());
                     }
@@ -149,72 +146,7 @@ public class BeHeActivity extends ActionBarActivity implements UI {
             }
         });
 
-      //  mDrawerList.addHeaderView(view);
-      //  mDrawerList.setAdapter(book);
-      //  mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-       //     @Override
-        //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-       //         HashMap<String, String> map;
-       //         File toRead = new File(getApplicationContext().getFilesDir(), "bookmarks.oi");
-       //         try {
-       //             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toRead));
-       //             Object obj = ois.readObject();
-        //            ois.close();
-       //             map = (HashMap<String, String>) obj;
-        //            web.loadUrl(map.get(mDrawerList.getItemAtPosition(position).toString()));
-        //            mDrawerLayout.closeDrawer(Gravity.LEFT);
-        //        } catch (Exception e) {}
-        //    }
-      //  });
 
-       /* mDrawerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(activity)
-
-                        .setMessage(R.string.delete_dialog)
-                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                HashMap<String, String> map = new HashMap<String, String>();
-                                try {
-
-                                    File toWrite = new File(getApplicationContext().getFilesDir(), "bookmarks.oi");
-                                    if (toWrite.exists()) {
-                                        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toWrite));
-                                        Object obj = ois.readObject();
-                                        ois.close();
-                                        HashMap<String, String> mHash = (HashMap<String, String>) obj;
-                                        map = mHash;
-                                        map.remove(mDrawerList.getItemAtPosition(position));
-                                        names.clear();
-                                        names.addAll(map.keySet());
-                                        book.notifyDataSetChanged();
-                                        toWrite.delete();
-                                    } else {
-
-                                    }
-                                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(toWrite));
-                                    oos.writeObject(map);
-                                    oos.flush();
-                                    oos.close();
-
-                                } catch (Exception e) {
-
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                alert.create();
-                alert.show();
-                return true;
-            }
-        });*/
         mDrawerLayout.setDrawerElevation(20);
         web.setLayoutParams(new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
         swipeLayout.addView(web);
@@ -316,6 +248,8 @@ public class BeHeActivity extends ActionBarActivity implements UI {
         else{
             web.loadUrl(new PreferenceUtils(this).getHomePage());
         }
+
+       navView.inflateMenu(R.menu.main);
     }
 
        public void onSubmit(){
