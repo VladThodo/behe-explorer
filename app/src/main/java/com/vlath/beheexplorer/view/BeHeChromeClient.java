@@ -5,6 +5,7 @@ package com.vlath.beheexplorer.view;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -27,10 +28,12 @@ public class BeHeChromeClient extends WebChromeClient {
     @Override
     public void onProgressChanged(WebView view,int newProgress){
        if(newProgress < 100){
+           PBar.setVisibility(View.VISIBLE);
            PBar.setProgress(view.getProgress());
        }
       else {
            PBar.setProgress(0);
+           PBar.setVisibility(View.GONE);
        }
     }
     @Override

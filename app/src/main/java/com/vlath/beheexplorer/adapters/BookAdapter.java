@@ -22,10 +22,12 @@ public class BookAdapter extends BaseAdapter {
     private Context mContext;
     ArrayList<String>    names;
     Activity main;
-    public BookAdapter(Context c, ArrayList<String> etc,Activity mActivity) {
+    ArrayList<String>    urls;
+    public BookAdapter(Context c, ArrayList<String> etc,ArrayList<String> url,Activity mActivity) {
         mContext = c;
         names = etc;
         main = mActivity;
+        urls = url;
     }
 
 
@@ -44,19 +46,25 @@ public class BookAdapter extends BaseAdapter {
     }
 
     public View getView(int position,View convertView, ViewGroup parent) {
-        View myView;
+        View myView = convertView;
         if (convertView == null) {
-            LayoutInflater li = ((Activity) mContext).getLayoutInflater();
-            myView = li.inflate(R.layout.bookmarkitem, null);
-            ImageView img = (ImageView) myView.findViewById(R.id.img2);
-            TextView txt = (TextView) myView.findViewById(R.id.txt2);
-            ColorGenerator gen = ColorGenerator.MATERIAL;
-            int col = gen.getRandomColor();
-            TextDrawable drawable = TextDrawable.builder()
-                    .buildRound(String.valueOf(names.get(position).charAt(0)), col);
-            img.setImageDrawable(drawable);
-            txt.setText(names.get(position));
-        } else {
+          try {
+              LayoutInflater li = ((Activity) mContext).getLayoutInflater();
+              myView = li.inflate(R.layout.bookmarkitem, null);
+              ImageView img = (ImageView) myView.findViewById(R.id.img2);
+              TextView txt = (TextView) myView.findViewById(R.id.txt2);
+              TextView url = (TextView) myView.findViewById(R.id.txt3);
+              ColorGenerator gen = ColorGenerator.MATERIAL;
+              int col = gen.getColor(urls.get(position));
+              TextDrawable drawable = TextDrawable.builder()
+                      .buildRound(String.valueOf(names.get(position).charAt(0)), col);
+              img.setImageDrawable(drawable);
+              txt.setText(names.get(position));
+              String n = urls.get(position).substring(0, Math.min(urls.get(position).length(), 10));
+              url.setText(n + "...");
+          }
+          catch(Exception e){}
+          } else {
             myView = (View) convertView;
         }
 

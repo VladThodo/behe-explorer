@@ -36,11 +36,8 @@ public class BeHeWebClient extends WebViewClient {
         String str;
        if(view.getUrl().contains("https://")) {
            str = view.getUrl().toString().replace("https://", "<font color='#228B22'>https://</font>");
-           Bitmap original = BitmapFactory.decodeResource(ACTIVITY.getResources(), R.drawable.safe);
-           Bitmap b = Bitmap.createScaledBitmap(original, 24, 24, false);
-           Drawable d = new BitmapDrawable(ACTIVITY.getResources(), b);
            TEXT.setText(Html.fromHtml(str), TextView.BufferType.SPANNABLE);
-           TEXT.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+
        }
        else{
            if(view.getFavicon() != null){

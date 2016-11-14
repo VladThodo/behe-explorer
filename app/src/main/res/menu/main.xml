@@ -4,7 +4,7 @@
     tools:context="com.vlath.beheexplorer.activity.MainActivity">
     <item android:id="@+id/action_home"
         android:title=""
-        android:icon="@drawable/home"
+        android:icon="@drawable/ic_home_black_24dp"
         android:orderInCategory="1"
         app:showAsAction="always" />
     <item android:id="@+id/action_show"

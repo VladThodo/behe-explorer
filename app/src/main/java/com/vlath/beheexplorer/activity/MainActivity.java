@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -135,28 +136,35 @@ public class MainActivity extends BeHeActivity {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int id) {
 										HashMap<String,String> map = new HashMap<>();
-                                       try{
-										result = userInput.getText().toString();
-										   File toWrite = new File(getApplicationContext().getFilesDir(),"bookmarks.oi");
-										   if(toWrite.exists()){
-											ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toWrite));
-										    Object obj = ois.readObject();
-											ois.close();
-											HashMap<String,String> mHash = (HashMap<String,String>) obj;
-											map.putAll(mHash);
-											map.put(result,web.getUrl());
+                                       try {
+										   result = userInput.getText().toString();
+										   File toWrite = new File(getApplicationContext().getFilesDir(), "bookmarks.oi");
+										   if (toWrite.exists()) {
+											   ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toWrite));
+											   Object obj = ois.readObject();
+											   ois.close();
+											   HashMap<String, String> mHash = (HashMap<String, String>) obj;
+											   map.putAll(mHash);
+											   map.put(result, web.getUrl());
 
-										    }
-									       else{
-										   map.put(result,web.getUrl());
+										   } else {
+											   map.put(result, web.getUrl());
 										   }
-									       ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(toWrite));
-									       oos.writeObject(map);
+										   ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(toWrite));
+										   oos.writeObject(map);
 										   oos.flush();
 										   oos.close();
-										   names.add(result);
-									       book.notifyDataSetChanged();
-									        }
+
+										   Snackbar.make(web, "Adaugat", Snackbar.LENGTH_LONG)
+										           .setAction("Vedeti", new View.OnClickListener() {
+													   @Override
+													   public void onClick(View view) {
+														   Intent iu = new Intent(getApplicationContext(),BookmarkView.class);
+														   startActivity(iu);
+													   }
+												   })
+												   .show();
+									   }
 									   catch(Exception ee){
 
 									   }
@@ -170,6 +178,7 @@ public class MainActivity extends BeHeActivity {
 						});
 				AlertDialog alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
+
 				break;
 			case R.id.action_home:
 				super.web.loadUrl(new PreferenceUtils(this).getHomePage());
@@ -178,13 +187,9 @@ public class MainActivity extends BeHeActivity {
 				web.stopLoading();
 				break;
 			case R.id.action_pic:
-				Intent photoPickerIntent = new Intent(Intent.ACTION_PICK,
-						android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				photoPickerIntent.setType("image/*");
-				photoPickerIntent.putExtra("crop", "true");
-				photoPickerIntent.putExtra("return-data", true);
-				photoPickerIntent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
-				startActivityForResult(photoPickerIntent, 2);
+				Intent iu = new Intent(this,TabActivity.class);
+				startActivity(iu);
+
 				break;
 			case R.id.action_show_history:
 				HystoryTask task = new HystoryTask(MainActivity.this,web);

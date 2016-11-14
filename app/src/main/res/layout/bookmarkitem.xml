@@ -8,8 +8,9 @@
         android:id="@+id/img2"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="6sp"
+        android:layout_centerInParent="false"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
         />
 
     <TextView
@@ -20,8 +21,20 @@
         android:layout_below="@id/img2"
         android:layout_centerHorizontal="true"
         android:singleLine="true"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="10dp"
         android:text=""
         android:textSize="12sp"
         android:textStyle="" />
+    <TextView
+        android:id="@+id/txt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt2"
+        android:layout_centerHorizontal="true"
+        android:singleLine="true"
+        android:layout_marginTop="0dp"
+        android:text=""
+        android:textSize="12sp"
+        android:textStyle="" />
+
 </RelativeLayout>
