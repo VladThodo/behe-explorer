@@ -5,6 +5,7 @@ package com.vlath.beheexplorer.view;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -16,14 +17,12 @@ import com.vlath.beheexplorer.utils.PreferenceUtils;
 
 
 public class BeHeChromeClient extends WebChromeClient {
-    boolean ICON;
     private ProgressBar PBar;
-    private BeHeActivity ACTIVITY;
-    public BeHeChromeClient(BeHeActivity activity,ProgressBar pBar){
+    private ActionBarActivity ACTIVITY;
+    public BeHeChromeClient(ProgressBar pBar){
     super();
-        ACTIVITY = activity;
+
         PBar = pBar;
-        ICON = new PreferenceUtils(activity).getDisplayPageIcon();
     }
     @Override
     public void onProgressChanged(WebView view,int newProgress){

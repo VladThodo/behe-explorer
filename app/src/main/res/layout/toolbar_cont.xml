@@ -34,6 +34,7 @@
         android:textCursorDrawable="@null"/>
     <Button
         android:layout_gravity="right|center_vertical"
+        android:id="@+id/voice"
         android:text=""
         android:onClick="voice"
         android:background="@drawable/ic_mic_none_black_24dp"

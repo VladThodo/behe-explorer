@@ -3,11 +3,13 @@
 */
 package com.vlath.beheexplorer.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.webkit.*;
 import android.widget.AutoCompleteTextView;
@@ -22,43 +24,27 @@ import com.vlath.beheexplorer.database.HistoryDatabase;
 import com.vlath.beheexplorer.utils.PreferenceUtils;
 
 public class BeHeWebClient extends WebViewClient {
-    private BeHeActivity ACTIVITY;
-    boolean ICON;
     private EditText TEXT;
-    public BeHeWebClient(BeHeActivity activity,EditText textView){
+    Activity act;
+    public BeHeWebClient(EditText textView,Activity ac){
       super();
       TEXT = textView;
-      ICON = new PreferenceUtils(activity).getDisplayPageIcon();
-      ACTIVITY = activity;
+      act = ac;
     }
     @Override
     public void onPageFinished(WebView view,String url) {
         String str;
-       if(view.getUrl().contains("https://")) {
-           str = view.getUrl().toString().replace("https://", "<font color='#228B22'>https://</font>");
-           TEXT.setText(Html.fromHtml(str), TextView.BufferType.SPANNABLE);
+        if (view.getUrl().contains("https://")) {
+            str = view.getUrl().toString().replace("https://", "<font color='#228B22'>https://</font>");
+            TEXT.setText(Html.fromHtml(str), TextView.BufferType.SPANNABLE);
+        }
 
+
+        DbItem dbItem = new DbItem(url, view.getTitle());
+        HistoryDatabase db = new HistoryDatabase(act);
+        db.addItem(dbItem);
+
+    }
        }
-       else{
-           if(view.getFavicon() != null){
-               Bitmap original = view.getFavicon();
-               Bitmap b = Bitmap.createScaledBitmap(original, 22, 22, false);
-               Drawable d = new BitmapDrawable(ACTIVITY.getResources(), b);
-               TEXT.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
-               TEXT.setText(view.getUrl());
-           }
-           else{
-               TEXT.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-               TEXT.setText(view.getUrl());
-           }
-       }
-       if(!ACTIVITY.getBeHeView().isPrivate()) {
-           DbItem dbItem = new DbItem(url, view.getTitle());
-           HistoryDatabase db = new HistoryDatabase(ACTIVITY);
-           db.addItem(dbItem);
-       }
-        else{
-       }
-       }
-}
+
 

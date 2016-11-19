@@ -18,7 +18,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,6 +42,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -54,6 +57,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Handler;
 
+import com.vlath.beheexplorer.fragment.WebFragment;
 import com.vlath.beheexplorer.utils.HystoryTask;
 import com.vlath.beheexplorer.utils.PreferenceUtils;
 import com.vlath.beheexplorer.view.BeHeView;
@@ -64,58 +68,18 @@ import com.vlath.beheexplorer.R;
 @SuppressWarnings("deprecation")
 public class MainActivity extends BeHeActivity {
 
-
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		setTitle("");
 		getMenuInflater().inflate(R.menu.main, menu);
-		MenuItem desktop = menu.findItem(R.id.action_tabs);
-		desktop.setTitle(R.string.desktop);
-
-		desktop.setCheckable(true);
 		return true;
 	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
 		switch (item.getItemId()) {
-			case R.id.action_incognito:
-			if(!item.isChecked()) {
-				item.setChecked(true);
-				web.setPrivate(true);
-			}
-            else{
-				item.setChecked(false);
-				web.setPrivate(false);
-			}
-				break;
-
-			case R.id.action_tabs:
-				if (!item.isChecked()) {
-					item.setChecked(true);
-					web.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-				    web.reload();
-				}
-				else{
-					item.setChecked(false);
-					web.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
-				    web.reload();
-				}
-				break;
-
-			case R.id.action_pref:
-				Intent mSettings = new Intent(this, Settings.class);
-				startActivity(mSettings);
-				break;
-			case R.id.action_show:
-				startActivity(new Intent(this,BookmarkView.class));
-			break;
-
 			case R.id.action_book:
 				final Context context = this;
 				LayoutInflater li = LayoutInflater.from(context);
@@ -126,7 +90,7 @@ public class MainActivity extends BeHeActivity {
 				final EditText userInput = (EditText) promptsView
 						.findViewById(R.id.editTextDialogUserInput);
 				try {
-					userInput.setText(web.getTitle());
+				// userInput.setText(web.het);
 				} catch (Exception e) {
 					userInput.setText("Web Page");
 				}
@@ -145,22 +109,26 @@ public class MainActivity extends BeHeActivity {
 											   ois.close();
 											   HashMap<String, String> mHash = (HashMap<String, String>) obj;
 											   map.putAll(mHash);
-											   map.put(result, web.getUrl());
+											   map.put(result, txt.getText().toString());
 
 										   } else {
-											   map.put(result, web.getUrl());
+											   map.put(result, txt.getText().toString());
 										   }
 										   ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(toWrite));
 										   oos.writeObject(map);
 										   oos.flush();
 										   oos.close();
 
-										   Snackbar.make(web, "Adaugat", Snackbar.LENGTH_LONG)
+									   Snackbar.make(root, "Adaugat", Snackbar.LENGTH_LONG)
 										           .setAction("Vedeti", new View.OnClickListener() {
 													   @Override
-													   public void onClick(View view) {
-														   Intent iu = new Intent(getApplicationContext(),BookmarkView.class);
-														   startActivity(iu);
+
+												   public void onClick(View view) {
+														   BookmarkView fragment = new BookmarkView();
+														   android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+														   fragmentTransaction.setCustomAnimations(R.anim.enter,R.anim.exit);
+														   fragmentTransaction.replace(R.id.root, fragment);
+														   fragmentTransaction.commit();
 													   }
 												   })
 												   .show();
@@ -178,44 +146,78 @@ public class MainActivity extends BeHeActivity {
 						});
 				AlertDialog alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
-
+                navView.getMenu().getItem(2).setCheckable(true);
 				break;
 			case R.id.action_home:
-				super.web.loadUrl(new PreferenceUtils(this).getHomePage());
+	//			super.web.loadUrl(new PreferenceUtils(this).getHomePage());
 				break;
-			case R.id.action_stop:
-				web.stopLoading();
-				break;
-			case R.id.action_pic:
-				Intent iu = new Intent(this,TabActivity.class);
-				startActivity(iu);
 
-				break;
-			case R.id.action_show_history:
-				HystoryTask task = new HystoryTask(MainActivity.this,web);
-				Void[] v = null;
-				task.execute(v);
-				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-		@Override
-		public void onResume() {
-			super.onResume();
-			web.initializeSettings();
 
-		}
 
-		@Override
-		public void onPause() {
-			super.onPause();
-		}
 
 		@Override
 		protected void onPostCreate(Bundle savedInstanceState) {
 			super.onPostCreate(savedInstanceState);
 			mDrawerToggle.syncState();
+			navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
+				// This method will trigger on item Click of navigation menu
+				@Override
+				public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+
+					//Checking if the item is in checked state or not, if not make it in checked state
+					if (menuItem.isChecked())
+						menuItem.setChecked(false);
+					else menuItem.setChecked(true);
+					mDrawerLayout.closeDrawers();
+					switch (menuItem.getItemId()) {
+						case R.id.inbox:
+							clearBackStack();
+							btn = (Button)findViewById(R.id.voice);
+							btn.setVisibility(View.GONE);
+							txt.setText("Bookmarks");
+							BookmarkView fragment = new BookmarkView();
+							android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+							fragmentTransaction.setCustomAnimations(R.anim.enter,R.anim.exit);
+							fragmentTransaction.replace(R.id.root, fragment);
+							fragmentTransaction.commit();
+							return true;
+						case R.id.search:
+							clearBackStack();
+							btn = (Button)findViewById(R.id.voice);
+							btn.setVisibility(View.VISIBLE);
+							WebFragment web = new WebFragment();
+							web.setArgs(pBar,txt,activity);
+							android.support.v4.app.FragmentTransaction fragmenttransaction = getSupportFragmentManager().beginTransaction();
+							fragmenttransaction.setCustomAnimations(R.anim.enter,R.anim.exit);
+							fragmenttransaction.replace(R.id.root, web);
+							fragmenttransaction.commit();
+							return true;
+						case R.id.sett:
+							Intent ine = new Intent(getApplicationContext(),SettingsActivity.class);
+							ine.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(ine);
+							return true;
+
+						case R.id.history:
+							clearBackStack();
+							WebFragment webe = new WebFragment();
+							webe.setArgs(pBar,txt,activity);
+							webe.showHistory(true);
+							android.support.v4.app.FragmentTransaction fragmentransaction = getSupportFragmentManager().beginTransaction();
+							fragmentransaction.setCustomAnimations(R.anim.enter,R.anim.exit);
+							fragmentransaction.replace(R.id.root, webe);
+							fragmentransaction.commit();
+							return true;
+					}
+
+					return true;
+				}}
+			);
 		}
 
 		@Override
@@ -267,6 +269,13 @@ public class MainActivity extends BeHeActivity {
 					}).start();
 				}
 			}
+		}
+	}
+	private void clearBackStack() {
+		FragmentManager manager = getSupportFragmentManager();
+		if (manager.getBackStackEntryCount() > 0) {
+			FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+			manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
 		}
 	}
 }

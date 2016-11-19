@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
+import android.webkit.WebView;
 
 import com.vlath.beheexplorer.database.DbItem;
 import com.vlath.beheexplorer.database.HistoryDatabase;
@@ -22,7 +23,7 @@ import java.util.List;
 public class HystoryTask extends AsyncTask<Void,Void,Void> {
     private Context cont;
     private HistoryDatabase mDataBase;
-    private BeHeView mBeHeView;
+    private WebView mWebView;
     private String mFilePath;
     private static final String HEADING_1 = "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta content=\"en-us\" http-equiv=\"Content-Language\" /><meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"><title>";
     private static final String HEADING_2 = "</title></head><style>body { background: #E5E5E5; padding-top: 5px;}" +
@@ -40,10 +41,10 @@ public class HystoryTask extends AsyncTask<Void,Void,Void> {
     private static final String PART4 = "</p></div></div>";
 
     private static final String END = "</div></body></html>";
-    public HystoryTask(Context context,BeHeView view){
+    public HystoryTask(Context context,WebView view){
         cont = context;
         mDataBase = new HistoryDatabase(cont);
-        mBeHeView = view;
+        mWebView = view;
     }
     @Override
     protected Void doInBackground(Void... params) {
@@ -53,8 +54,8 @@ public class HystoryTask extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if (mBeHeView != null && mFilePath != null) {
-            mBeHeView.loadUrl(mFilePath);
+        if (mWebView != null && mFilePath != null) {
+            mWebView.loadUrl(mFilePath);
         }
     }
     @NonNull

@@ -5,55 +5,36 @@
     android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-   <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-     <include layout="@layout/toolbar_cont"
-           android:id="@+id/toolbar" />
-    <android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/swipe_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"   
-    android:layout_below="@+id/toolbar"
-    tools:context="com.vlath.beheexplorer.activity.MainActivity">
-    </android.support.v4.widget.SwipeRefreshLayout>
-       <com.vlath.beheexplorer.view.AnimatedProgressBar
-           android:layout_height="2dp"
-           android:layout_width="match_parent"
-           android:id="@+id/progressBar"
-           android:layout_below="@+id/toolbar"
-           />
-   </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar_cont"
+            android:id="@+id/toolbar"/>
+
+        <com.vlath.beheexplorer.view.AnimatedProgressBar
+            android:layout_height="2dp"
+            android:layout_width="match_parent"
+            android:id="@+id/progressBar"
+            android:layout_below="@id/toolbar"
+            />
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:id="@+id/root"
+            android:layout_below="@id/progressBar"
+            android:layout_height="match_parent" >
+        </RelativeLayout>
+    </RelativeLayout>
+
+
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/head"
-        app:menu="@menu/main">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:clickable="true"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/footer_item_1"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:text="Footer Item 1" />
-        <TextView
-            android:id="@+id/footer_item_2"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:text="Footer Item 2" />
-    </LinearLayout>
-
+        app:menu="@menu/nav">
 </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

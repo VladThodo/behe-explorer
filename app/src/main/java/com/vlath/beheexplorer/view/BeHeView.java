@@ -5,9 +5,11 @@
 
 package com.vlath.beheexplorer.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +40,7 @@ public class BeHeView extends WebView{
 	private int searchEngine;
 	private ProgressBar P_BAR;
 	private boolean ico ;
-	BeHeActivity WEB_ACTIVITY;
+	ActionBarActivity WEB_ACTIVITY;
 	EditText text;
 	private String PAGE_TITLE;
 	public static int GOOGLE_SEARCH = 1;
@@ -50,7 +52,7 @@ public class BeHeView extends WebView{
 	/*
 	* Public constructor of BeHeView
 	 */
-	public BeHeView(Context context,BeHeActivity activity,ProgressBar pBar,boolean Private,final EditText txt)  {
+	public BeHeView(Context context, ActionBarActivity activity, ProgressBar pBar, boolean Private, final EditText txt)  {
 		super(context);
 		theme = new ThemeUtils(activity);
 		isPrivate = Private;
@@ -68,8 +70,8 @@ public class BeHeView extends WebView{
 				return false;
 			}
 		});
-	setWebChromeClient(new BeHeChromeClient(WEB_ACTIVITY, P_BAR));
-	setWebViewClient(new BeHeWebClient(WEB_ACTIVITY, text));
+	setWebChromeClient(new BeHeChromeClient(P_BAR));
+	//setWebViewClient(new BeHeWebClient(text));
 	setDownloadListener(new CiobanDownloadListener(WEB_ACTIVITY, this));
 	}
 	/*

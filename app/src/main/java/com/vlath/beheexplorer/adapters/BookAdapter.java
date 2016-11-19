@@ -21,12 +21,10 @@ import java.util.ArrayList;
 public class BookAdapter extends BaseAdapter {
     private Context mContext;
     ArrayList<String>    names;
-    Activity main;
     ArrayList<String>    urls;
-    public BookAdapter(Context c, ArrayList<String> etc,ArrayList<String> url,Activity mActivity) {
+    public BookAdapter(Context c, ArrayList<String> etc,ArrayList<String> url) {
         mContext = c;
         names = etc;
-        main = mActivity;
         urls = url;
     }
 
@@ -37,7 +35,7 @@ public class BookAdapter extends BaseAdapter {
 
 
     public Object getItem(int position) {
-        return null;
+        return names.get(position);
     }
 
 
@@ -55,7 +53,7 @@ public class BookAdapter extends BaseAdapter {
               TextView txt = (TextView) myView.findViewById(R.id.txt2);
               TextView url = (TextView) myView.findViewById(R.id.txt3);
               ColorGenerator gen = ColorGenerator.MATERIAL;
-              int col = gen.getColor(urls.get(position));
+              int col = gen.getColor(names.get(position));
               TextDrawable drawable = TextDrawable.builder()
                       .buildRound(String.valueOf(names.get(position).charAt(0)), col);
               img.setImageDrawable(drawable);

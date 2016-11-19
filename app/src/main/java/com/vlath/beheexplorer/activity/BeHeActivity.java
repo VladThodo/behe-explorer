@@ -4,122 +4,54 @@
 
 package com.vlath.beheexplorer.activity;
 
-import android.app.WallpaperManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.Html;
-import android.text.TextWatcher;
-import android.util.Patterns;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebIconDatabase;
-import android.webkit.WebSettings;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.vlath.beheexplorer.adapters.TabAdapter;
 import com.vlath.beheexplorer.controllers.UI;
-import com.vlath.beheexplorer.utils.PreferenceUtils;
-import com.vlath.beheexplorer.view.AnimatedProgressBar;
-import com.vlath.beheexplorer.view.BeHeView;
+import com.vlath.beheexplorer.fragment.WebFragment;
 import com.vlath.beheexplorer.R;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-
+import com.vlath.beheexplorer.view.AnimatedProgressBar;
 @SuppressWarnings("deprecation")
 public class BeHeActivity extends ActionBarActivity implements UI {
-    Context context = this;
     private boolean _doubleBackToExitPressedOnce    = false;
+    RelativeLayout root;
     BeHeActivity activity = this;
     String result;
-    Set<String> list;
-    ArrayList<String> mList = new ArrayList<String>();
-    ArrayList<String> names = new ArrayList<String>();
-    TabAdapter book;
-    HashMap<String,String> recent = new HashMap<String,String>();
     ImageView view;
-    boolean delete;
-    boolean java;
-    MenuItem desktop;
-    String bookmark;
-    EditText txt;
-    private String[] mPlanetTitles;
     public DrawerLayout mDrawerLayout;
-    ArrayAdapter<String> adapter;
-    boolean ico;
-    ListView mDrawerList;
-    String READ = "";
     android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
-    SwipeRefreshLayout swipeLayout;
-    BeHeView web;
+    EditText txt;
     Toolbar bar;
+    Button btn;
     NavigationView navView;
+    AnimatedProgressBar pBar;
     @Override
     public void onCreate(Bundle savedInstanceState){
      super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bar = (Toolbar) findViewById(R.id.toolbar);
-        txt = (EditText) findViewById(R.id.edit);
+        txt = (EditText)findViewById(R.id.edit);
+        pBar = (AnimatedProgressBar) findViewById(R.id.progressBar);
+        WebFragment fragment = new WebFragment();
+        fragment.setArgs(pBar,txt,activity);
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.root, fragment);
+        fragmentTransaction.commit();
         setSupportActionBar(bar);
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        final AnimatedProgressBar progressBar = (AnimatedProgressBar)findViewById(R.id.progressBar);
-        progressBar.setMaxWithAnim(100);
-        progressBar.setMax(100);
-        File toRead = new File(getApplicationContext().getFilesDir(),"bookmarks.oi");
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,mList);
-        book = new TabAdapter(this,names,mDrawerList);
+        btn = (Button)findViewById(R.id.voice);
+        root = (RelativeLayout) findViewById(R.id.root);
         navView =(NavigationView)findViewById(R.id.navigation);
-        try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(toRead));
-            Object obj = ois.readObject();
-            ois.close();
-            HashMap<String,String> map = (HashMap<String,String>) obj;
-            names.addAll(map.keySet());
-        }
-        catch(Exception e){
-
-        }
-
-        web = new BeHeView(this,activity,progressBar,false,txt);
-        WebIconDatabase.getInstance().open(getDir("icons", MODE_PRIVATE).getPath());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this,
                 mDrawerLayout,bar,
@@ -130,177 +62,34 @@ public class BeHeActivity extends ActionBarActivity implements UI {
 
             }
         };
-        txt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    txt.setText(web.getUrl());
-                    String str = txt.getText().toString();
-                    if (str.contains("https://") == true) {
-                        str = ((EditText) v).getText().toString().replace("https://", "<font color='#228B22'>https://</font>");
-
-                    } else {
-                        txt.setText(web.getUrl());
-                    }
-                }
-            }
-        });
-
-
         mDrawerLayout.setDrawerElevation(20);
-        web.setLayoutParams(new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.MATCH_PARENT));
-        swipeLayout.addView(web);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-
-            @Override
-            public void onRefresh() {
-                if (swipeLayout.canChildScrollUp() == false) {
-                    new Handler().postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            web.reload();
-                            swipeLayout.setRefreshing(false);
-                        }
-                    }, 1000);
-                    swipeLayout.setColorScheme(
-                            android.R.color.holo_blue_light,
-                            android.R.color.holo_blue_dark
-                    );
-                }
-            }
-
-        });
-
-        txt.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (txt.isFocused()) {
-                    try {
-                        mList.addAll(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("recent", null));
-                        adapter.notifyDataSetChanged();
-                    } catch (Exception e) {
-
-                    }
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        txt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    String toSearch;
-                    toSearch = txt.getText().toString();
-
-                    if (Patterns.WEB_URL.matcher(toSearch).matches()) {
-                        if (toSearch.contains("https://")) {
-                            web.loadUrl("https://" + txt.getText().toString());
-                        } else {
-                            web.loadUrl(txt.getText().toString(), null);
-                        }
-
-                        View view = activity.getCurrentFocus();
-                        if (view != null) {
-                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                        }
-                        web.requestFocus();
-                        return true;
-                    } else {
-                        web.searchWeb(txt.getText().toString());
-                        View view = activity.getCurrentFocus();
-                        if (view != null) {
-                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                        }
-                        web.requestFocus();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        PreferenceUtils utils = new PreferenceUtils(getApplicationContext());
-        web.setSearchEngine(PreferenceUtils.getSearchEngine());
-        web.initializeSettings();
-		boolean ic = PreferenceUtils.getDisplayPageIcon();
-		ico = ic;
-        web.setIcon(ico);
         if(getIntent().getData() != null){
-            web.loadUrl(getIntent().getData().toString());
         }
         else{
-            web.loadUrl(new PreferenceUtils(this).getHomePage());
         }
-
-       navView.inflateMenu(R.menu.main);
     }
-
-       public void onSubmit(){
-           String toSearch;
-           toSearch = txt.getText().toString();
-
-           if (Patterns.WEB_URL.matcher(toSearch).matches()) {
-               if (!toSearch.contains("https://")) {
-                   web.loadUrl("https://" + txt.getText().toString());
-               } else {
-                   web.loadUrl(txt.getText().toString(), null);
-               }
-
-               View view = activity.getCurrentFocus();
-               if (view != null) {
-                   InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                   imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-               }
-               web.requestFocus();
-
-           } else {
-               web.search(txt.getText().toString());
-               View view = activity.getCurrentFocus();
-               if (view != null) {
-                   InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                   imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-               }
-               web.requestFocus();
-           }
-       }
-        public BeHeView getBeHeView(){
-            return web;
-        }
         @Override
         public void onBackPressed() {
-            if (web.canGoBack() == false){
                 if (_doubleBackToExitPressedOnce) {
                     super.onBackPressed();
-                    return;
+                    this.finish();
                 }
-            this._doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Press again to quit", Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
+            else {
+                    this._doubleBackToExitPressedOnce = true;
+                    Toast.makeText(this, "Press again to quit", Toast.LENGTH_SHORT).show();
+                }
+           new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
-                    _doubleBackToExitPressedOnce = false;
+                   _doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
         }
-     }
+
 
     @Override
     public void initializeTheme() {
@@ -319,6 +108,9 @@ public class BeHeActivity extends ActionBarActivity implements UI {
    @Override
    public void onDestroy(){
        super.onDestroy();
-       web.destroy();
+
    }
+
+
+
 }
