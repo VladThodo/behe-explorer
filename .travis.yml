@@ -3,7 +3,7 @@ sudo: false
 android:
   components:
     - tools
-    - build-tools-24.0.0
+    - build-tools-23.0.0
     - build-tools-24.0.0
     - android-24
     - android-23
@@ -18,4 +18,6 @@ before_install:
 install:
   - ./gradlew
 script:
+  
   - ./gradlew assembleDebug --stacktrace
+
