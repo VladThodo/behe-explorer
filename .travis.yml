@@ -12,10 +12,3 @@ android:
   licenses:
     - 'android-sdk-license-.+'
     - '.*intel.+'
-before_install:
-  - chmod +x gradlew
-  - git submodule update --init --recursive
-install:
-  - ./gradlew
-script:
-  - ./gradlew assembleDebug --stacktrace
