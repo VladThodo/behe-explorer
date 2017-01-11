@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.text.format.Formatter;
 import android.webkit.DownloadListener;
@@ -17,16 +18,12 @@ import android.webkit.URLUtil;
 import android.webkit.WebView;
 
 import com.vlath.beheexplorer.R;
-import com.vlath.beheexplorer.activity.BeHeActivity;
-import com.vlath.beheexplorer.controllers.TabManager;
-
-import java.text.MessageFormat;
 
 
 public class CiobanDownloadListener implements DownloadListener {
    private WebView view;
-    private BeHeActivity mActivity;
-    public CiobanDownloadListener(BeHeActivity activity,WebView web){
+    private ActionBarActivity mActivity;
+    public CiobanDownloadListener(ActionBarActivity activity,WebView web){
        super();
        mActivity = activity;
        view = web;

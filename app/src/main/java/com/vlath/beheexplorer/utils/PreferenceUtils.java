@@ -30,7 +30,7 @@ private static Context mContext;
         return color;
     }
     public  String getHomePage(){
-       return MANAGER.getDefaultSharedPreferences(mContext).getString("home_page","https://www.google.com");
+       return MANAGER.getDefaultSharedPreferences(mContext).getString("home_page","default");
     }
     public  boolean getJavaEnabled(){
     return MANAGER.getDefaultSharedPreferences(mContext).getBoolean("java", true);

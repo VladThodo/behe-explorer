@@ -5,22 +5,28 @@
 
 package com.vlath.beheexplorer.view;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Picture;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.os.Build;
+import android.preference.Preference;
+import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebSettings;
+import android.webkit.WebSettings;;
 import android.webkit.WebView;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-
-import com.vlath.beheexplorer.activity.BeHeActivity;
-import com.vlath.beheexplorer.activity.ReadingActivity;
+import android.widget.TextView;
+import com.vlath.beheexplorer.R;
+import com.vlath.beheexplorer.utils.HomePage;
+import com.vlath.beheexplorer.utils.HystoryTask;
 import com.vlath.beheexplorer.utils.PreferenceUtils;
 import com.vlath.beheexplorer.utils.ThemeUtils;
 
@@ -35,10 +41,11 @@ public class BeHeView extends WebView{
 	ThemeUtils theme;
 	private boolean isPrivate;
 	private String TEXT = "1";
-	private int searchEngine;
+	private int searchEngine = 1;
 	private ProgressBar P_BAR;
 	private boolean ico ;
-	BeHeActivity WEB_ACTIVITY;
+	private boolean FOCUS;
+	ActionBarActivity WEB_ACTIVITY;
 	EditText text;
 	private String PAGE_TITLE;
 	public static int GOOGLE_SEARCH = 1;
@@ -48,9 +55,13 @@ public class BeHeView extends WebView{
 	public static int ASK_SEARCH = 5;
 	public static int WOW_SEARCH = 6;
 	/*
-	* Public constructor of BeHeView
+	* Public constructors of BeHeView
 	 */
-	public BeHeView(Context context,BeHeActivity activity,ProgressBar pBar,boolean Private,final EditText txt)  {
+	public BeHeView(Context c,Activity activity){
+		super(c);
+		WEB_ACTIVITY = (ActionBarActivity) activity;
+	}
+	public BeHeView(Context context, ActionBarActivity activity, ProgressBar pBar, boolean Private, final EditText txt)  {
 		super(context);
 		theme = new ThemeUtils(activity);
 		isPrivate = Private;
@@ -68,39 +79,59 @@ public class BeHeView extends WebView{
 				return false;
 			}
 		});
-	setWebChromeClient(new BeHeChromeClient(WEB_ACTIVITY, P_BAR));
-	setWebViewClient(new BeHeWebClient(WEB_ACTIVITY, text));
+	setWebChromeClient(new BeHeChromeClient(P_BAR,this));
+	setWebViewClient(new BeHeWebClient(text,WEB_ACTIVITY,false,this));
 	setDownloadListener(new CiobanDownloadListener(WEB_ACTIVITY, this));
+	initializeSettings();
 	}
-	/*
-	* This method initializes the view settings and the view itself
-	 */
 	public void initializeSettings(){
+		PreferenceUtils utils = new PreferenceUtils(WEB_ACTIVITY);
+		WebSettings settings = getSettings();
+		settings.setDisplayZoomControls(false);
+		settings.setBuiltInZoomControls(true);
+		settings.setSupportMultipleWindows(true);
+		settings.setEnableSmoothTransition(true);
 		if (isPrivate){
 			CookieManager.getInstance().setAcceptCookie(false);
-			getSettings().setCacheMode(getSettings().LOAD_NO_CACHE);
-			getSettings().setAppCacheEnabled(false);
+			settings.setCacheMode(getSettings().LOAD_NO_CACHE);
+			settings.setAppCacheEnabled(false);
 			clearHistory();
 			clearCache(true);
 			clearFormData();
-			getSettings().setSavePassword(false);
-			getSettings().setSaveFormData(false);
+			settings.setSavePassword(false);
+			settings.setSaveFormData(false);
+			settings.setSupportZoom(true);
+			settings.setGeolocationEnabled(false);
+			settings.setAppCacheEnabled(false);
+			settings.setDatabaseEnabled(false);
+			settings.setDomStorageEnabled(false);
 			theme.setIncognitoTheme();
 		}
 		else {
-			PreferenceUtils utils = new PreferenceUtils(WEB_ACTIVITY.getApplicationContext());
-			getSettings().setJavaScriptEnabled(utils.getJavaEnabled());
-			getSettings().setAppCacheEnabled(utils.getCacheEnabled());
-			getSettings().setDefaultFontSize(utils.getTextSize());
-			getSettings().setDefaultFixedFontSize(utils.getTextSize());
-			setSearchEngine(utils.getSearchEngine());
+			settings.setJavaScriptEnabled(utils.getJavaEnabled());
+			settings.setDefaultFontSize(utils.getTextSize());
+			settings.setDefaultFixedFontSize(utils.getTextSize());
+			settings.setAppCacheEnabled(false);
+			settings.setDatabaseEnabled(false);
+			settings.setDomStorageEnabled(false);
+			settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 			theme.setTheme();
 			if (utils.getPluginsEnabled()) {
-				getSettings().setPluginState(WebSettings.PluginState.ON);
-			} else {
-				getSettings().setPluginState(WebSettings.PluginState.OFF);
+			    settings.setPluginState(WebSettings.PluginState.ON);
 			}
+			else
+				settings.setPluginState(WebSettings.PluginState.OFF);
+			}
+	     	settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+		    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+		     	setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		    } else {
+			    setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
+        searchEngine = utils.getSearchEngine();
+		settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+		settings.setAppCacheEnabled(false);
+	    WEB_ACTIVITY.registerForContextMenu(this);
 	}
 	/*
 	* This method sets the current instance of the BeHeView to go private or not
@@ -120,60 +151,6 @@ public class BeHeView extends WebView{
 	}
 	else{
 		theme.setTheme();
-		}
-
-
-	}
-
-	/*
-	* The app doesn't show page's icon instead of the actionbar toggle image anymore
-	* I took this decision because that design looked ugly
-	* Also,this method won't be avalabile in BeHeView 1.0.02
-	* No substitution for it will be provided
-	 */
-	@Deprecated
-	public void setIcon(boolean flag){
-		ico = flag;
-	}
-	/*
-	*  TODO use initializeSettings() instead
-	 */
-	@Deprecated
-	public void initialize(boolean javaScript,boolean plugins,boolean cache,int textSize){
-
-	}
-	public void setSearchEngine(int search){
-	  searchEngine = search; 
-   }
-    /*
-	* This method has a very bad handling of white spaces and can cause bad errors
-	* Also it won't be avalabile for use in BeHeView version 1.0.0.2
-	* Please use searchWeb() instead
-	*/
-	@Deprecated
-	public void search(String searchQuery) {
-		if(searchEngine == 1) {
-			String google = "https://www.google.com/search?q=" + searchQuery;
-			loadUrl(google);
-		}
-		if (searchEngine == 2) {
-			String bing = "http://www.bing.com/search?q=" + searchQuery;
-			loadUrl(bing);
-		}
-		if (searchEngine == 3) {
-			String yahoo = "https://search.yahoo.com/search?p=" + searchQuery;
-			loadUrl(yahoo);
-		}
-		if (searchEngine == 4) {
-			String duck = "https://duckduckgo.com/?q=" + searchQuery;
-			loadUrl(duck);
-		}
-		if (searchEngine == 5) {
-			String ask = "http://www.ask.com/web?q=" + searchQuery;
-		}
-		if (searchEngine == 6) {
-			String wow = "http://www.wow.com/search?s_it=search-thp&v_t=na&q=" + searchQuery;
-			loadUrl(wow);
 		}
 	}
 	public void searchWeb(String query){
@@ -231,6 +208,37 @@ public class BeHeView extends WebView{
 	  this.setVisibility(View.GONE);
 	  this.removeAllViews();
 	  this.destroyDrawingCache();
+	  super.destroy();
+	}
+	public void loadHomepage(){
+		PreferenceUtils utils = new PreferenceUtils(WEB_ACTIVITY);
+		if(utils.getHomePage().equals("default")) {
+			HomePage page = new HomePage(this, WEB_ACTIVITY.getApplication());
+			Void[] b = null;
+			page.execute(b);
+			text.setText(Html.fromHtml("<font color='#228B22'>" + getResources().getString(R.string.home) + "</font>"), TextView.BufferType.SPANNABLE);
+		}
+	    else{
+			loadUrl(utils.getHomePage());
+		}
+	}
+	public void setDesktop(){
+		getSettings().setDisplayZoomControls(true);
+		getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36");
+		setInitialScale(-10);
+		getSettings().setBuiltInZoomControls(true);
+		reload();
+	}
+	public void setMobile(){
+		getSettings().setDisplayZoomControls(false);
+		getSettings().setUserAgentString("Mozilla/5.0 (Linux; <Android Version>; <Build Tag etc.>) AppleWebKit/<WebKit Rev> (KHTML, like Gecko) Chrome/<Chrome Rev> Mobile Safari/<WebKit Rev> ");
+		setInitialScale(0);
+		reload();
+	}
+	public void loadHistory(){
+		HystoryTask task = new HystoryTask(WEB_ACTIVITY,this);
+		Void[] va = null;
+		task.execute(va);
 	}
 	class IJavascriptHandler {
 		Context mContext;
@@ -240,13 +248,47 @@ public class BeHeView extends WebView{
 		@JavascriptInterface
 		public void processContent(String aContent,String title) {
 			final String content = aContent;
-			Intent mReading = new Intent(WEB_ACTIVITY, ReadingActivity.class);
-		    mReading.putExtra("text",content);
-			mReading.putExtra("title",title);
-			WEB_ACTIVITY.startActivity(mReading);
+			//Intent mReading = new Intent(WEB_ACTIVITY, ReadingActivity.class);
+		 //   mReading.putExtra("text",content);
+		//	mReading.putExtra("title",title);
+		//	WEB_ACTIVITY.startActivity(mReading);
 		}
 	}
+    public void loadHistoty(){
+		HystoryTask task = new HystoryTask(this.getContext(),this);
+		Void[] d = null;
+		task.execute(d);
+	}
+    public void setTitle(){
+		if(getUrl().contains("file")){
+			text.setText(Html.fromHtml("<font color='#228B22'>" + getResources().getString(R.string.home) + "</font>"), TextView.BufferType.SPANNABLE);
+		}
+		else{
+			if(getUrl() != null){
+				text.setText(getUrl());
+			}
+		}
+
+	}
+    public Drawable getScreenshot(){
+		Picture pic = capturePicture();
+		PictureDrawable draw = new PictureDrawable(pic);
+		return draw;
+	}
+    public boolean isCurrentTab(){
+		return FOCUS;
+	}
+    public void setIsCurrentTab(boolean focus){
+		FOCUS = focus;
+	}
+    public void setSearchEngine(int engine){
+		searchEngine = engine;
+	}
+    public Activity getActivity(){
+		return WEB_ACTIVITY;
+	}
 }
+
 
 
 

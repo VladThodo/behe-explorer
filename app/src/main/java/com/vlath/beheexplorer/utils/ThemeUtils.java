@@ -5,13 +5,11 @@ package com.vlath.beheexplorer.utils;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-
-import com.vlath.beheexplorer.activity.BeHeActivity;
-import com.vlath.beheexplorer.activity.MainActivity;
+import android.support.v7.app.ActionBarActivity;
 
 public class ThemeUtils {
-   private static BeHeActivity THEME_ACTIVITY;
-    public ThemeUtils(BeHeActivity activity){
+   private static ActionBarActivity THEME_ACTIVITY;
+    public ThemeUtils(ActionBarActivity activity){
         THEME_ACTIVITY = activity;
     }
     public  void setTheme() {

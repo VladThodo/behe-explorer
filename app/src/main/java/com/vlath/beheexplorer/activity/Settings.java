@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import com.vlath.beheexplorer.R;
 import com.vlath.beheexplorer.fragment.PreferenceFragment;
 import com.vlath.beheexplorer.utils.PreferenceUtils;
-import com.vlath.beheexplorer.utils.ThemeUtils;
 
 
 @SuppressWarnings("deprecation")

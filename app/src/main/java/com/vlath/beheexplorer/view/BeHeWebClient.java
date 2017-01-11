@@ -3,62 +3,86 @@
 */
 package com.vlath.beheexplorer.view;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.Html;
 import android.webkit.*;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vlath.beheexplorer.R;
-import com.vlath.beheexplorer.activity.BeHeActivity;
 import com.vlath.beheexplorer.database.DbItem;
 import com.vlath.beheexplorer.database.HistoryDatabase;
-import com.vlath.beheexplorer.utils.PreferenceUtils;
 
 public class BeHeWebClient extends WebViewClient {
-    private BeHeActivity ACTIVITY;
-    boolean ICON;
     private EditText TEXT;
-    public BeHeWebClient(BeHeActivity activity,EditText textView){
+    Activity act;
+    BeHeView mainView;
+    boolean priv;
+    public BeHeWebClient(EditText textView,Activity ac,boolean privat,BeHeView view){
       super();
       TEXT = textView;
-      ICON = new PreferenceUtils(activity).getDisplayPageIcon();
-      ACTIVITY = activity;
+      act = ac;
+      priv = privat;
+      mainView = view;
     }
+
+
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+       if(mainView.isCurrentTab()) {
+           String str;
+           if (view.getUrl().contains("https://")) {
+               str = view.getUrl().toString().replace("https://", "<font color='#228B22'>https://</font>");
+               TEXT.setText(Html.fromHtml(str), TextView.BufferType.SPANNABLE);
+               TEXT.clearFocus();
+           } else {
+               if (!view.getUrl().contains("file")) {
+                   TEXT.setText(view.getUrl());
+               }
+           }
+       }
+     }
+
     @Override
     public void onPageFinished(WebView view,String url) {
-        String str;
-       if(view.getUrl().contains("https://")) {
-           str = view.getUrl().toString().replace("https://", "<font color='#228B22'>https://</font>");
-           TEXT.setText(Html.fromHtml(str), TextView.BufferType.SPANNABLE);
-
-       }
-       else{
-           if(view.getFavicon() != null){
-               Bitmap original = view.getFavicon();
-               Bitmap b = Bitmap.createScaledBitmap(original, 22, 22, false);
-               Drawable d = new BitmapDrawable(ACTIVITY.getResources(), b);
-               TEXT.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
-               TEXT.setText(view.getUrl());
+       if(mainView.isCurrentTab()) {
+           String str;
+           if (mainView.isPrivate()) {
+            mainView.clearCache(true);
+            WebStorage storage = WebStorage.getInstance();
+               storage.deleteAllData();
+           } else {
+               DbItem dbItem = new DbItem(url, view.getTitle());
+               HistoryDatabase db = new HistoryDatabase(act);
+               db.addItem(dbItem);
+               mainView.clearCache(true);
            }
-           else{
-               TEXT.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-               TEXT.setText(view.getUrl());
+           if (view.getUrl().contains("https://")) {
+               str = view.getUrl().toString().replace("https://", "<font color='#228B22'>https://</font>");
+               TEXT.setText(Html.fromHtml(str), TextView.BufferType.SPANNABLE);
+               TEXT.clearFocus();
+           } else {
+               if (!view.getUrl().contains("file")) {
+                   TEXT.setText(view.getUrl());
+               }
            }
        }
-       if(!ACTIVITY.getBeHeView().isPrivate()) {
-           DbItem dbItem = new DbItem(url, view.getTitle());
-           HistoryDatabase db = new HistoryDatabase(ACTIVITY);
-           db.addItem(dbItem);
-       }
-        else{
-       }
-       }
+       view.clearCache(true);
+    }
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+      if(url.startsWith("http") || url.startsWith("file")){
+          return false;
+      }
+      else{
+          Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
+          mainView.getActivity().startActivity(Intent.createChooser(intent,mainView.getActivity().getResources().getString(R.string.share)));
+          return true;
+      }
+    }
 }
+
 
