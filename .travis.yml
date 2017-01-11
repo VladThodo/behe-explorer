@@ -1,4 +1,4 @@
-Qlanguage: android
+language: android
 sudo: false
 android:
   components:
