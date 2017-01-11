@@ -11,8 +11,9 @@ android:
   licenses:
     - 'android-sdk-license-.+'
     - '.*intel.+'
-before_install:
--sudo apt-get update && sudo apt-get install oracle-java8-installer
+jdk:
+  - oraclejdk8
+  before_install:
 - chmod +x gradlew
   - git submodule update --init --recursive
 script:
