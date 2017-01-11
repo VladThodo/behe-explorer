@@ -15,5 +15,5 @@ before_install:
   - git submodule update --init --recursive
 script:
   
-  - ./gradlew build check
+  - ./gradlew 
 
