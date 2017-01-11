@@ -11,7 +11,7 @@ android {
 
         applicationId 'com.vlath.beheexplorer'
         minSdkVersion 14
-        targetSdkVersion 19
+        targetSdkVersion 23
         versionCode 20001
         versionName "2.0.0"
     }
