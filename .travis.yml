@@ -1,4 +1,4 @@
-language: android
+Qlanguage: android
 sudo: false
 android:
   components:
@@ -12,7 +12,8 @@ android:
     - 'android-sdk-license-.+'
     - '.*intel.+'
 before_install:
-  - chmod +x gradlew
+-sudo apt-get update && sudo apt-get install oracle-java8-installer
+- chmod +x gradlew
   - git submodule update --init --recursive
 script:
   
