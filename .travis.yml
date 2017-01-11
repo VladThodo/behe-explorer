@@ -17,5 +17,5 @@ install:
   - ./gradlew
 script:
   
-  - ./gradlew assembleDebug --stacktrace
+  - ./gradlew :app:assembleDebug 
 
