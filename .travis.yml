@@ -13,8 +13,7 @@ android:
 before_install:
   - chmod +x gradlew
   - git submodule update --init --recursive
-install:
 script:
   
-  - ./gradlew 
+  - ./gradlew build check
 
