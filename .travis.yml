@@ -1,5 +1,5 @@
 language: android
-sudo: false
+sudo: required
 android:
   components:
     - tools
@@ -14,7 +14,8 @@ android:
 jdk:
   - oraclejdk8
   before_install:
-- chmod +x gradlew
+  - sudo apt-get update && sudo apt-get install oracle-java8-installer
+  - chmod +x gradlew
   - git submodule update --init --recursive
 script:
   
