@@ -51,6 +51,9 @@
         <string name="download_picture">Download image</string>
         <string name="save_link">Copy link</string>
         <string name="share">Share</string>
+        <string name="lock">Lock right navigation drawer</string>
+        <string name="find">Find text</string>
+        <string name="action_find">Find in page</string>
     <string-array name="color">
     <item name = "1">White</item>
     <item name ="2">Grey</item>

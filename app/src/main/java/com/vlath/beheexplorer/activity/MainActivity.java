@@ -69,6 +69,7 @@ import android.os.Handler;
 import com.vlath.beheexplorer.adapters.BookAdapter;
 import com.vlath.beheexplorer.controllers.TabManager;
 import com.vlath.beheexplorer.database.HistoryDatabase;
+import com.vlath.beheexplorer.utils.PreferenceUtils;
 import com.vlath.beheexplorer.utils.ThemeUtils;
 import com.vlath.beheexplorer.view.AnimatedProgressBar;
 import com.vlath.beheexplorer.view.BeHeView;
@@ -101,48 +102,10 @@ public class MainActivity extends ActionBarActivity {
 	ArrayList<String> m = new ArrayList<>();
 	ArrayList<String> u = new ArrayList<>();
 	GridView mGrid;
+	PreferenceUtils preferenceUtils;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		activity = this;
-		bar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(bar);
-		txt = (EditText)findViewById(R.id.edit);
-		swipe = new SwipeRefreshLayout(this);
-		pBar = (AnimatedProgressBar) findViewById(R.id.progressBar);
-		btn = (Button)findViewById(R.id.voice);
-		txe = new TextView(this);
-		root = (FrameLayout) findViewById(R.id.root);
-		navView =(NavigationView)findViewById(R.id.left_navigation);
-		desktop = (SwitchCompat) navView.getMenu().getItem(7).getActionView();
-		root = (FrameLayout) findViewById(R.id.root);
-		privat = (SwitchCompat)navView.getMenu().getItem(8).getActionView();
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerLayout.setDrawerElevation(20);
-		mGrid = (GridView)findViewById(R.id.gridview);
-		mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,
-				mDrawerLayout,bar,
-				R.string.drawer_open,
-				R.string.drawer_close){
-			@Override
-			public void onDrawerSlide(View drawerView, float slideOffset){
-			}
-			@Override
-			public void onDrawerClosed(View view) {
-				super.onDrawerClosed(view);
-				if(view == findViewById(R.id.right_navigation)){
-					mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
-				}
-			}
-		};
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,GravityCompat.END);
-		ActionBar mBar = getSupportActionBar();
-		mBar.setDisplayHomeAsUpEnabled(true);
-	    initializeBeHeView();
-	     data = getIntent().getData();
-		PreferenceManager.getDefaultSharedPreferences(this).edit().putString("home_page", "default").commit();
 		initialize();
 	}
 	@Override
@@ -237,6 +200,57 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	public void initialize() {
+		setContentView(R.layout.activity_main);
+		activity = this;
+		bar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(bar);
+		txt = (EditText)findViewById(R.id.edit);
+		swipe = new SwipeRefreshLayout(this);
+		pBar = (AnimatedProgressBar) findViewById(R.id.progressBar);
+		btn = (Button)findViewById(R.id.voice);
+		txe = new TextView(this);
+		root = (FrameLayout) findViewById(R.id.root);
+		navView =(NavigationView)findViewById(R.id.left_navigation);
+		desktop = (SwitchCompat) navView.getMenu().getItem(7).getActionView();
+		root = (FrameLayout) findViewById(R.id.root);
+		privat = (SwitchCompat)navView.getMenu().getItem(8).getActionView();
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerLayout.setDrawerElevation(20);
+		mGrid = (GridView)findViewById(R.id.gridview);
+		preferenceUtils = new PreferenceUtils(this);
+		mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,
+				mDrawerLayout,bar,
+				R.string.drawer_open,
+				R.string.drawer_close){
+			@Override
+			public void onDrawerSlide(View drawerView, float slideOffset){
+			}
+			@Override
+			public void onDrawerClosed(View view) {
+				super.onDrawerClosed(view);
+				if(view == findViewById(R.id.right_navigation) && preferenceUtils.getLockDrawer()){
+					mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+				}
+			    else{
+					if(view == findViewById(R.id.right_navigation)){
+						mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, GravityCompat.END);
+					}
+				}
+			}
+		};
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		PreferenceUtils utils = new PreferenceUtils(getApplicationContext());
+		if(preferenceUtils.getLockDrawer()) {
+			mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+		}
+		else{
+			mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, GravityCompat.END);
+		}
+		ActionBar mBar = getSupportActionBar();
+		mBar.setDisplayHomeAsUpEnabled(true);
+		initializeBeHeView();
+		data = getIntent().getData();
+		PreferenceManager.getDefaultSharedPreferences(this).edit().putString("home_page", "default").commit();
 		    mDrawerToggle.syncState();
 			tabView = (NavigationView) findViewById(R.id.right_navigation);
 		    TabManager.setNavigationView(tabView);
@@ -364,26 +378,47 @@ public class MainActivity extends ActionBarActivity {
 									 .show();
 							  break;
 						 case R.id.credit:
-							 AlertDialog mCreditsDialog;
-							 final TextView mCreditsTitle = new TextView(getApplicationContext());
-							 final TextView mCreditsText = new TextView(mContext);
-							 final ScrollView mScrollView = new ScrollView(getApplicationContext());
-							 mCreditsText.setText(R.string.about_credits_content);
-							 mCreditsText.setTextSize(18);
-							 mCreditsText.setTypeface(Typeface.DEFAULT_BOLD);
-							 mCreditsTitle.setText(getResources().getString(R.string.credits));
-							 mCreditsTitle.setTypeface(Typeface.DEFAULT_BOLD);
-							 mCreditsTitle.setTextSize(20);
-							 mCreditsTitle.setGravity(Gravity.CENTER_HORIZONTAL);
-							 mScrollView.addView(mCreditsText);
-							 mCreditsText.setGravity(Gravity.CENTER_HORIZONTAL);
-							 mCreditsDialog = new AlertDialog.Builder(activity)
-							         .setCustomTitle(mCreditsTitle)
-									 .setPositiveButton(android.R.string.ok, null)
-									 .setView(mScrollView)
-									 .show();
-
                              menuItem.setChecked(false);
+							 LayoutInflater li = LayoutInflater.from(mContext);
+							 View promptsView = li.inflate(R.layout.promt, null);
+							 TextView v1 = (TextView) promptsView.findViewById(R.id.textView1);
+							 v1.setText(getString(R.string.find));
+							 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+							 alertDialogBuilder.setView(promptsView);
+							 final EditText userInput = (EditText) promptsView
+									 .findViewById(R.id.editTextDialogUserInput);
+							 alertDialogBuilder
+								.setCancelable(false)
+								.setPositiveButton(R.string.ok,
+											 new DialogInterface.OnClickListener() {
+												 public void onClick(DialogInterface dialog, int id) {
+                                                       TabManager.getCurrentTab().findInPage(userInput.getText().toString());
+											           m1.setIcon(R.drawable.ic_cancel_black_24dp);
+													   m1.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+														  @Override
+														  public boolean onMenuItemClick(MenuItem menuItem) {
+															  TabManager.getCurrentTab().findInPage("");
+															  m1.setIcon(R.drawable.ic_home_black_24dp);
+															  m1.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+																  @Override
+																  public boolean onMenuItemClick(MenuItem menuItem) {
+																	  TabManager.getCurrentTab().loadHomepage();
+																	  return false;
+																  }
+															  });
+															  return true;
+														  }
+													  });
+												 	 }
+											 });
+							 alertDialogBuilder.setNegativeButton(R.string.cancel,
+									 new DialogInterface.OnClickListener() {
+										 public void onClick(DialogInterface dialog, int id) {
+											 dialog.cancel();
+										 }
+									 });
+							 AlertDialog alertDialog = alertDialogBuilder.create();
+							 alertDialog.show();
 							 break;
 					 }
 
@@ -500,55 +535,22 @@ public class MainActivity extends ActionBarActivity {
 				behe.setPrivate(b);
 			}
 		});
-
-
-
-	}
-	@Override
-	public void onStart(){
-		super.onStart();
-			if (data != null) {
-				web.loadUrl(data.toString());
-			} else if (data == null && web.getUrl() == null) {
-
-				web.loadHomepage();
-			}
-		ThemeUtils utils = new ThemeUtils(this);
-		utils.setTheme();
-	}
-	@Override
-	public void onPause(){
-		super.onPause();
-
 	}
     @Override
 	public void onResume(){
 		super.onResume();
-		TabManager.getCurrentTab().initializeSettings();
-		File image = new File(getFilesDir(),"drawer_image.png");
-		ImageView img1 = new ImageView(this);
-		ImageView img2 = new ImageView(this);
-		img1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		img2.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		if(!image.exists()){
-			img1.setImageResource(R.drawable.hed);
-		    img2.setImageResource(R.drawable.hed);
+		initialize();
+	    TabManager.resetAll(this,pBar,privat.isChecked(),txt);
+		if (data != null) {
+			web.loadUrl(data.toString());
+		} else if (data == null && web.getUrl() == null) {
+			web.loadHomepage();
 		}
-		else{
-			Bitmap bit = BitmapFactory.decodeFile(image.getPath());
-			img1.setImageBitmap(bit);
-		    img2.setImageBitmap(bit);
+	    else{
+			web.reload();
 		}
-		img1.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getWindowManager().getDefaultDisplay().getHeight() / 4));
-		img2.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getWindowManager().getDefaultDisplay().getHeight() / 4));
-		for(int i = 0;i < navView.getHeaderCount();i++){
-			navView.removeHeaderView(navView.getHeaderView(i));
-		}
-		for(int i = 0;i < tabView.getHeaderCount();i++){
-			tabView.removeHeaderView(tabView.getHeaderView(i));
-		}
-		tabView.addHeaderView(img1);
-		navView.addHeaderView(img2);
+	    ThemeUtils utils = new ThemeUtils(this);
+		utils.setTheme();
 	}
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -578,29 +580,30 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public void onBackPressed() {
-		if(mGrid.getVisibility() == View.VISIBLE){
-			hideBookMarks();
-		}
-		else {
-			if (!TabManager.getCurrentTab().canGoBack()) {
-				if (_doubleBackToExitPressedOnce) {
-					super.onBackPressed();
-					this.finish();
-				} else {
-					this._doubleBackToExitPressedOnce = true;
-					Toast.makeText(this, getResources().getString(R.string.press_to_quit), Toast.LENGTH_SHORT).show();
-				}
-				new Handler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-
-						_doubleBackToExitPressedOnce = false;
-					}
-				}, 2000);
+		   if (mGrid.getVisibility() == View.VISIBLE) {
+				hideBookMarks();
 			} else {
-				TabManager.getCurrentTab().goBack();
-			}
+
+					if (!TabManager.getCurrentTab().canGoBack()) {
+						if (_doubleBackToExitPressedOnce) {
+							super.onBackPressed();
+							this.finish();
+						} else {
+							this._doubleBackToExitPressedOnce = true;
+							Toast.makeText(this, getResources().getString(R.string.press_to_quit), Toast.LENGTH_SHORT).show();
+						}
+						new Handler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+
+								_doubleBackToExitPressedOnce = false;
+							}
+						}, 2000);
+					} else {
+						TabManager.getCurrentTab().goBack();
+					}
 		}
+
 	}
     @Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
@@ -671,11 +674,11 @@ public class MainActivity extends ActionBarActivity {
 		return dir.delete();
 	}
 	public void initializeBeHeView() {
-	//	TabManager.resumeTabs(mContext,this,pBar,false,txt);
 		List<BeHeView> list = TabManager.getList();
 		if(list.isEmpty()) {
 			web = new BeHeView(getApplicationContext(), this, pBar, false, txt);
 			TabManager.addTab(web);
+		    TabManager.setCurrentTab(web);
 		}
 		else{
 			web = TabManager.getCurrentTab();
@@ -691,6 +694,7 @@ public class MainActivity extends ActionBarActivity {
 		web.setLayoutParams(new SwipeRefreshLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		web.setIsCurrentTab(true);
 		TabManager.setCurrentTab(web);
+		web = TabManager.getCurrentTab();
 		swipe.addView(web);
 		root.addView(swipe);
 	}

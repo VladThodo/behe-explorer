@@ -8,8 +8,11 @@ package com.vlath.beheexplorer.controllers;
 
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -75,10 +78,8 @@ public class TabManager {
         for(int i = 0;i< VIEW.getMenu().size();i++){
             ColorGenerator gen = ColorGenerator.MATERIAL;
             int col = gen.getRandomColor();
-            TextDrawable drawable = TextDrawable.builder().buildRound(String.valueOf(i),col);
+            TextDrawable drawable = TextDrawable.builder().buildRound(String.valueOf(i + 1),col);
             VIEW.getMenu().getItem(i).setIcon(drawable);
-
-
         }
     }
     public static void setCurrentTab(BeHeView view){
@@ -114,6 +115,10 @@ public class TabManager {
     public static void removeAllTabs(){
        mViewsList.clear();
     }
-
+    public static void resetAll(ActionBarActivity act, ProgressBar pBar, boolean pvt, EditText txt){
+          for(BeHeView view : mViewsList){
+              view.setNewParams(txt,pBar,act,pvt);
+          }
+    }
 }
 

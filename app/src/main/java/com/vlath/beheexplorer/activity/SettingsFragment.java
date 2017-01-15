@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -15,9 +16,12 @@ import android.support.annotation.IntegerRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.vlath.beheexplorer.R;
 import com.vlath.beheexplorer.controllers.TabManager;
@@ -85,6 +89,31 @@ public class SettingsFragment extends PreferenceFragment {
                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("home_page", "default").commit();
                     prf.setDefaultValue("default");
                 }
+                return true;
+            }
+        });
+        Preference credits = findPreference("credits");
+        credits.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog mCreditsDialog;
+                final TextView mCreditsTitle = new TextView(getActivity());
+                final TextView mCreditsText = new TextView(getActivity());
+                final ScrollView mScrollView = new ScrollView(getActivity());
+                mCreditsText.setText(R.string.about_credits_content);
+                mCreditsText.setTextSize(18);
+                mCreditsText.setTypeface(Typeface.DEFAULT_BOLD);
+                mCreditsTitle.setText(getResources().getString(R.string.credits));
+                mCreditsTitle.setTypeface(Typeface.DEFAULT_BOLD);
+                mCreditsTitle.setTextSize(20);
+                mCreditsTitle.setGravity(Gravity.CENTER_HORIZONTAL);
+                mScrollView.addView(mCreditsText);
+                mCreditsText.setGravity(Gravity.CENTER_HORIZONTAL);
+                mCreditsDialog = new AlertDialog.Builder(getActivity())
+                        .setCustomTitle(mCreditsTitle)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .setView(mScrollView)
+                        .show();
                 return true;
             }
         });

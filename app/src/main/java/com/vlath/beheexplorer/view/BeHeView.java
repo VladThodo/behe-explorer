@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.os.Build;
 import android.preference.Preference;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.KeyEvent;
@@ -48,6 +49,7 @@ public class BeHeView extends WebView{
 	ActionBarActivity WEB_ACTIVITY;
 	EditText text;
 	private String PAGE_TITLE;
+	public String found = "";
 	public static int GOOGLE_SEARCH = 1;
 	public static int BING_SEARCH = 2;
 	public static int YAHOO_SEARCH = 3;
@@ -129,7 +131,12 @@ public class BeHeView extends WebView{
 			    setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
         searchEngine = utils.getSearchEngine();
-		settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+		if(!utils.getCacheEnabled()){
+			settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+		}
+		else {
+			settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+		}
 		settings.setAppCacheEnabled(false);
 	    WEB_ACTIVITY.registerForContextMenu(this);
 	}
@@ -151,7 +158,7 @@ public class BeHeView extends WebView{
 	}
 	else{
 		theme.setTheme();
-		}
+	}
 	}
 	public void searchWeb(String query){
 		switch (searchEngine){
@@ -185,6 +192,7 @@ public class BeHeView extends WebView{
 		return isPrivate;
 	}
 	public void findInPage(String searchText){
+		found = searchText;
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
 			findAllAsync(searchText);
 		}
@@ -286,6 +294,22 @@ public class BeHeView extends WebView{
 	}
     public Activity getActivity(){
 		return WEB_ACTIVITY;
+	}
+    public void setNewParams(EditText txt, ProgressBar pBar, ActionBarActivity activity,boolean pvt){
+		text = txt;
+		P_BAR = pBar;
+		WEB_ACTIVITY = activity;
+		isPrivate = pvt;
+		setWebChromeClient(new BeHeChromeClient(P_BAR,this));
+		setWebViewClient(new BeHeWebClient(text,WEB_ACTIVITY,false,this));
+		setDownloadListener(new CiobanDownloadListener(WEB_ACTIVITY, this));
+		initializeSettings();
+	}
+    public void setMAtch(String t){
+		found = t;
+	}
+    public String hasAnyMatches(){
+		return found;
 	}
 }
 

@@ -37,8 +37,8 @@
     <item
         android:id="@+id/credit"
         android:checked="false"
-        android:icon="@drawable/ic_assignment_black_24dp"
-        android:title="@string/credits" />
+        android:icon="@drawable/ic_find_in_page_black_24dp"
+        android:title="@string/action_find" />
   </group>
 <group>
     <item
