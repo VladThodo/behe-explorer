@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="app_name">BeHe ExploreR</string>
+        <string name="go">検索</string>
+        <string name="bookmarksshow">ブックマークを表示</string>
+        <string name="action_history">履歴</string>
+        <string name="historyclear">履歴をクリア</string>
+        <string name="action_tabs">タブ</string>
+        <string name="action_settings">設定</string>
+        <string name="credits">クレジット</string>
+        <string name="desktop">デスクトップ バージョン</string>
+        <string name="action_incognito">シークレット</string>
+        <string name="action_added">追加しました</string>
+        <string name="action_see">参照</string>
+        <string name="historytast">履歴をクリアしました</string>
+        <string name="delete_dialog_title">ブックマークを削除しますか?</string>
+        <string name="delete_dialog_content">このブックマークを削除してもよろしいですか?</string>
+        <string name="boomarks">ブックマーク</string>
+        <string name="home">ホーム</string>
+        <string name="look">外観</string>
+        <string name="looksummary">ブラウザーの外観をカスタマイズします</string>
+        <string name="browser">ブラウザー</string>
+        <string name="theme">テーマ</string>
+        <string name="themesummary">ブラウザーのテーマを選択します</string>
+        <string name="text">文字サイズ</string>
+        <string name="textsummary">ブラウザーの文字サイズを選択します</string>
+        <string name="search_engine">検索エンジンを選択</string>
+        <string name="java">JavaScript を有効にする</string>
+        <string name="javasummary">ブラウザーの JavaScript を有効にします</string>
+        <string name="plugins">プラグインを有効にする</string>
+        <string name="plugins_summary">ブラウザーのプラグインを有効にします</string>
+        <string name="cache">キャッシュストレージを有効にする</string>
+        <string name="startpage">スタートページ</string>
+        <string name="startpagesummary">ブラウザーの起動時に表示するページを選択します</string>
+        <string name="about">アプリについて</string>
+        <string name="notes">Version 2.0.1</string>
+        <string name="startpagedialog">スタートページにしたい URL を入力してください</string>
+        <string name="bookmark_dialog">ブックマークの名前を入力してください</string>
+        <string name="version">Version</string>
+        <string name="stop">停止</string>
+        <string name="download">ダウンロードしますか: </string>
+        <string name="cancel">キャンセル</string>
+        <string name="ok">OK</string>
+        <string name="license_about">Apache ライセンス v2.0 の下にライセンスされます</string>
+        <string name="license">ライセンス</string>
+        <string name="github">GitHub を参照</string>
+        <string name="delete">削除</string>
+        <string name="press_to_quit">もう一度押すと終了します</string>
+        <string name="picture">ドロワーの写真を変更</string>
+        <string name="see_picture">画像を表示</string>
+        <string name="download_picture">画像をダウンロード</string>
+        <string name="save_link">リンクをコピー</string>
+        <string name="share">共有</string>
+    <string-array name="color">
+    <item name = "1">白</item>
+    <item name ="2">グレー</item>
+    <item name ="3">赤</item>
+    <item name="4">青</item>
+    <item name="5">緑</item>
+    </string-array>
+    <string-array name="color_values">
+    <item name="1">#FFFFFF</item>
+    <item name="2">#A9A9A9</item>
+    <item name="3">#FF0000</item>
+    <item name="4">#0000FF</item>
+    <item name="5">#008000</item>
+    </string-array>
+    <string-array name="text">
+    <item name = "1">小</item>
+    <item name ="2">標準</item>
+    <item name ="3">大</item>
+    <item name="4">特大</item>
+    </string-array>
+    <string-array name="text_size">
+    <item name="1">14</item>
+    <item name="2">18</item>
+    <item name="3">22</item>
+    <item name="4">24</item>
+    </string-array>
+    <string-array name="search">
+        <item name = "1">Google</item>
+        <item name ="2">Bing</item>
+        <item name ="3">Yahoo</item>
+        <item name="4">Duckduckgo</item>
+        <item name="5">Ask</item>
+        <item name="6">Wow</item>
+    </string-array>
+    <string-array name="search_values">
+        <item name = "1">1</item>
+        <item name ="2">2</item>
+        <item name ="3">3</item>
+        <item name="4">4</item>
+        <item name="5">5</item>
+        <item name="6">6</item>
+    </string-array>
+    <string-array name="home_page">
+        <item name = "default">デフォルト</item>
+        <item name ="custom">カスタム</item>
+    </string-array>
+    <string-array name="home_page_values">
+        <item name = "1">default</item>
+        <item name ="2">custom</item>
+    </string-array>
+    <string name="drawer_open">ナビゲーションドロワーを開く</string>
+    <string name="drawer_close">ナビゲーションドロワーを閉じる</string>
+</resources>
+
+
+   
