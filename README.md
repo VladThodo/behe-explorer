@@ -2,7 +2,6 @@
 <p><b>About</b></p>
 BeHe ExploreR it's a simple,small and minimalistic internet browser made for experimenting and learning.Anybody is welcome to participate
 to this project no matter if you are a developer,designer,translator,tester..or just a simple user reporting a bug :-).
-<p><b>You can also follow the updates on Twitter</b> <a href="https://twitter.com/VladThodo">@VladThodo</a></p>
 <li><p>Master:</li></p>
 <p><img src="https://travis-ci.org/VladThodo/behe-explorer.svg?branch=master"/></p>
 <li><p>Development:</p></li>
@@ -12,7 +11,7 @@ to this project no matter if you are a developer,designer,translator,tester..or 
   <p>Please submit your pull requests to the DEVELOPMENT branch,not to the master branch,because the master is supposed to be      stable for builds</p>
   <p>Feel free to report issues,do code cleanup and add translations</p>
 <p><b>Current features</b></p>
-  <li><p>Lightweight - it only has 2,57 MB</p></li>
+  <li><p>Lightweight</p></li>
   <li><p>Fast</p></li>
   <li><p>Bookmarks - located in the navigation drawer and easy to use</p></li>
   <li><p>Customizable - it has  5 color themes with more to be added</p></li>
@@ -24,6 +23,7 @@ to this project no matter if you are a developer,designer,translator,tester..or 
   <li><p>Incognito mode</p></li>
 <p><b>License</b><p>
 <p>Copyright 2015 Vlad Todosin.</p>
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -36,4 +36,5 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+You HAVE TO credit BeHexploreR for using this source code!
   
