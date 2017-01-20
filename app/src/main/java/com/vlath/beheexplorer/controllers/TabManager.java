@@ -6,6 +6,8 @@ package com.vlath.beheexplorer.controllers;
 
 
 
+import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +26,7 @@ import java.util.List;
 
 public class TabManager {
    private static List<BeHeView> mViewsList = new ArrayList<BeHeView>();
+   private static PreferenceManager MANAGER;
    static BeHeView currentTab;
    private static NavigationView VIEW;
    public static void addTab(BeHeView view){
@@ -34,14 +37,6 @@ public class TabManager {
         return mViewsList;
     }
 
-   private static void deleteTab(int position){
-       if (position < 0 || position >= mViewsList.size()) {
-       }
-       else{
-           BeHeView tab = mViewsList.get(position);
-           mViewsList.remove(position);
-       }
-   }
     public static void removeTab(BeHeView view){
         int index = mViewsList.indexOf(view);
         if(index != 0){
@@ -119,6 +114,50 @@ public class TabManager {
           for(BeHeView view : mViewsList){
               view.setNewParams(txt,pBar,act,pvt);
           }
+    }
+    public static void stopPlayback(){
+        for(BeHeView view : mViewsList){
+            view.onPause();
+        }
+    }
+   public static void resume(){
+       for(BeHeView view : mViewsList){
+           view.onResume();
+       }
+   }
+    public static String getSearchEngine(Context cnt) {
+        String searchEngine;
+        searchEngine = MANAGER.getDefaultSharedPreferences(cnt).getString("search","1");
+        int e = Integer.parseInt(searchEngine);
+        switch (e) {
+            case 1:
+                String google = "https://www.google.com/search?q=";
+                return google;
+            case 2:
+                String bing = "http://www.bing.com/search?q=";
+                return bing;
+            case 3:
+                String yahoo = "https://search.yahoo.com/search?p=";
+                return yahoo;
+            case 4:
+                String duck = "https://duckduckgo.com/?q=";
+                return duck;
+            case 5:
+                String ask = "http://www.ask.com/web?q=";
+                return ask;
+
+            case 6:
+                String wow = "http://www.wow.com/search?s_it=search-thp&v_t=na&q=";
+                return wow;
+            default:
+                String goole = "https://www.google.com/search?q=";
+                return goole;
+        }
+    }
+    public static void deleteAllHistory(){
+        for(BeHeView view : mViewsList){
+            view.clearHistory();
+        }
     }
 }
 

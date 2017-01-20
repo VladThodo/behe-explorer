@@ -6,20 +6,28 @@
 package com.vlath.beheexplorer.view;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Picture;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.preference.Preference;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.URLUtil;
 import android.webkit.WebSettings;;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -70,28 +78,18 @@ public class BeHeView extends WebView{
 		P_BAR = pBar;
 		WEB_ACTIVITY = activity;
 		text = txt;
-		this.getSettings().setLoadWithOverviewMode(true);
-		setOnKeyListener(new OnKeyListener() {
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN && canGoBack()) {
-					goBack();
-					return true;
-				}
-				return false;
-			}
-		});
-	setWebChromeClient(new BeHeChromeClient(P_BAR,this));
-	setWebViewClient(new BeHeWebClient(text,WEB_ACTIVITY,false,this));
-	setDownloadListener(new CiobanDownloadListener(WEB_ACTIVITY, this));
-	initializeSettings();
+	    WEB_ACTIVITY.registerForContextMenu(this);
+		setWebChromeClient(new BeHeChromeClient(P_BAR,this));
+	    setWebViewClient(new BeHeWebClient(text,WEB_ACTIVITY,false,this));
+	    setDownloadListener(new CiobanDownloadListener(WEB_ACTIVITY, this));
+	    initializeSettings();
 	}
 	public void initializeSettings(){
 		PreferenceUtils utils = new PreferenceUtils(WEB_ACTIVITY);
 		WebSettings settings = getSettings();
 		settings.setDisplayZoomControls(false);
 		settings.setBuiltInZoomControls(true);
-		settings.setSupportMultipleWindows(true);
+		settings.setSupportMultipleWindows(false);
 		settings.setEnableSmoothTransition(true);
 		if (isPrivate){
 			CookieManager.getInstance().setAcceptCookie(false);
@@ -115,7 +113,6 @@ public class BeHeView extends WebView{
 			settings.setDefaultFixedFontSize(utils.getTextSize());
 			settings.setAppCacheEnabled(false);
 			settings.setDatabaseEnabled(false);
-			settings.setDomStorageEnabled(false);
 			settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 			theme.setTheme();
 			if (utils.getPluginsEnabled()) {
@@ -123,13 +120,8 @@ public class BeHeView extends WebView{
 			}
 			else
 				settings.setPluginState(WebSettings.PluginState.OFF);
-			}
-	     	settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-		    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-		     	setLayerType(View.LAYER_TYPE_HARDWARE, null);
-		    } else {
-			    setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
+		setLayerType(View.LAYER_TYPE_HARDWARE, null);
         searchEngine = utils.getSearchEngine();
 		if(!utils.getCacheEnabled()){
 			settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -138,7 +130,6 @@ public class BeHeView extends WebView{
 			settings.setCacheMode(WebSettings.LOAD_DEFAULT);
 		}
 		settings.setAppCacheEnabled(false);
-	    WEB_ACTIVITY.registerForContextMenu(this);
 	}
 	/*
 	* This method sets the current instance of the BeHeView to go private or not
@@ -311,6 +302,7 @@ public class BeHeView extends WebView{
     public String hasAnyMatches(){
 		return found;
 	}
+
 }
 
 

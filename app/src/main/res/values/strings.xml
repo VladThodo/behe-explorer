@@ -31,7 +31,7 @@
         <string name="plugins_summary">Will enable plugins in browser</string>
         <string name="cache">Enable cache storage</string>
         <string name="startpage">Start page</string>
-        <string name="startpagesummary">Choose the page that will be shown at broser startup</string>
+        <string name="startpagesummary">Choose the page that will be shown at browser startup</string>
         <string name="about">About</string>
         <string name="notes">Version 2.0.1</string>
         <string name="startpagedialog">Enter the URL of your desired start page</string>

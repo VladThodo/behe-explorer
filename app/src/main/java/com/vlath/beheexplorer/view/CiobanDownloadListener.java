@@ -4,10 +4,9 @@
 
 package com.vlath.beheexplorer.view;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -40,7 +39,6 @@ public class CiobanDownloadListener implements DownloadListener {
                                     }
                         String message = mActivity.getResources().getString(R.string.download);
                         builder.setTitle(fileName)
-                       .setIcon(new BitmapDrawable(Bitmap.createScaledBitmap(view.getFavicon(),22,22,false)))
                        .setMessage(message + downloadSize + " ?")
                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                            @Override
@@ -50,7 +48,7 @@ public class CiobanDownloadListener implements DownloadListener {
                                request.allowScanningByMediaScanner();
                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-                               DownloadManager dm = (DownloadManager) mActivity.getSystemService(mActivity.DOWNLOAD_SERVICE);
+                               DownloadManager dm = (DownloadManager) mActivity.getSystemService(Activity.DOWNLOAD_SERVICE);
                                dm.enqueue(request);
                            }
                        })

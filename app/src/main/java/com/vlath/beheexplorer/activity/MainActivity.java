@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -250,7 +251,6 @@ public class MainActivity extends ActionBarActivity {
 		mBar.setDisplayHomeAsUpEnabled(true);
 		initializeBeHeView();
 		data = getIntent().getData();
-		PreferenceManager.getDefaultSharedPreferences(this).edit().putString("home_page", "default").commit();
 		    mDrawerToggle.syncState();
 			tabView = (NavigationView) findViewById(R.id.right_navigation);
 		    TabManager.setNavigationView(tabView);
@@ -365,7 +365,7 @@ public class MainActivity extends ActionBarActivity {
 							 menuItem.setChecked(false);
 							 HistoryDatabase db = new HistoryDatabase(getApplicationContext());
 							 db.clearAllItems();
-							 TabManager.getCurrentTab().clearHistory();
+							 TabManager.deleteAllHistory();
 							 WebStorage storage = WebStorage.getInstance();
 							 storage.deleteAllData();
 							 Snackbar.make(root, getResources().getString(R.string.historytast), Snackbar.LENGTH_LONG)
@@ -537,19 +537,26 @@ public class MainActivity extends ActionBarActivity {
 		});
 	}
     @Override
+	public void onPause(){
+		super.onPause();
+		TabManager.stopPlayback();
+	}
+	@Override
 	public void onResume(){
 		super.onResume();
 		initialize();
 	    TabManager.resetAll(this,pBar,privat.isChecked(),txt);
 		if (data != null) {
 			web.loadUrl(data.toString());
-		} else if (data == null && web.getUrl() == null) {
-			web.loadHomepage();
+		} else {
+			txt.setText(web.getUrl());
 		}
-	    else{
-			web.reload();
+		if (data == null && web.getUrl() == null) {
+				web.loadHomepage();
 		}
-	    ThemeUtils utils = new ThemeUtils(this);
+		TabManager.resume();
+		TabManager.updateTabView();
+		ThemeUtils utils = new ThemeUtils(this);
 		utils.setTheme();
 	}
 	@Override
@@ -577,7 +584,53 @@ public class MainActivity extends ActionBarActivity {
 			}
 		}
 	}
+    @Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo info){
+		super.onCreateContextMenu(menu,v,info);
+		final WebView.HitTestResult result = web.getHitTestResult();
 
+		MenuItem.OnMenuItemClickListener handler = new MenuItem.OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				final String url = result.getExtra();
+				switch (item.getItemId()){
+					case 1:
+						String name = URLUtil.guessFileName(url, "", "");
+						DownloadManager.Request request = new DownloadManager.Request(
+								Uri.parse(url));
+						request.allowScanningByMediaScanner();
+						request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+						request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name);
+						DownloadManager dm = (DownloadManager)getSystemService(Activity.DOWNLOAD_SERVICE);
+						dm.enqueue(request);
+						break;
+					case 2:
+					   web.loadUrl(url);
+						break;
+					case 3:
+						ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+						ClipData clip = ClipData.newPlainText("", url);
+						clipboard.setPrimaryClip(clip);
+						break;
+
+				}
+				return true;
+			}
+		};
+
+		if (result.getType() == WebView.HitTestResult.IMAGE_TYPE ||
+				result.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+
+			menu.setHeaderTitle(result.getExtra());
+			menu.add(0, 1, 0, getString(R.string.download_picture)).setOnMenuItemClickListener(handler);
+			menu.add(0, 2, 0, getString(R.string.see_picture)).setOnMenuItemClickListener(handler);
+		} else if (result.getType() == WebView.HitTestResult.ANCHOR_TYPE ||
+				result.getType() == WebView.HitTestResult.SRC_ANCHOR_TYPE) {
+
+			menu.setHeaderTitle(result.getExtra());
+			menu.add(0, 3, 0,getString(R.string.save_link)).setOnMenuItemClickListener(handler);
+
+		}
+	}
 	@Override
 	public void onBackPressed() {
 		   if (mGrid.getVisibility() == View.VISIBLE) {
@@ -604,56 +657,6 @@ public class MainActivity extends ActionBarActivity {
 					}
 		}
 
-	}
-    @Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
-		super.onCreateContextMenu(menu,v,menuInfo);
-		final WebView.HitTestResult result = web.getHitTestResult();
-		final String url = result.getExtra();
-		MenuItem.OnMenuItemClickListener handler = new MenuItem.OnMenuItemClickListener() {
-			public boolean onMenuItemClick(MenuItem item) {
-					switch(item.getItemId()) {
-					  case 1:
-						String name = URLUtil.guessFileName(url, "", "");
-						DownloadManager.Request request = new DownloadManager.Request(
-								Uri.parse(url));
-						request.allowScanningByMediaScanner();
-						request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-						request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name);
-						DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-						dm.enqueue(request);
-					  break;
-					  case 2:
-						web.loadUrl(url);
-					  break;
-					  case 3:
-						  ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-						  ClipData clip = ClipData.newPlainText("", url);
-						  clipboard.setPrimaryClip(clip);
-					  break;
-					}
-				return true;
-			}
-		};
-		if (result.getType() == WebView.HitTestResult.IMAGE_TYPE ||
-				result.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
-			// Menu options for an image.
-			//set the header title to the image url
-			if(url.startsWith("data")){
-			}
-			else {
-				menu.setHeaderTitle(result.getExtra());
-				menu.add(0, 1, 0, getResources().getString(R.string.download_picture)).setOnMenuItemClickListener(handler);
-				menu.add(0, 2, 0, getResources().getString(R.string.see_picture)).setOnMenuItemClickListener(handler);
-			}
-		} else if (result.getType() == WebView.HitTestResult.ANCHOR_TYPE ||
-				result.getType() == WebView.HitTestResult.SRC_ANCHOR_TYPE) {
-			// Menu options for a hyperlink.
-			//set the header title to the link url
-			menu.setHeaderTitle(result.getExtra());
-			menu.add(0,3 , 0, getResources().getString(R.string.save_link)).setOnMenuItemClickListener(handler);
-		}
-	    menu.setHeaderTitle(result.getExtra());
 	}
 
 	@Override
