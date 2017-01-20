@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="app_name">BeHe ExploreR</string>
+        <string name="go">Buscar</string>
+        <string name="bookmarksshow">Mostrar marcadores</string>
+        <string name="action_history">Historial</string>
+        <string name="historyclear">Limpiar el historial</string>
+        <string name="action_tabs">Pestañas</string>
+        <string name="action_settings">Preferencias</string>
+        <string name="credits">Créditos</string>
+        <string name="desktop">Versión de escritorio</string>
+        <string name="action_incognito">Incógnito</string>
+        <string name="action_added">Añadido</string>
+        <string name="action_see">Ver</string>
+        <string name="historytast">Historial eliminado</string>
+        <string name="delete_dialog_title">¿Borrar marcador?</string>
+        <string name="delete_dialog_content">¿Estás seguro de querer borrar este marcador?</string>
+        <string name="boomarks">Marcadores</string>
+        <string name="home">Inicio</string>
+        <string name="look">Ver</string>
+        <string name="looksummary">Personalizar look del navegador</string>
+        <string name="browser">Navegador</string>
+        <string name="theme">Tema</string>
+        <string name="themesummary">Elije el tema del navegador</string>
+        <string name="text">Tamaño del texto</string>
+        <string name="textsummary">Elije el tamaño del texto del navegador</string>
+        <string name="search_engine">Elegir motor de búsqueda</string>
+        <string name="java">Activar JavaScript</string>
+        <string name="javasummary">Activará JavaScript en el navegador</string>
+        <string name="plugins">Activar plugins</string>
+        <string name="plugins_summary">Activará los plugins en el navegador</string>
+        <string name="cache">Activar almacenamiento en caché</string>
+        <string name="startpage">Pagina de inicio</string>
+        <string name="startpagesummary">Elije la pagina que se mostrará al iniciar el navegador</string>
+        <string name="about">Acerca de</string>
+        <string name="notes">Versión 2.0.1</string>
+        <string name="startpagedialog">Inserta la URL de la pagina que quieras añadir al inicio</string>
+        <string name="bookmark_dialog">Escribe el nombre del marcador</string>
+        <string name="version">Versión</string>
+        <string name="stop">Detener</string>
+        <string name="download">Quieres descargar:</string>
+        <string name="cancel">Cancelar</string>
+        <string name="ok">OK</string>
+        <string name="license_about">Licenciado bajo la Apache License v2.0</string>
+        <string name="license">Licencia</string>
+        <string name="github">Ver en GitHub</string>
+        <string name="delete">Borrar</string>
+        <string name="press_to_quit">Pulsa otra vez para salir</string>
+        <string name="picture">Cambiar la imagen del cajón</string>
+        <string name="see_picture">Ver imagen</string>
+        <string name="download_picture">Descargar imagen</string>
+        <string name="save_link">Copiar la dirección del enlace</string>
+        <string name="share">Compartir</string>
+        <string name="lock">Bloquear el cajón de navegación</string>
+        <string name="find">Buscar texto</string>
+        <string name="action_find">Buscar en esta página</string>
+    <string-array name="color"></string-array>
+    <string-array name="color_values"></string-array>
+    <string-array name="text">Tamaño del texto</string-array>
+    <string-array name="text_size"></string-array>
+    <string-array name="search"></string-array>
+    <string-array name="search_values"></string-array>
+    <string-array name="home_page"></string-array>
+    <string-array name="home_page_values"></string-array>
+    <string name="drawer_open">Abre el cajón de navegación</string>
+    <string name="drawer_close">Cierra el cajón de navegación</string>
+</resources>
+
+
+   
