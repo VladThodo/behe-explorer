@@ -22,7 +22,11 @@
             android:entryValues="@array/text_size"
             android:defaultValue="18">
         </ListPreference>
-         <Preference android:key="change"
+        <CheckBoxPreference
+            android:key="lock"
+            android:title="@string/lock"
+            android:defaultValue="true" />
+        <Preference android:key="change"
              android:title="@string/picture"/>
     </PreferenceScreen>
     <PreferenceScreen
@@ -66,8 +70,10 @@
     </PreferenceScreen>
 <PreferenceCategory
     android:title="@string/about">
-
-      <PreferenceScreen
+    <PreferenceScreen
+        android:key="credits"
+        android:title="@string/credits" />
+    <PreferenceScreen
           android:key="hu"
           android:title="@string/github"
           android:action="https://www.github.com/VladThodo/behe-explorer">

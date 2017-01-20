@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.webkit.WebView;
 import com.vlath.beheexplorer.R;
+import com.vlath.beheexplorer.controllers.TabManager;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -84,10 +86,9 @@ public class HomePage extends AsyncTask<Void, Void, Void> {
     @NonNull
     private String getHomepage() {
         File homepage = new File(mApp.getApplicationContext().getFilesDir(), FILENAME);
-        if(!homepage.exists()) {
             StringBuilder homepageBuilder = new StringBuilder(HEAD_1 + mTitle + HEAD_2);
             String icon = "file:///android_asset/google.png";
-            String searchUrl = "https://www.google.com/search?q=";
+            String searchUrl = TabManager.getSearchEngine(mApp.getApplicationContext());
             homepageBuilder.append(icon);
             homepageBuilder.append(MIDDLE);
             homepageBuilder.append(searchUrl);
@@ -107,8 +108,4 @@ public class HomePage extends AsyncTask<Void, Void, Void> {
             }
             return "file://" + homepage;
         }
-       else {
-            return "file://" + homepage;
-        }
     }
-}
