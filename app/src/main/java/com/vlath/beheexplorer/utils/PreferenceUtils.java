@@ -5,7 +5,6 @@ package com.vlath.beheexplorer.utils;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-
 public class PreferenceUtils {
 private static PreferenceManager MANAGER;
 private static Context mContext;
@@ -42,8 +41,8 @@ private static Context mContext;
     public  boolean getCacheEnabled(){
     return MANAGER.getDefaultSharedPreferences(mContext).getBoolean("cache", false);
     }
-    public static boolean getDisplayPageIcon(){
-    return MANAGER.getDefaultSharedPreferences(mContext).getBoolean("icon",true);
+    public static boolean getLockDrawer(){
+    return MANAGER.getDefaultSharedPreferences(mContext).getBoolean("lock",true);
     }
 
 }

@@ -47,6 +47,7 @@ public class HistoryDatabase extends SQLiteOpenHelper{
         values.put(Names.KEY_URL,db.getUrl());
         values.put(Names.KEY_TIME, System.currentTimeMillis());
         liteDatabase.insert(Names.TABLE_NAME, null, values);
+        liteDatabase.close();
     }
     public ArrayList<DbItem> getHistory(){
         liteDatabase = openIfNeeded();

@@ -20,6 +20,7 @@ public class SettingsActivity extends ActionBarActivity {
         setTitle(getResources().getString(R.string.action_settings));
         ThemeUtils theme = new ThemeUtils(this);
         theme.setTheme();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getFragmentManager().beginTransaction().replace(R.id.layout, new SettingsFragment()).commit();
     }
 
