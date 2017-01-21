@@ -12,7 +12,7 @@ android {
         applicationId 'com.vlath.beheexplorer'
         minSdkVersion 14
         targetSdkVersion 13
-        versionCode 2002
+        versionCode 20002
         versionName "2.0.2"
         multiDexEnabled true
     }
