@@ -2,6 +2,7 @@
 <p><b>About</b></p>
 BeHe ExploreR it's a simple,small and minimalistic internet browser made for experimenting and learning.Anybody is welcome to participate
 to this project no matter if you are a developer,designer,translator,tester..or just a simple user reporting a bug :-).
+<a href='https://play.google.com/store/apps/details?id=com.vlath.beheexplorer&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 <li><p>Master:</li></p>
 <p><img src="https://travis-ci.org/VladThodo/behe-explorer.svg?branch=master"/></p>
 <li><p>Development:</p></li>
