@@ -27,12 +27,10 @@
   <string name="textsummary">Browser-Textgröße auswählen</string>
   <string name="search_engine">Suchmaschine wählen</string>
   <string name="java">JavaScript aktivieren</string>
-  <string name="javasummary">Aktiviert JavaScript in deinem Browser</string>
   <string name="plugins">Plugins aktivieren</string>
   <string name="plugins_summary">Aktiviert Plugins in deinem Browser</string>
   <string name="cache">Cache-Speicherung aktivieren</string>
   <string name="startpage">Startseite</string>
-  <string name="startpagesummary">Seite auswählen, das beim Browser-Start angezeigt wird</string>
   <string name="about">Über</string>
   <string name="notes">Version 2.0.1</string>
   <string name="startpagedialog">Gib die URL deiner gewünschten Startseite ein</string>
@@ -55,19 +53,23 @@
   <string name="lock">Rechten Navigation-Drawer sperren</string>
   <string name="find">Text suchen</string>
   <string name="action_find">In Seite suchen</string>
+  <string name="action_export">Aktuelle Konfiguration in Datei exportieren</string>
+  <string name="action_import">Konfigurationen aus Datei importieren</string>
+  <string name="action_img_block">Bilder blockieren</string>
+  <string name="action_ad_block">Werbung blockieren</string>
+  <string name="action_location">Standort aktivieren</string>
+  <string name="choose">Auswählen</string>
+  <string name="succes_save">Erfolgreich gespeichert</string>
+  <string name="succes_import">Erfolgreich importiert</string>
+  <string name="error">Fehler</string>
+  <string name="select">Auswählen</string>
   <string-array name="color">
     <item name="1">Weiß</item>
     <item name="2">Grau</item>
     <item name="3">Rot</item>
     <item name="4">Blau</item>
     <item name="5">Grün</item>
-  </string-array>
-  <string-array name="color_values">
-    <item name="1">#FFFFFF</item>
-    <item name="2">#A9A9A9</item>
-    <item name="3">#FF0000</item>
-    <item name="4">#0000FF</item>
-    <item name="5">#008000</item>
+    <item name="6">Schwarz</item>
   </string-array>
   <string-array name="text">
     <item name="1">Klein</item>
@@ -75,35 +77,9 @@
     <item name="3">Groß</item>
     <item name="4">Extra groß</item>
   </string-array>
-  <string-array name="text_size">
-    <item name="1">14</item>
-    <item name="2">18</item>
-    <item name="3">22</item>
-    <item name="4">24</item>
-  </string-array>
-  <string-array name="search">
-    <item name="1">Google</item>
-    <item name="2">Bing</item>
-    <item name="3">Yahoo</item>
-    <item name="4">DuckDuckGo</item>
-    <item name="5">Ask</item>
-    <item name="6">Wow</item>
-  </string-array>
-  <string-array name="search_values">
-    <item name="1">1</item>
-    <item name="2">2</item>
-    <item name="3">3</item>
-    <item name="4">4</item>
-    <item name="5">5</item>
-    <item name="6">6</item>
-  </string-array>
   <string-array name="home_page">
     <item name="default">Standard</item>
     <item name="custom">Benutzerdefiniert</item>
-  </string-array>
-  <string-array name="home_page_values">
-    <item name="1">default</item>
-    <item name="2">Benutzerdefiniert</item>
   </string-array>
   <string name="drawer_open">Navigationsleiste öffnen</string>
   <string name="drawer_close">Navigationsleiste schließen</string>

@@ -11,12 +11,15 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Picture;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.Preference;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -38,6 +41,8 @@ import com.vlath.beheexplorer.utils.HomePage;
 import com.vlath.beheexplorer.utils.HystoryTask;
 import com.vlath.beheexplorer.utils.PreferenceUtils;
 import com.vlath.beheexplorer.utils.ThemeUtils;
+
+import java.util.Map;
 
 
 @SuppressWarnings("unused")
@@ -64,6 +69,8 @@ public class BeHeView extends WebView{
 	public static int DUCKDUCKGO_SEARCH = 4;
 	public static int ASK_SEARCH = 5;
 	public static int WOW_SEARCH = 6;
+	private static final int API = android.os.Build.VERSION.SDK_INT;
+	public BeHeChromeClient chromeClient;
 	/*
 	* Public constructors of BeHeView
 	 */
@@ -72,64 +79,92 @@ public class BeHeView extends WebView{
 		WEB_ACTIVITY = (ActionBarActivity) activity;
 	}
 	public BeHeView(Context context, ActionBarActivity activity, ProgressBar pBar, boolean Private, final EditText txt)  {
-		super(context);
+		super(activity);
 		theme = new ThemeUtils(activity);
 		isPrivate = Private;
 		P_BAR = pBar;
 		WEB_ACTIVITY = activity;
 		text = txt;
-	    WEB_ACTIVITY.registerForContextMenu(this);
-		setWebChromeClient(new BeHeChromeClient(P_BAR,this));
+		chromeClient = new BeHeChromeClient(P_BAR,this,WEB_ACTIVITY);
+		setWebChromeClient(chromeClient);
 	    setWebViewClient(new BeHeWebClient(text,WEB_ACTIVITY,false,this));
 	    setDownloadListener(new CiobanDownloadListener(WEB_ACTIVITY, this));
+        WEB_ACTIVITY.registerForContextMenu(this);
 	    initializeSettings();
 	}
 	public void initializeSettings(){
+		setDrawingCacheBackgroundColor(Color.WHITE);
+		setFocusableInTouchMode(true);
+		setFocusable(true);
+		setDrawingCacheEnabled(false);
+		setWillNotCacheDrawing(true);
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
+
+			setAlwaysDrawnWithCacheEnabled(false);
+		}
+		setBackgroundColor(Color.WHITE);
+		setScrollbarFadingEnabled(true);
+		setSaveEnabled(true);
+		setNetworkAvailable(true);
+
 		PreferenceUtils utils = new PreferenceUtils(WEB_ACTIVITY);
 		WebSettings settings = getSettings();
 		settings.setDisplayZoomControls(false);
 		settings.setBuiltInZoomControls(true);
 		settings.setSupportMultipleWindows(false);
 		settings.setEnableSmoothTransition(true);
-		if (isPrivate){
-			CookieManager.getInstance().setAcceptCookie(false);
-			settings.setCacheMode(getSettings().LOAD_NO_CACHE);
-			settings.setAppCacheEnabled(false);
-			clearHistory();
-			clearCache(true);
-			clearFormData();
-			settings.setSavePassword(false);
-			settings.setSaveFormData(false);
-			settings.setSupportZoom(true);
-			settings.setGeolocationEnabled(false);
-			settings.setAppCacheEnabled(false);
-			settings.setDatabaseEnabled(false);
-			settings.setDomStorageEnabled(false);
-			theme.setIncognitoTheme();
+		if (API < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+			//noinspection deprecation
+			settings.setAppCacheMaxSize(Long.MAX_VALUE);
 		}
-		else {
-			settings.setJavaScriptEnabled(utils.getJavaEnabled());
-			settings.setDefaultFontSize(utils.getTextSize());
-			settings.setDefaultFixedFontSize(utils.getTextSize());
+		if (API < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			//noinspection deprecation
+			settings.setEnableSmoothTransition(true);
+		}
+		if (API > Build.VERSION_CODES.JELLY_BEAN) {
+			settings.setMediaPlaybackRequiresUserGesture(true);
+		}
+		if (API >= Build.VERSION_CODES.LOLLIPOP && !isPrivate) {
+			settings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+		} else if (API >= Build.VERSION_CODES.LOLLIPOP) {
+			settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+		}
+		if (isPrivate){
+			settings.setDomStorageEnabled(false);
 			settings.setAppCacheEnabled(false);
 			settings.setDatabaseEnabled(false);
 			settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+		    settings.setGeolocationEnabled(false);
+		    CookieManager.getInstance().setAcceptCookie(false);
+		}
+		else {
+			settings.setDomStorageEnabled(true);
+			settings.setAppCacheEnabled(true);
+			settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+			settings.setDatabaseEnabled(true);
 			theme.setTheme();
 			if (utils.getPluginsEnabled()) {
 			    settings.setPluginState(WebSettings.PluginState.ON);
 			}
-			else
+			else {
 				settings.setPluginState(WebSettings.PluginState.OFF);
+			}
+			settings.setGeolocationEnabled(utils.getEnableLocation());
 		}
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
         searchEngine = utils.getSearchEngine();
-		if(!utils.getCacheEnabled()){
-			settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+		settings.setSupportZoom(true);
+		settings.setBuiltInZoomControls(true);
+		settings.setDisplayZoomControls(false);
+		settings.setAllowContentAccess(true);
+		settings.setAllowFileAccess(true);
+		if (API >= Build.VERSION_CODES.JELLY_BEAN) {
+			settings.setAllowFileAccessFromFileURLs(false);
+			settings.setAllowUniversalAccessFromFileURLs(false);
 		}
-		else {
-			settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-		}
-		settings.setAppCacheEnabled(false);
+		settings.setJavaScriptEnabled(utils.getJavaEnabled());
+		settings.setAppCacheEnabled(utils.getCacheEnabled());
+	    settings.setLoadsImagesAutomatically(!utils.getBlockImages());
 	}
 	/*
 	* This method sets the current instance of the BeHeView to go private or not
@@ -177,7 +212,35 @@ public class BeHeView extends WebView{
 			String wow = "http://www.wow.com/search?s_it=search-thp&v_t=na&q=" + query.replace(" ","+");
 			loadUrl(wow);
 			break;
-		}
+			case 7:
+			String aol = "https://search.aol.com/aol/search?s_chn=prt_ticker-test-g&q=" + query.replace(" ","+");
+			loadUrl(aol);
+			break;
+			case 8:
+			String crawler = "https://www.webcrawler.com/serp?q=" + query.replace(" ","+");
+			loadUrl(crawler);
+			break;
+			case 9:
+			String myweb = "http://int.search.mywebsearch.com/mywebsearch/GGmain.jhtml?searchfor=" +  query.replace(" ","+");
+			loadUrl(myweb);
+			break;
+			case 10:
+            String info = "http://search.infospace.com/search/web?q=" + query.replace(" ","+");
+			loadUrl(info);
+			break;
+			case 11:
+			String yandex = "https://www.yandex.com/search/?text=" + query.replace(" ","+");
+			loadUrl(yandex);
+			break;
+			case 12:
+			String startpage = "https://www.startpage.com/do/search?q="  + query.replace(" ","+");
+			loadUrl(startpage);
+			break;
+			case 13:
+			String searx = "https://searx.me/?q="  + query.replace(" ","+");
+			loadUrl(searx);
+			break;
+			}
 	}
 	public boolean isPrivate(){
 		return isPrivate;
@@ -230,7 +293,12 @@ public class BeHeView extends WebView{
 	}
 	public void setMobile(){
 		getSettings().setDisplayZoomControls(false);
-		getSettings().setUserAgentString("Mozilla/5.0 (Linux; <Android Version>; <Build Tag etc.>) AppleWebKit/<WebKit Rev> (KHTML, like Gecko) Chrome/<Chrome Rev> Mobile Safari/<WebKit Rev> ");
+		getSettings().setBuiltInZoomControls(false);
+		if (API >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			getSettings().setUserAgentString(WebSettings.getDefaultUserAgent(WEB_ACTIVITY));
+		} else {
+			getSettings().setUserAgentString("Mozilla/5.0 (Linux; <Android Version>; <Build Tag etc.>) AppleWebKit/<WebKit Rev> (KHTML, like Gecko) Chrome/<Chrome Rev> Mobile Safari/<WebKit Rev> ");
+		}
 		setInitialScale(0);
 		reload();
 	}
@@ -244,7 +312,7 @@ public class BeHeView extends WebView{
 		IJavascriptHandler(Context c) {
 			mContext = c;
 		}
-		@JavascriptInterface
+		@android.webkit.JavascriptInterface
 		public void processContent(String aContent,String title) {
 			final String content = aContent;
 			//Intent mReading = new Intent(WEB_ACTIVITY, ReadingActivity.class);
@@ -291,7 +359,8 @@ public class BeHeView extends WebView{
 		P_BAR = pBar;
 		WEB_ACTIVITY = activity;
 		isPrivate = pvt;
-		setWebChromeClient(new BeHeChromeClient(P_BAR,this));
+		chromeClient = new BeHeChromeClient(P_BAR,this,WEB_ACTIVITY);
+		setWebChromeClient(chromeClient);
 		setWebViewClient(new BeHeWebClient(text,WEB_ACTIVITY,false,this));
 		setDownloadListener(new CiobanDownloadListener(WEB_ACTIVITY, this));
 		initializeSettings();
@@ -302,7 +371,72 @@ public class BeHeView extends WebView{
     public String hasAnyMatches(){
 		return found;
 	}
+	public class JavascriptInterface
+	{
+		@android.webkit.JavascriptInterface
+		public void notifyVideoEnd() // Must match Javascript interface method of VideoEnabledWebChromeClient
+		{
+			// This code is not executed in the UI thread, so we must force that to happen
+			new Handler(Looper.getMainLooper()).post(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					if (videoEnabledWebChromeClient != null)
+					{
+						videoEnabledWebChromeClient.onHideCustomView();
+					}
+				}
+			});
+		}
+	}
 
+	private BeHeChromeClient videoEnabledWebChromeClient;
+	private boolean addedJavascriptInterface;
+
+	private void addJavascriptInterface()
+	{
+		if (!addedJavascriptInterface)
+		{
+			// Add javascript interface to be called when the video ends (must be done before page load)
+			addJavascriptInterface(new JavascriptInterface(), "_VideoEnabledWebView"); // Must match Javascript interface name of VideoEnabledWebChromeClient
+
+			addedJavascriptInterface = true;
+		}
+	}
+	@Override
+	public void loadData(String data, String mimeType, String encoding)
+	{
+		addJavascriptInterface();
+		super.loadData(data, mimeType, encoding);
+	}
+
+	@Override
+	public void loadDataWithBaseURL(String baseUrl, String data, String mimeType, String encoding, String historyUrl)
+	{
+		addJavascriptInterface();
+		super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
+	}
+
+	@Override
+	public void loadUrl(String url)
+	{
+		addJavascriptInterface();
+		super.loadUrl(url);
+	}
+
+	@Override
+	public void loadUrl(String url, Map<String, String> additionalHttpHeaders)
+	{
+		addJavascriptInterface();
+		super.loadUrl(url, additionalHttpHeaders);
+	}
+    public BeHeChromeClient getBeHeChromeClient(){
+		return chromeClient;
+	}
+    public boolean isFull(){
+		 return chromeClient.onBackPressed();
+	}
 }
 
 

@@ -27,12 +27,10 @@
   <string name="textsummary">Выбрать размер текста в браузере</string>
   <string name="search_engine">Выбрать поисковую систему</string>
   <string name="java">Включить JavaScript</string>
-  <string name="javasummary">Использовать JavaScript в браузере</string>
   <string name="plugins">Включить плагины</string>
   <string name="plugins_summary">Использовать плагины в браузере</string>
   <string name="cache">Включить кэширование</string>
   <string name="startpage">Домашняя страница</string>
-  <string name="startpagesummary">Выбрать страницу, которая будет отображаться при запуске браузера</string>
   <string name="about">О приложении</string>
   <string name="notes">Версия 2.0.1</string>
   <string name="startpagedialog">Введите URL-адрес начальной страницы</string>
@@ -55,19 +53,23 @@
   <string name="lock">Блокировать правое меню навигации</string>
   <string name="find">Найти текст</string>
   <string name="action_find">Найти на странице</string>
+  <string name="action_export">Сохранить текущие настройки в файл</string>
+  <string name="action_import">Восстановить настройки из файла</string>
+  <string name="action_img_block">Заблокировать изображения</string>
+  <string name="action_ad_block">Заблокировать рекламу</string>
+  <string name="action_location">Включить геопозиционирование</string>
+  <string name="choose">Выберите</string>
+  <string name="succes_save">Успешно сохранено</string>
+  <string name="succes_import">Успешно восстановлено</string>
+  <string name="error">Ошибка</string>
+  <string name="select">Выбрать</string>
   <string-array name="color">
     <item name="1">Белая</item>
     <item name="2">Серая</item>
     <item name="3">Красная</item>
     <item name="4">Синяя</item>
     <item name="5">Зеленая</item>
-  </string-array>
-  <string-array name="color_values">
-    <item name="1">#FFFFFF</item>
-    <item name="2">#A9A9A9</item>
-    <item name="3">#FF0000</item>
-    <item name="4">#0000FF</item>
-    <item name="5">#008000</item>
+    <item name="6">Черный</item>
   </string-array>
   <string-array name="text">
     <item name="1">Маленький</item>
@@ -75,35 +77,9 @@
     <item name="3">Крупный</item>
     <item name="4">Огромный</item>
   </string-array>
-  <string-array name="text_size">
-    <item name="1">14</item>
-    <item name="2">18</item>
-    <item name="3">22</item>
-    <item name="4">24</item>
-  </string-array>
-  <string-array name="search">
-    <item name="1">Google</item>
-    <item name="2">Bing</item>
-    <item name="3">Yahoo</item>
-    <item name="4">Duckduckgo</item>
-    <item name="5">Запрос</item>
-    <item name="6">Опа</item>
-  </string-array>
-  <string-array name="search_values">
-    <item name="1">1</item>
-    <item name="2">2</item>
-    <item name="3">3</item>
-    <item name="4">4</item>
-    <item name="5">5</item>
-    <item name="6">6</item>
-  </string-array>
   <string-array name="home_page">
     <item name="default">По умолчанию</item>
     <item name="custom">Настройки пользователя</item>
-  </string-array>
-  <string-array name="home_page_values">
-    <item name="1">default</item>
-    <item name="2">custom</item>
   </string-array>
   <string name="drawer_open">Открыть панель навигации</string>
   <string name="drawer_close">Закрыть панель навигации</string>

@@ -4,4 +4,8 @@
         <attr name="ahp_progressColor" format="color|reference" />
         <attr name="ahp_backgroundColor" format="color|reference" />
     </declare-styleable>
+    <attr name="searchBoxColor" format="color|reference"/>
+    <attr name="drawerColor" format="color|reference"/>
+    <attr name="delBtnColor" format="color|reference"/>
+    <attr name="addBtnColor" format="color|reference"/>
 </resources>

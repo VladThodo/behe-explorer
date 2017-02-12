@@ -26,12 +26,10 @@
         <string name="textsummary">Choose browser text size</string>
         <string name="search_engine">Choose search engine</string>
         <string name="java">Enable JavaScript</string>
-        <string name="javasummary">Will enable JavaScript in browser</string>
         <string name="plugins">Enable plugins</string>
         <string name="plugins_summary">Will enable plugins in browser</string>
         <string name="cache">Enable cache storage</string>
         <string name="startpage">Start page</string>
-        <string name="startpagesummary">Choose the page that will be shown at browser startup</string>
         <string name="about">About</string>
         <string name="notes">Version 2.0.1</string>
         <string name="startpagedialog">Enter the URL of your desired start page</string>
@@ -54,19 +52,24 @@
         <string name="lock">Lock right navigation drawer</string>
         <string name="find">Find text</string>
         <string name="action_find">Find in page</string>
+        <string name="action_export">Export current configuration to file</string>
+        <string name="action_import">Import configuration from file</string>
+        <string name="action_img_block">Block images</string>
+        <string name="action_ad_block">Block ads</string>
+        <string name="action_location">Enable location</string>
+        <string name="choose">Choose</string>
+        <string name="succes_save">Save succesful</string>
+        <string name="succes_import">Import succesful</string>
+        <string name="error">Error</string>
+        <string name="select">Select</string>
+
     <string-array name="color">
     <item name = "1">White</item>
     <item name ="2">Grey</item>
     <item name ="3">Red</item>
     <item name="4">Blue</item>
     <item name="5">Green</item>
-    </string-array>
-    <string-array name="color_values">
-    <item name="1">#FFFFFF</item>
-    <item name="2">#A9A9A9</item>
-    <item name="3">#FF0000</item>
-    <item name="4">#0000FF</item>
-    <item name="5">#008000</item>
+    <item name="6">Black</item>
     </string-array>
     <string-array name="text">
     <item name = "1">Small</item>
@@ -74,35 +77,9 @@
     <item name ="3">Large</item>
     <item name="4">Extra large</item>
     </string-array>
-    <string-array name="text_size">
-    <item name="1">14</item>
-    <item name="2">18</item>
-    <item name="3">22</item>
-    <item name="4">24</item>
-    </string-array>
-    <string-array name="search">
-        <item name = "1">Google</item>
-        <item name ="2">Bing</item>
-        <item name ="3">Yahoo</item>
-        <item name="4">Duckduckgo</item>
-        <item name="5">Ask</item>
-        <item name="6">Wow</item>
-    </string-array>
-    <string-array name="search_values">
-        <item name = "1">1</item>
-        <item name ="2">2</item>
-        <item name ="3">3</item>
-        <item name="4">4</item>
-        <item name="5">5</item>
-        <item name="6">6</item>
-    </string-array>
     <string-array name="home_page">
         <item name = "default">Default</item>
         <item name ="custom">Custom</item>
-    </string-array>
-    <string-array name="home_page_values">
-        <item name = "1">default</item>
-        <item name ="2">custom</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

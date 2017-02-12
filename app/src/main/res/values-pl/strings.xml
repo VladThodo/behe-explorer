@@ -8,7 +8,7 @@
   <string name="historyclear">Wyczyść historię</string>
   <string name="action_tabs">Karty</string>
   <string name="action_settings">Ustawienia</string>
-  <string name="credits">Twórcy</string>
+  <string name="credits">Podziękowania</string>
   <string name="desktop">Wersja komputerowa</string>
   <string name="action_incognito">Incognito</string>
   <string name="action_added">Dodane</string>
@@ -17,23 +17,21 @@
   <string name="delete_dialog_title">Usunąć zakładkę?</string>
   <string name="delete_dialog_content">Czy na pewno chcesz usunąć tę zakładkę?</string>
   <string name="boomarks">Zakładki</string>
-  <string name="home">Początek</string>
+  <string name="home">Strona Główna</string>
   <string name="look">Wygląd</string>
   <string name="looksummary">Dostosuj wygląd przeglądarki</string>
   <string name="browser">Przeglądarka</string>
-  <string name="theme">Temat</string>
+  <string name="theme">Motyw</string>
   <string name="themesummary">Wybierz motyw przeglądarki</string>
   <string name="text">Rozmiar tekstu</string>
   <string name="textsummary">Wybierz rozmiar tekstu przeglądarki</string>
   <string name="search_engine">Wybierz wyszukiwarkę</string>
   <string name="java">Włącz JavaScript</string>
-  <string name="javasummary">Będzie włączony JavaScript w przeglądarce</string>
   <string name="plugins">Włącz wtyczki</string>
   <string name="plugins_summary">Spowoduje włączenie wtyczek w przeglądarce</string>
   <string name="cache">Włącz pamięć podręczna</string>
   <string name="startpage">Strona startowa</string>
-  <string name="startpagesummary">Wybierz stronę, która będzie wyświetlana podczas uruchamiania przeglądarki</string>
-  <string name="about">O</string>
+  <string name="about">O Aplikacji</string>
   <string name="notes">Wersja 2.0.1</string>
   <string name="startpagedialog">Wprowadź adres URL Twojej strony startowej</string>
   <string name="bookmark_dialog">Wpisz nazwę zakładki</string>
@@ -55,19 +53,23 @@
   <string name="lock">Blokada szuflady nawigacji po prawej</string>
   <string name="find">Znajdź tekst</string>
   <string name="action_find">Znajdź na stronie</string>
+  <string name="action_export">Wyeksportuj aktualną konfigurację do pliku</string>
+  <string name="action_import">Importuj konfigurację z pliku</string>
+  <string name="action_img_block">Zablokuj obrazy</string>
+  <string name="action_ad_block">Blokowanie reklam</string>
+  <string name="action_location">Włącz lokalizację</string>
+  <string name="choose">Wybierz</string>
+  <string name="succes_save">Zapisywanie udane</string>
+  <string name="succes_import">Importowanie udane</string>
+  <string name="error">Błąd</string>
+  <string name="select">Wybierz</string>
   <string-array name="color">
     <item name="1">Biały</item>
     <item name="2">Szary</item>
     <item name="3">Czerwony</item>
     <item name="4">Niebieski</item>
     <item name="5">Zielony</item>
-  </string-array>
-  <string-array name="color_values">
-    <item name="1">#FFFFFF</item>
-    <item name="2">#A9A9A9</item>
-    <item name="3">#FF0000</item>
-    <item name="4">#0000FF</item>
-    <item name="5">#008000</item>
+    <item name="6">Czarny</item>
   </string-array>
   <string-array name="text">
     <item name="1">Mały</item>
@@ -75,35 +77,9 @@
     <item name="3">Duży</item>
     <item name="4">Bardzo duży</item>
   </string-array>
-  <string-array name="text_size">
-    <item name="1">14</item>
-    <item name="2">18</item>
-    <item name="3">22</item>
-    <item name="4">24</item>
-  </string-array>
-  <string-array name="search">
-    <item name="1">Google</item>
-    <item name="2">Bing</item>
-    <item name="3">Yahoo</item>
-    <item name="4">DuckDuckGo</item>
-    <item name="5">Ask</item>
-    <item name="6">Wow</item>
-  </string-array>
-  <string-array name="search_values">
-    <item name="1">1</item>
-    <item name="2">2</item>
-    <item name="3">3</item>
-    <item name="4">4</item>
-    <item name="5">5</item>
-    <item name="6">6</item>
-  </string-array>
   <string-array name="home_page">
     <item name="default">Domyślne</item>
     <item name="custom">Niestandardowa</item>
-  </string-array>
-  <string-array name="home_page_values">
-    <item name="1">default</item>
-    <item name="2">custom</item>
   </string-array>
   <string name="drawer_open">Otwórz szufladę nawigacyjną</string>
   <string name="drawer_close">Zamknij szufladę nawigacyjną</string>

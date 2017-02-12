@@ -1,74 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    
     android:title="@string/action_settings" >
     <PreferenceScreen
-        android:key="button_voicemail_category_key"
+        android:key="look"
         android:title="@string/look"
         android:persistent="false"
-        android:summary="@string/looksummary">
+        android:summary="@string/looksummary"/>
 
-         <ListPreference android:key="color"
-            android:title="@string/theme"
-            android:summary="@string/themesummary"
-            android:entries="@array/color"
-            android:entryValues="@array/color_values"
-            android:defaultValue="#A9A9A9">
-        </ListPreference>
-        <ListPreference android:key="size"
-            android:summary="@string/textsummary"
-            android:title="@string/text"
-            android:entries="@array/text"
-            android:entryValues="@array/text_size"
-            android:defaultValue="18">
-        </ListPreference>
-        <CheckBoxPreference
-            android:key="lock"
-            android:title="@string/lock"
-            android:defaultValue="true" />
-        <Preference android:key="change"
-             android:title="@string/picture"/>
-    </PreferenceScreen>
     <PreferenceScreen
         android:key="second"
         android:title="@string/browser"
-        android:persistent="false">
-        <ListPreference android:key="search"
-            android:summary=""
-            android:title="@string/search_engine"
-            android:entries="@array/search"
-            android:entryValues="@array/search_values"
-            android:defaultValue="1"/>
-        <CheckBoxPreference
-       android:key="java"
-       android:title="@string/java"
-       android:summary="@string/javasummary"
-       android:defaultValue="true"
-       />
-        <CheckBoxPreference
-        android:key="plugins"
-        android:title="@string/plugins"
-        android:summary=""
-        android:defaultValue="true"
-        />
-       />
-      <CheckBoxPreference
-       android:key="cache"
-       android:title="@string/cache"
-       android:summary=""
-       android:defaultValue="false"
-       />
-
-        <ListPreference
-            android:key="home_page"
-            android:title="@string/startpage"
-            android:summary="@string/startpagesummary"
-            android:entries="@array/home_page"
-            android:entryValues="@array/home_page_values"
-            android:defaultValue="default"
-            />
-    </PreferenceScreen>
-<PreferenceCategory
+        android:persistent="false"/>
+    <PreferenceCategory
     android:title="@string/about">
     <PreferenceScreen
         android:key="credits"

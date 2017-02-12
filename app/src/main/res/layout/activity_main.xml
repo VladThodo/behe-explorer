@@ -3,9 +3,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
         android:layout_width="match_parent"
+        android:fitsSystemWindows="false"
+        android:id="@+id/layout_main"
         android:layout_height="match_parent">
         <include layout="@layout/toolbar_cont"
             android:id="@+id/toolbar"/>
@@ -14,7 +17,7 @@
             android:layout_width="match_parent"
             android:id="@+id/progressBar"
             android:layout_below="@id/toolbar"/>
-        <FrameLayout
+        <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:id="@+id/root"
@@ -30,8 +33,9 @@
                 android:horizontalSpacing="10dp"
                 android:stretchMode="columnWidth"
                 android:gravity="center"
+                android:background="?attr/drawerColor"
                 android:visibility="gone" />
-        </FrameLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
@@ -39,13 +43,16 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:itemTextColor="?android:attr/textColor"
+        android:background="?attr/drawerColor"
         app:menu="@menu/nav">
 </android.support.design.widget.NavigationView>
     <android.support.design.widget.NavigationView
         android:id="@+id/right_navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:itemTextColor="@drawable/nav_text"
+        app:itemTextColor="@color/menu_item"
+        android:background="?attr/drawerColor"
         android:layout_gravity="end">
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -64,7 +71,7 @@
             android:layout_gravity="bottom|left"
             android:layout_margin="16dp"
             android:src="@drawable/ic_close_white_24dp"
-            app:backgroundTint="@android:color/holo_red_light"
+            app:backgroundTint="?attr/delBtnColor"
             android:clickable="true"
             android:id="@+id/remove_tab"
             app:layout_anchor="@id/right_navigation"

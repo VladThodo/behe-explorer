@@ -3,16 +3,18 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:background="?attr/colorPrimaryDark"
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar android:id="@+id/settingsbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimaryDark"
+        app:titleTextColor="?android:attr/textColor"
+        android:background="?attr/colorPrimary"
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:fitsSystemWindows="false"
         android:focusable="true"
         android:focusableInTouchMode="true"
         app:elevation="2dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"/>
-
-
 </LinearLayout>

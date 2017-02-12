@@ -49,6 +49,7 @@ public class TabManager {
             mViewsList.remove(view);
             setCurrentTab(behe);
         }
+        view.destroy();
     }
     public static BeHeView getCurrentTab(){
         if(currentTab != null) {
@@ -68,6 +69,9 @@ public class TabManager {
             VIEW.getMenu().add(view.getTitle());
             if(view == TabManager.currentTab){
                 VIEW.getMenu().getItem(i).setChecked(true);
+            }
+            else{
+                VIEW.getMenu().getItem(i).setChecked(false);
             }
         }
         for(int i = 0;i< VIEW.getMenu().size();i++){
@@ -132,16 +136,18 @@ public class TabManager {
         switch (e) {
             case 1:
                 String google = "https://www.google.com/search?q=";
-                return google;
+               return google;
             case 2:
                 String bing = "http://www.bing.com/search?q=";
-                return bing;
+               return bing;
             case 3:
                 String yahoo = "https://search.yahoo.com/search?p=";
-                return yahoo;
+               return yahoo;
+
             case 4:
                 String duck = "https://duckduckgo.com/?q=";
-                return duck;
+               return duck;
+
             case 5:
                 String ask = "http://www.ask.com/web?q=";
                 return ask;
@@ -149,9 +155,39 @@ public class TabManager {
             case 6:
                 String wow = "http://www.wow.com/search?s_it=search-thp&v_t=na&q=";
                 return wow;
+
+            case 7:
+                String aol = "https://search.aol.com/aol/search?s_chn=prt_ticker-test-g&q=";
+                return aol;
+
+            case 8:
+                String crawler = "https://www.webcrawler.com/serp?q=";
+                return crawler;
+
+            case 9:
+                String myweb = "http://int.search.mywebsearch.com/mywebsearch/GGmain.jhtml?searchfor=";
+               return myweb;
+
+            case 10:
+                String info = "http://search.infospace.com/search/web?q=";
+               return  info;
+
+            case 11:
+                String yandex = "https://www.yandex.com/search/?text=";
+               return yandex;
+
+            case 12:
+                String startpage = "https://www.startpage.com/do/search?q=";
+                return startpage;
+
+            case 13:
+                String searx = "https://searx.me/?q=";
+               return searx;
+
             default:
                 String goole = "https://www.google.com/search?q=";
                 return goole;
+
         }
     }
     public static void deleteAllHistory(){

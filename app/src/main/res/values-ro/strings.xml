@@ -27,12 +27,10 @@
   <string name="textsummary">Alegeti dimensiunea textului</string>
   <string name="search_engine">Alegeti motorul de căutare</string>
   <string name="java">Activați JavaScript</string>
-  <string name="javasummary">Va activa JavaScript în browser</string>
   <string name="plugins">Activati plugin-uri</string>
   <string name="plugins_summary">Va permite plugin-uri în browser-ul dvs.</string>
   <string name="cache">Permite stocarea cache</string>
   <string name="startpage">Pagina de start</string>
-  <string name="startpagesummary">Alegeti pagina care va fi afisata la pornirea browser-ului</string>
   <string name="about">Despre</string>
   <string name="notes">Versiunea 2.0.1</string>
   <string name="startpagedialog">Introduceți adresa URL a paginii de start dorite</string>
@@ -54,20 +52,24 @@
   <string name="share">Distribuire</string>
   <string name="lock">Blocati meniul din dreapta</string>
   <string name="find">Găsiti textul dorit</string>
-  <string name="action_find">Găsiţi in pagină</string>
+  <string name="action_find">Gasiti in pagina</string>
+  <string name="action_export">Salvare configuratie curenta</string>
+  <string name="action_import">Importare configuratie din fisier</string>
+  <string name="action_img_block">Blocheaza imaginile</string>
+  <string name="action_ad_block">Blocheaza anunturile</string>
+  <string name="action_location">Permite accesul la locatie</string>
+  <string name="choose">Alege</string>
+  <string name="succes_save">Salvat cu secces</string>
+  <string name="succes_import">Importat cu succes</string>
+  <string name="error">Eroare</string>
+  <string name="select">Selectati</string>
   <string-array name="color">
     <item name="1">Alb</item>
     <item name="2">Gri</item>
     <item name="3">Rosu</item>
     <item name="4">Albastru</item>
     <item name="5">Verde</item>
-  </string-array>
-  <string-array name="color_values">
-    <item name="1">#FFFFFF</item>
-    <item name="2">#A9A9A9</item>
-    <item name="3">#FF0000</item>
-    <item name="4">#0000FF</item>
-    <item name="5">#008000</item>
+    <item name="6">Negru</item>
   </string-array>
   <string-array name="text">
     <item name="1">Mic</item>
@@ -75,35 +77,9 @@
     <item name="3">Mare</item>
     <item name="4">Foarte mare</item>
   </string-array>
-  <string-array name="text_size">
-    <item name="1">14</item>
-    <item name="2">18</item>
-    <item name="3">22</item>
-    <item name="4">24</item>
-  </string-array>
-  <string-array name="search">
-    <item name="1">Google</item>
-    <item name="2">Bing</item>
-    <item name="3">Yahoo</item>
-    <item name="4">DuckDuckGo</item>
-    <item name="5">Ask</item>
-    <item name="6">Wow</item>
-  </string-array>
-  <string-array name="search_values">
-    <item name="1">1</item>
-    <item name="2">2</item>
-    <item name="3">3</item>
-    <item name="4">4</item>
-    <item name="5">5</item>
-    <item name="6">6</item>
-  </string-array>
   <string-array name="home_page">
-    <item name="default">Prestabilit</item>
-    <item name="custom">Personalizată</item>
-  </string-array>
-  <string-array name="home_page_values">
-    <item name="1">default</item>
-    <item name="2">custom</item>
+    <item name = "default">Prestabilit</item>
+    <item name ="custom">Personalizat</item>
   </string-array>
   <string name="drawer_open">Deshideti meniul</string>
   <string name="drawer_close">Inchidei meniul</string>

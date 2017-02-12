@@ -44,7 +44,8 @@ public class HomePage extends AsyncTask<Void, Void, Void> {
             + "border-radius: 2px;}</style><body> <div class=\"outer\"><div class=\"middle\"><div class=\"inner\"><img class=\"smaller\" src=\"";
 
     private static final String MIDDLE = "\" ></br></br><form onsubmit=\"return search()\" class=\"search_bar\" autocomplete=\"off\">"
-            + "<input type=\"submit\" id=\"search_submit\" value=\"Go\" ><span><input class=\"search\" type=\"text\" value=\"\" id=\"search_input\" >"
+            + "<input type=\"submit\" id=\"search_submit\" value=\"";
+    private static  String MIDDLE_TWO = "\" ><span><input class=\"search\" type=\"text\" value=\"\" id=\"search_input\" >"
             + "</span></form></br></br></div></div></div><script type=\"text/javascript\">function search(){if(document.getElementById(\"search_input\").value != \"\"){window.location.href = \"";
 
     private static final String END = "\" + document.getElementById(\"search_input\").value;document.getElementById(\"search_input\").value = \"\";}return false;}</script></body></html>";
@@ -89,8 +90,11 @@ public class HomePage extends AsyncTask<Void, Void, Void> {
             StringBuilder homepageBuilder = new StringBuilder(HEAD_1 + mTitle + HEAD_2);
             String icon = "file:///android_asset/google.png";
             String searchUrl = TabManager.getSearchEngine(mApp.getApplicationContext());
+            String searchString = mApp.getString(R.string.go);
             homepageBuilder.append(icon);
             homepageBuilder.append(MIDDLE);
+            homepageBuilder.append(searchString);
+            homepageBuilder.append(MIDDLE_TWO);
             homepageBuilder.append(searchUrl);
             homepageBuilder.append(END);
             FileWriter hWriter = null;

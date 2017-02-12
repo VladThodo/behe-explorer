@@ -5,3 +5,6 @@
 .DS_Store
 /build
 /captures
+/CONTRIBUTING.md
+/README.md
+/app/build.gradle
