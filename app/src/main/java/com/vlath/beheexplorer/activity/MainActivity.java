@@ -77,9 +77,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Handler;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.vlath.beheexplorer.adapters.BookAdapter;
 import com.vlath.beheexplorer.controllers.TabManager;
 import com.vlath.beheexplorer.database.HistoryDatabase;
@@ -122,11 +119,7 @@ public class MainActivity extends ActionBarActivity {
 			0, 0, -1.0f, 0, 255, // blue
 			0, 0, 0, 1.0f, 0  // alpha
 	};
-	/**
-	 * ATTENTION: This was auto-generated to implement the App Indexing API.
-	 * See https://g.co/AppIndexing/AndroidStudio for more information.
-	 */
-	private GoogleApiClient client;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -135,9 +128,6 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initialize();
-		// ATTENTION: This was auto-generated to implement the App Indexing API.
-		// See https://g.co/AppIndexing/AndroidStudio for more information.
-		client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 	}
 
 	@Override
