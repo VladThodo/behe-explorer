@@ -6,42 +6,33 @@
 package com.vlath.beheexplorer.view;
 
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.graphics.Picture;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.Preference;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.webkit.JavascriptInterface;
-import android.webkit.URLUtil;
 import android.webkit.WebSettings;;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.vlath.beheexplorer.R;
+import com.vlath.beheexplorer.activity.ReadingActivity;
 import com.vlath.beheexplorer.utils.HomePage;
 import com.vlath.beheexplorer.utils.HystoryTask;
 import com.vlath.beheexplorer.utils.PreferenceUtils;
 import com.vlath.beheexplorer.utils.ThemeUtils;
-
 import java.util.Map;
 
 
@@ -68,8 +59,16 @@ public class BeHeView extends WebView{
 	public static int YAHOO_SEARCH = 3;
 	public static int DUCKDUCKGO_SEARCH = 4;
 	public static int ASK_SEARCH = 5;
+	private Paint mPaint = new Paint();
 	public static int WOW_SEARCH = 6;
 	private static final int API = android.os.Build.VERSION.SDK_INT;
+	private static final float[] sNegativeColorArray = {
+			-1.0f, 0, 0, 0, 255, // red
+			0, -1.0f, 0, 0, 255, // green
+			0, 0, -1.0f, 0, 255, // blue
+			0, 0, 0, 1.0f, 0 // alpha
+	};
+
 	public BeHeChromeClient chromeClient;
 	/*
 	* Public constructors of BeHeView
@@ -151,7 +150,15 @@ public class BeHeView extends WebView{
 			}
 			settings.setGeolocationEnabled(utils.getEnableLocation());
 		}
-		setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		if(utils.getNightModeEnabled()) {
+			ColorMatrixColorFilter filterInvert = new ColorMatrixColorFilter(
+					sNegativeColorArray);
+			mPaint.setColorFilter(filterInvert);
+		}
+		else{
+			mPaint.setColorFilter(null);
+		}
+		setLayerType(View.LAYER_TYPE_HARDWARE, mPaint);
         searchEngine = utils.getSearchEngine();
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(true);
@@ -255,6 +262,7 @@ public class BeHeView extends WebView{
 		}
 	}
     public void startReaderMode(){
+		reload();
 		addJavascriptInterface(new IJavascriptHandler(WEB_ACTIVITY), "INTERFACE");
 		loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText,document.title);");
 	}
@@ -315,10 +323,10 @@ public class BeHeView extends WebView{
 		@android.webkit.JavascriptInterface
 		public void processContent(String aContent,String title) {
 			final String content = aContent;
-			//Intent mReading = new Intent(WEB_ACTIVITY, ReadingActivity.class);
-		 //   mReading.putExtra("text",content);
-		//	mReading.putExtra("title",title);
-		//	WEB_ACTIVITY.startActivity(mReading);
+			Intent mReading = new Intent(WEB_ACTIVITY, ReadingActivity.class);
+		    mReading.putExtra("text",content);
+			mReading.putExtra("title",title);
+			WEB_ACTIVITY.startActivity(mReading);
 		}
 	}
     public void loadHistoty(){

@@ -4,17 +4,15 @@
 package com.vlath.beheexplorer.utils;
 
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
-import android.util.TypedValue;
 
 import com.vlath.beheexplorer.R;
 
 
 public class ThemeUtils {
-   private static ActionBarActivity THEME_ACTIVITY;
+    private static ActionBarActivity THEME_ACTIVITY;
     public ThemeUtils(ActionBarActivity activity){
         THEME_ACTIVITY = activity;
     }
@@ -45,6 +43,22 @@ public class ThemeUtils {
             case 6:
                 THEME_ACTIVITY.setTheme(R.style.BlackTheme);
                 isBlackTheme = true;
+                break;
+            case 7:
+                THEME_ACTIVITY.setTheme(R.style.IndigoTheme);
+                isBlackTheme = false;
+                break;
+            case 8:
+                THEME_ACTIVITY.setTheme(R.style.CyanTheme);
+                isBlackTheme = false;
+                break;
+            case 9:
+                THEME_ACTIVITY.setTheme(R.style.OrangeTheme);
+                isBlackTheme = false;
+                break;
+            case 10:
+                THEME_ACTIVITY.setTheme(R.style.LimeTheme);
+                isBlackTheme = false;
                 break;
         }
     }

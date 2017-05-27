@@ -1,25 +1,17 @@
 package com.vlath.beheexplorer.utils;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.vlath.beheexplorer.R;
-import com.vlath.beheexplorer.controllers.TabManager;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * Created by todo on 06.02.2017.

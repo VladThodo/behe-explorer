@@ -32,6 +32,9 @@ private static Context mContext;
     public  String getHomePage(){
        return MANAGER.getDefaultSharedPreferences(mContext).getString("home_page","default");
     }
+    public  boolean getNightModeEnabled(){
+        return MANAGER.getDefaultSharedPreferences(mContext).getBoolean("night",false);
+    }
     public  boolean getJavaEnabled(){
     return MANAGER.getDefaultSharedPreferences(mContext).getBoolean("java", true);
     }

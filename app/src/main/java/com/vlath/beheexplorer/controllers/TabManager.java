@@ -7,6 +7,7 @@ package com.vlath.beheexplorer.controllers;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -21,6 +22,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.vlath.beheexplorer.view.BeHeView;
 
 
+import android.webkit.CookieManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +63,13 @@ public class TabManager {
     }
     public static void setNavigationView(NavigationView view){
         VIEW = view;
+    }
+    public static void setCookie(boolean cookie){
+        for (BeHeView view : mViewsList){
+            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                CookieManager.getInstance().setAcceptThirdPartyCookies(view,cookie);
+            }
+        }
     }
     public static void updateTabView(){
         VIEW.getMenu().clear();

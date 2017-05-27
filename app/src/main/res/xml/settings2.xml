@@ -15,8 +15,16 @@
         android:defaultValue="18">
     </ListPreference>
     <CheckBoxPreference
+        android:key="night"
+        android:title="@string/night_mode"
+        android:defaultValue="false" />
+    <CheckBoxPreference
         android:key="lock"
         android:title="@string/lock"
+        android:defaultValue="false" />
+    <CheckBoxPreference
+        android:key="tab_close"
+        android:title="@string/tab_close"
         android:defaultValue="true" />
     <Preference android:key="change"
         android:title="@string/picture"/>

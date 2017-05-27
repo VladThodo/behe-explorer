@@ -19,8 +19,6 @@ import android.content.ClipboardManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
@@ -28,7 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.Browser;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -50,7 +48,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -239,8 +236,8 @@ public class MainActivity extends ActionBarActivity {
 		txe = new TextView(this);
 		root = (RelativeLayout) findViewById(R.id.root);
 		navView = (NavigationView) findViewById(R.id.left_navigation);
-		desktop = (SwitchCompat) navView.getMenu().getItem(7).getActionView();
-		privat = (SwitchCompat) navView.getMenu().getItem(8).getActionView();
+		desktop = (SwitchCompat) navView.getMenu().getItem(8).getActionView();
+		privat = (SwitchCompat) navView.getMenu().getItem(9).getActionView();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerElevation(20);
 		mGrid = (GridView) findViewById(R.id.gridview);
@@ -274,10 +271,16 @@ public class MainActivity extends ActionBarActivity {
 		} else {
 			mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, GravityCompat.END);
 		}
-		ActionBar mBar = getSupportActionBar();
+		if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("cookie",true)){
+                 TabManager.setCookie(true);
+        }
+		else{
+			TabManager.setCookie(false);
+		}
+        ActionBar mBar = getSupportActionBar();
 		mBar.setDisplayHomeAsUpEnabled(true);
 		initializeBeHeView();
-		data = getIntent().getData();
+        data = getIntent().getData();
 		mDrawerToggle.syncState();
 		tabView = (NavigationView) findViewById(R.id.right_navigation);
 		TabManager.setNavigationView(tabView);
@@ -324,6 +327,9 @@ public class MainActivity extends ActionBarActivity {
 				BeHeView view = TabManager.getTabAtPosition(item);
 				TabManager.setCurrentTab(view);
 				refreshTab();
+				if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("tab_close",true)){
+					mDrawerLayout.closeDrawer(GravityCompat.END);
+				}
 				return false;
 			}
 		});
@@ -448,6 +454,9 @@ public class MainActivity extends ActionBarActivity {
 						AlertDialog alertDialog = alertDialogBuilder.create();
 						alertDialog.show();
 						break;
+					case R.id.read:
+						web.startReaderMode();
+					break;
 				}
 
 
@@ -500,7 +509,7 @@ public class MainActivity extends ActionBarActivity {
 							web.loadUrl("http://" + toSearch);
 						} else {
 							if (toSearch.contains(".")) {
-								web.loadUrl("http://www." + toSearch);
+								web.loadUrl("http://" + toSearch);
 							} else {
 								web.searchWeb(toSearch);
 							}

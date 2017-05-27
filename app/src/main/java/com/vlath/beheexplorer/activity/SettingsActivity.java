@@ -1,18 +1,11 @@
 package com.vlath.beheexplorer.activity;
 
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.vlath.beheexplorer.R;
 import com.vlath.beheexplorer.utils.PreferenceHelper;

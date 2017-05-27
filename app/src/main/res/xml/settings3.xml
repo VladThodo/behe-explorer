@@ -44,14 +44,18 @@
         android:summary=""
         android:defaultValue="true"
         />
-    />
+    <CheckBoxPreference
+        android:key="cookie"
+        android:title="@string/cookie"
+        android:summary=""
+        android:defaultValue="true"
+        />
     <CheckBoxPreference
         android:key="cache"
         android:title="@string/cache"
         android:summary=""
         android:defaultValue="false"
         />
-
     <PreferenceScreen
         android:key="export"
         android:title="Export current configuration to file"

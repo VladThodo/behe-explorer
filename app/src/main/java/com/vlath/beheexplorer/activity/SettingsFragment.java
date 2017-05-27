@@ -6,42 +6,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.support.annotation.IntegerRes;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vlath.beheexplorer.R;
-import com.vlath.beheexplorer.controllers.TabManager;
 import com.vlath.beheexplorer.utils.FileChooser;
 import com.vlath.beheexplorer.utils.PreferenceHelper;
-import com.vlath.beheexplorer.utils.PreferenceUtils;
 import com.vlath.beheexplorer.utils.ThemeUtils;
-import com.vlath.beheexplorer.view.BeHeView;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.HashMap;
 
 public class SettingsFragment extends PreferenceFragment {
 

@@ -39,8 +39,14 @@
         android:checked="false"
         android:icon="@drawable/ic_find_in_page_black_24dp"
         android:title="@string/action_find" />
-  </group>
-<group android:checkable="false">
+        <item
+            android:id="@+id/read"
+            android:checked="false"
+            android:icon="@drawable/ic_chrome_reader_mode_black_24dp"
+            android:title="Reader mode" />
+
+ </group>
+    <group android:checkable="false">
     <item
         android:id="@+id/desktop"
         android:icon="@drawable/ic_desktop_mac_black_24dp"
