@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_credits_content" translatable="false">
+       BeHe ExploreR  \n
+    - The intellectual browser - \n
+        THANK YOU EVERYONE! \n
+     This wouldn\'t be possible without you! \n
+     \n
+      Thanks to all translators that helped! \n
+      Your translations rock! \n
+       \n
+      Thanks to Pyotr! our Facebook page admin \n
+        \n
+      Thanks to supergrobi94! for the awesome looking app icon and graphics \n
+        \n
+      Thanks to GitHub Platform! for hosting this project \n
+        \n
+      Thanks to Crowdin Platform! for making translations possible \n
+        \n
+        Thanks to the Lightning Browser project! for some useful code \n
+        \n
+        Thanks to the TextDrawable library! \n
+        \n
+        Thank you all who encouraged me to keep on going! \n
+        \n
+        Vlad Todosin - BeHe ExploreR developer \n
+        \n
+    </string>
+</resources>
