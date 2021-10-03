@@ -34,7 +34,7 @@ BeHe ExploreR is a lightweight, easy to use and fast android web browser. It was
   <br>
 <h2> Extras </h2>
 <p>Find out more about BeHe :) </p>
-<p>BeHe was started as an experimenting project,but with the time passing,it became a fully-featured browser. You may be wondering what 'behe' stands for? Well, this is a funny storry ;) When I started developing BeHe I was about 13 years old.I liked a lot to program and I was needing a name for my app.While talkig with some classmates of mine to present them my idea,the name of "Behe" came in.What does "behe" mean? Well, it's the interpretation of a sheep's sound in romanian :) I know that sounds funny, but that's the truth :) BeHe ExploreR is now maintained by Vlad Todosin (a romanian highschool student), with help from Pyotr (BeHe facebook page administrator,a good tester and advisor too), and also, let's not forget all the contributors that helped us with the translations, coding, ideeas and more. Thank you all! :) </p>
+<p></p>
 <p><b>License</b><p>
 <p>Copyright 2015 Vlad Todosin.</p>
 Licensed under the Apache License, Version 2.0 (the "License");
