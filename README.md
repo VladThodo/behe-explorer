@@ -1,6 +1,6 @@
 # Disclaimer
 
-<b>This project is no longer maintained.</b>
+BeHe ExploreR has oficially reached the end of its lifecycle. This project is no longer maintained. 
 <br> <br> 
 # BeHe ExploreR
 <img src="https://github.com/VladThodo/behe-explorer/blob/master/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"></img>
