@@ -1,9 +1,9 @@
+# Disclaimer
+
+<b>This project is no longer maintained.</b>
+<br> <br> 
 # BeHe ExploreR
 <img src="https://github.com/VladThodo/behe-explorer/blob/master/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"></img>
-
-## Disclaimer
-
-This project is no longer maintained.
 
 ## About
 BeHe ExploreR is a lightweight, easy to use and fast android web browser. It was basically created for experimenting and learning, but in the meanwhile it became a fully-featured browser, that uses very few resources to run, has a nice design, and works good too.You can get it on Google Play, clicking the link below.To contribute,please read further :) Thank you for getting in touch.  	&nbsp;	&nbsp;
