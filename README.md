@@ -1,6 +1,8 @@
 # Disclaimer
 
-BeHe ExploreR has oficially reached the end of its lifecycle. This project is no longer maintained. 
+[![Not Maintained](https://img.shields.io/badge/Maintenance%20Level-Abandoned-orange.svg)](https://github.com/VladThodo/behe-explorer)
+
+BeHe ExploreR has oficially reached the end of its lifecycle. This project is no longer maintained. Thank you all for your support.
 <br> <br> 
 # BeHe ExploreR
 <img src="https://github.com/VladThodo/behe-explorer/blob/master/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"></img>
